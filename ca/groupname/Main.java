@@ -1,11 +1,11 @@
 package ca.groupname;
 
-import java.util.function.Consumer;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,13 +17,41 @@ import javafx.util.Duration;
 public class Main extends Application{
 	
 	public void start(Stage primaryStage) {
-		VBox root = new VBox();
-		Label placeholder = new Label("This is a blank placeholder");
-		root.getChildren().add(placeholder);
-		doSplash(primaryStage, new Scene(root, 500, 500));	
+		doSplash(primaryStage);
 	}
 	
-	private void doSplash(Stage primaryStage, Scene nextScene) {
+	/**
+	 * Performs initialization of the application. Called by {@link doSplash} before fading out.
+	 * @param primaryStage the primary stage for this application, onto which the application scene can be set.
+	 */
+	private void preInit(Stage primaryStage) {
+		Connection db = DataManager.getInstance().getDatabaseConnection();
+		try {
+			ResultSet rs = db.getMetaData().getTables(null, null, "%", null);
+			while (rs.next()) {
+				System.out.println(rs.getString(3));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Sets the first stage of the application. Called by {@link doSplash} after fading out.
+	 * @param primaryStage the primary stage for this application, onto which the application scene can be set.
+	 */
+	private void postInit(Stage primaryStage) {
+		VBox root = new VBox();
+		Label placeholder = new Label("This is a blank placeholder");
+		root.getChildren().add(placeholder);	
+		primaryStage.setScene(new Scene(root, 500, 500));
+	}
+	
+	/**	
+	 * Displays the splash screen image inside the stage by fading in and out. Calls {@link preInit} after fading in and {@link postInit} after fading out.
+	 * @param primaryStage the primary stage for this application, onto which the application scene can be set.
+	 */
+	private void doSplash(Stage primaryStage) {
 		
 		//Build splash scene
 		VBox splashPane = new VBox();
@@ -47,9 +75,12 @@ public class Main extends Application{
 		fadeOut.setToValue(0);
 		fadeOut.setCycleCount(1);
 		
-		// Do the transitions and register callbacks
-		fadeIn.setOnFinished( e -> fadeOut.play());
-		fadeOut.setOnFinished(e -> primaryStage.setScene(nextScene));
+		// Register callbacks and start transitions
+		fadeIn.setOnFinished( e -> {
+			preInit(primaryStage); 
+			fadeOut.play();
+		});
+		fadeOut.setOnFinished(e -> postInit(primaryStage));
 		fadeIn.play();
 	}
 
