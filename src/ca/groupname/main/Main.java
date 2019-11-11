@@ -1,5 +1,9 @@
 package ca.groupname.main;
 
+import ca.groupname.flows.FlowEngine;
+import ca.groupname.flows.FlowState;
+import ca.groupname.blocks.TestBlock;
+import ca.groupname.flows.Variable;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -25,6 +29,14 @@ public class Main extends Application{
 	 */
 	private void preInit(Stage primaryStage) {
 		// Do stuff
+		FlowEngine engine = new FlowEngine();
+		FlowState state = new FlowState();
+		state.setCurrentBlock(new TestBlock());
+		engine.setFlowState(state);
+		Variable var = new Variable("teststring",String.class,"START");
+		state.addVars(var);
+		var.valueProperty().addListener((obs,oldVal,newVal)-> System.out.println(newVal));
+		engine.start();
 	}
 	
 	/**
