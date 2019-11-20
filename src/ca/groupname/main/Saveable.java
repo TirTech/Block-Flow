@@ -1,4 +1,4 @@
-package ca.groupname.main;
+package src.ca.groupname.main;
 
 import java.io.*;
 

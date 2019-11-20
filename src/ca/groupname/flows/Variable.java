@@ -1,4 +1,4 @@
-package ca.groupname.flows;
+package src.ca.groupname.flows;
 
 import javafx.beans.property.SimpleObjectProperty;
 

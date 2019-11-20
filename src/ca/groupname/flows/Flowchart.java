@@ -1,6 +1,6 @@
-package ca.groupname.flows;
+package src.ca.groupname.flows;
 
-import ca.groupname.main.Saveable;
+import src.ca.groupname.main.Saveable;
 
 import java.util.ArrayList;
 

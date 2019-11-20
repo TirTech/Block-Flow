@@ -1,9 +1,10 @@
 package ca.groupname.main;
 
-import ca.groupname.flows.FlowEngine;
-import ca.groupname.flows.FlowState;
-import ca.groupname.blocks.TestBlock;
-import ca.groupname.flows.Variable;
+import src.ca.groupname.flows.ExpressionsPane;
+import src.ca.groupname.flows.FlowEngine;
+import src.ca.groupname.flows.FlowState;
+import src.ca.groupname.blocks.TestBlock;
+import src.ca.groupname.flows.Variable;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -35,8 +36,9 @@ public class Main extends Application{
 		engine.setFlowState(state);
 		Variable var = new Variable("teststring",String.class,"START");
 		state.addVars(var);
-		var.valueProperty().addListener((obs,oldVal,newVal)-> System.out.println(newVal));
+//		var.valueProperty().addListener((obs,oldVal,newVal)-> System.out.println(newVal));
 		engine.start();
+		System.out.println("state: " + state);
 	}
 	
 	/**
@@ -47,6 +49,10 @@ public class Main extends Application{
 		VBox root = new VBox();
 		Label placeholder = new Label("This is a blank placeholder");
 		root.getChildren().add(placeholder);
+		////////////////////////////////////////////
+		ExpressionsPane expressionsPane = new ExpressionsPane();
+		root.getChildren().add(expressionsPane);
+		///////////////////////////////////////////
 		primaryStage.setScene(new Scene(root, 500, 500));
 	}
 	
@@ -58,7 +64,7 @@ public class Main extends Application{
 		
 		//Build splash scene
 		VBox splashPane = new VBox();
-		Image image = new Image("logo.png");
+		Image image = new Image("resources/logo.png");
 		ImageView imgView = new ImageView(image);
 		splashPane.getChildren().add(imgView);
 		Scene splashScene = new Scene(splashPane, 500, 500);

@@ -1,4 +1,4 @@
-package ca.groupname.flows;
+package src.ca.groupname.flows;
 
 /**
  * Represents the possible states of a flowchart execution

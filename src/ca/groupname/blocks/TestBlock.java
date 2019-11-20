@@ -1,8 +1,8 @@
-package ca.groupname.blocks;
+package src.ca.groupname.blocks;
 
-import ca.groupname.flows.Block;
-import ca.groupname.flows.FlowState;
-import ca.groupname.flows.FlowStatus;
+import src.ca.groupname.flows.Block;
+import src.ca.groupname.flows.FlowState;
+import src.ca.groupname.flows.FlowStatus;
 
 /**
  * An example block. Must implement call()

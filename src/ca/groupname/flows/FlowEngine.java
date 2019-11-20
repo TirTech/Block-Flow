@@ -1,4 +1,4 @@
-package ca.groupname.flows;
+package src.ca.groupname.flows;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Service;
@@ -11,7 +11,7 @@ public class FlowEngine extends Service<FlowState> {
 	/**
 	 * The state to start from
 	 */
-	SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
+	private SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
 
 	@Override
 	protected Task<FlowState> createTask() {
