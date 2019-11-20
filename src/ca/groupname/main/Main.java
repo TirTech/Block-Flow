@@ -1,5 +1,10 @@
 package ca.groupname.main;
 
+import ca.groupname.flows.ExpressionsPane;
+import ca.groupname.flows.FlowEngine;
+import ca.groupname.flows.FlowState;
+import ca.groupname.blocks.TestBlock;
+import ca.groupname.Logic.Variable;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -31,7 +36,7 @@ public class Main extends Application {
         
         //Build splash scene
         VBox splashPane = new VBox();
-        Image image = new Image("logo.png");
+		Image image = new Image("logo.png");
         ImageView imgView = new ImageView(image);
         splashPane.getChildren().add(imgView);
         Scene splashScene = new Scene(splashPane, 500, 500);
