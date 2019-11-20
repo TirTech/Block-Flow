@@ -11,7 +11,7 @@ public class FlowEngine extends Service<FlowState> {
     /**
      * The state to start from
      */
-    SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
+    private SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
     
     @Override
     protected Task<FlowState> createTask() {
@@ -20,15 +20,19 @@ public class FlowEngine extends Service<FlowState> {
         return new Task<FlowState>() {
             @Override
             protected FlowState call() throws Exception {
-                // Set state to running
-                workingState.setStatus(FlowStatus.RUNNING);
-                // ...and keep running till we are done
-                // TODO Need to test pause and resume (tested stop)
-                while (workingState.getStatus() == FlowStatus.RUNNING) {
+                // You can't run a stopped flow
+                if (workingState.getStatus() == FlowStatus.STOPPED) {
+                    throw new InvalidFlowStateException("Flow state was STOPPED. Flows cannot be executed in the stop state.");
+                }
+                // Keep running till state changes
+                while (workingState.getStatus().canExecuteFrom()) {
                     // Call the block to do work. It will advance the flow though state's currentBlock
                     workingState.getCurrentBlock().call(workingState);
                     // Keeps the tasks resultant value up to date
                     updateValue(workingState);
+                    if (workingState.getStatus() == FlowStatus.STEPPING) {
+                        workingState.setStatus(FlowStatus.PAUSED);
+                    }
                 }
                 return workingState;
             }
@@ -44,7 +48,7 @@ public class FlowEngine extends Service<FlowState> {
     }
     
     /**
-     * Sets the starting state for the service
+     * Sets the starting state for the service.
      * @param state the starting state
      */
     public void setFlowState(FlowState state) {
@@ -57,5 +61,38 @@ public class FlowEngine extends Service<FlowState> {
      */
     public SimpleObjectProperty<FlowState> flowStateProperty() {
         return flowState;
+    }
+    
+    public void play() throws MissingFlowStateException, InvalidFlowStateException {
+        if (getFlowState() == null) {
+            throw new MissingFlowStateException();
+        } else if (getFlowState().getStatus() == FlowStatus.STOPPED) {
+            throw new InvalidFlowStateException();
+        }
+        getFlowState().setStatus(FlowStatus.RUNNING);
+        restart();
+    }
+    
+    @Override
+    public void restart() {
+        if (getFlowState() != null) {
+            super.restart();
+        }
+    }
+    
+    public void pause() throws MissingFlowStateException {
+        if (getFlowState() == null) {
+            throw new MissingFlowStateException();
+        }
+        getFlowState().setStatus(FlowStatus.PAUSED);
+    }
+    
+    public void step() throws MissingFlowStateException {
+        if (getFlowState() == null) {
+            throw new MissingFlowStateException();
+        } else if (getFlowState().getStatus() == FlowStatus.PAUSED) {
+            getFlowState().setStatus(FlowStatus.STEPPING);
+            restart();
+        }
     }
 }

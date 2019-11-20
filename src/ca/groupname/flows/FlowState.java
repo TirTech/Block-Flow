@@ -28,6 +28,7 @@ public class FlowState {
      */
     public FlowState() {
         enterScope();
+        setStatus(FlowStatus.READY);
     }
     
     /**
