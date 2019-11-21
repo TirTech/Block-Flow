@@ -24,6 +24,11 @@ public class FlowState {
     private SimpleListProperty<Scope> scopes = new SimpleListProperty<>(FXCollections.observableArrayList());
     
     /**
+     * Flags whether the program has hit a breakpoint. Used to bypass breakpoints between runs
+     */
+    private boolean breakpointed = false;
+    
+    /**
      * Creates a new FlowState with a single Scope
      */
     public FlowState() {
@@ -166,5 +171,13 @@ public class FlowState {
         Scope scope = getCurrentScope();
         scopes.remove(scope);
         return scope;
+    }
+    
+    public boolean getBreakpointed() {
+        return breakpointed;
+    }
+    
+    public void setBreakpointed(boolean breakpointed) {
+        this.breakpointed = breakpointed;
     }
 }
