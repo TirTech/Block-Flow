@@ -22,14 +22,24 @@ public class FlowEngine extends Service<FlowState> {
             protected FlowState call() throws Exception {
                 // You can't run a stopped flow
                 if (workingState.getStatus() == FlowStatus.STOPPED) {
-                    throw new InvalidFlowStateException("Flow state was STOPPED. Flows cannot be executed in the stop state.");
+                    throw new InvalidFlowStateException();
                 }
+    
                 // Keep running till state changes
                 while (workingState.getStatus().canExecuteFrom()) {
-                    // Call the block to do work. It will advance the flow though state's currentBlock
-                    workingState.getCurrentBlock().call(workingState);
+                    // If we haven't hit a breakpoint prior and this block has one, breakpoint and pause
+                    if (! workingState.getBreakpointed() && workingState.getCurrentBlock().getBreakpoint()) {
+                        workingState.setBreakpointed(true);
+                        workingState.setStatus(FlowStatus.PAUSED);
+                    } else {
+                        // Clear the breakpointed flag
+                        workingState.setBreakpointed(false);
+                        // Call the block to do work. It will advance the flow though state's currentBlock
+                        workingState.getCurrentBlock().call(workingState);
+                    }
                     // Keeps the tasks resultant value up to date
                     updateValue(workingState);
+                    // If we stepped, then pause right away
                     if (workingState.getStatus() == FlowStatus.STEPPING) {
                         workingState.setStatus(FlowStatus.PAUSED);
                     }
@@ -63,6 +73,11 @@ public class FlowEngine extends Service<FlowState> {
         return flowState;
     }
     
+    /**
+     * Execute the current flow
+     * @throws MissingFlowStateException
+     * @throws InvalidFlowStateException
+     */
     public void play() throws MissingFlowStateException, InvalidFlowStateException {
         if (getFlowState() == null) {
             throw new MissingFlowStateException();
@@ -80,6 +95,10 @@ public class FlowEngine extends Service<FlowState> {
         }
     }
     
+    /**
+     * Pause the current flow. The flow may advance several blocks before the pause takes effect
+     * @throws MissingFlowStateException
+     */
     public void pause() throws MissingFlowStateException {
         if (getFlowState() == null) {
             throw new MissingFlowStateException();
@@ -87,6 +106,10 @@ public class FlowEngine extends Service<FlowState> {
         getFlowState().setStatus(FlowStatus.PAUSED);
     }
     
+    /**
+     * Step through the current flow. The flow will advance a single block before pausing again
+     * @throws MissingFlowStateException
+     */
     public void step() throws MissingFlowStateException {
         if (getFlowState() == null) {
             throw new MissingFlowStateException();

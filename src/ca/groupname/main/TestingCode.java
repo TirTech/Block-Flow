@@ -11,14 +11,42 @@ public class TestingCode {
         //testFlowEnginePausing();
         //testScoping();
         //testFlowEngineBasic();
-        testFlowEnginePauseMethod();
+        //testFlowEnginePauseMethod();
+        //testBreakpointing();
     }
     
     /**
-     * Test pausing using the Pause method
+     * Tests if the program pauses when a breakpoint is hit
      */
-    private static void testFlowEnginePauseMethod() {
-        Block newBlock = new Block() {
+    private static void testBreakpointing() {
+        Block newBlock = makeInfiniteBlock();
+        newBlock.setBreakpoint(true);
+        FlowEngine engine = new FlowEngine();
+        FlowState state = new FlowState();
+        state.setCurrentBlock(newBlock);
+        engine.setFlowState(state);
+        System.out.println("Starting...");
+        engine.setOnSucceeded(e -> {
+            System.out.println("Paused...");
+            try {
+                engine.play();
+            } catch (MissingFlowStateException e1) {
+                e1.printStackTrace();
+            } catch (InvalidFlowStateException e1) {
+                e1.printStackTrace();
+            }
+        });
+        try {
+            engine.play();
+        } catch (MissingFlowStateException e) {
+            e.printStackTrace();
+        } catch (InvalidFlowStateException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static Block makeInfiniteBlock() {
+        return new Block() {
             @Override
             public void call(FlowState state) {
                 Variable<Integer> varX = state.getVar("x");
@@ -31,6 +59,13 @@ public class TestingCode {
                 }
             }
         };
+    }
+    
+    /**
+     * Test pausing using the Pause method
+     */
+    private static void testFlowEnginePauseMethod() {
+        Block newBlock = makeInfiniteBlock();
         FlowEngine engine = new FlowEngine();
         FlowState state = new FlowState();
         state.setCurrentBlock(newBlock);
