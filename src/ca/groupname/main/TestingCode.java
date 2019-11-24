@@ -1,5 +1,6 @@
 package ca.groupname.main;
 
+import ca.groupname.Logic.Variable;
 import ca.groupname.flows.*;
 
 /**
@@ -30,9 +31,7 @@ public class TestingCode {
             System.out.println("Paused...");
             try {
                 engine.play();
-            } catch (MissingFlowStateException e1) {
-                e1.printStackTrace();
-            } catch (InvalidFlowStateException e1) {
+            } catch (MissingFlowStateException | InvalidFlowStateException e1) {
                 e1.printStackTrace();
             }
         });

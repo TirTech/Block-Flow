@@ -19,12 +19,13 @@ public class Expression {
     }
 
     public Variable evaluateExpression() {
-        Class clazz = exp.getClass();
-        if (clazz == Expression.class) {
-            evaluateExpression(exp);
-        }
-        else if (clazz == Variable.class) {
-            return (Variable) exp;
-        }
+//        Class clazz = exp.getClass();
+//        if (clazz == Expression.class) {
+//            evaluateExpression(exp);
+//        }
+//        else if (clazz == Variable.class) {
+//            return (Variable) exp;
+//        }
+        return null;
     }
 }

@@ -3,7 +3,6 @@ package ca.groupname.Logic;
 import ca.groupname.Exceptions.ExpressionException;
 import ca.groupname.expressions.Expression;
 
-import java.math.BigInteger;
 import java.util.function.BiFunction;
 
 import static sun.util.calendar.CalendarUtils.mod;
@@ -135,7 +134,7 @@ public enum Operation {
     }
 
     private static Variable getExpValue(Expression exp) {
-        return exp.evaluateExpression().getValue();
+        return exp.evaluateExpression();
     }
 
     private static Object genericVal(Expression e) {
