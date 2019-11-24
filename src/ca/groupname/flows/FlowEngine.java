@@ -11,7 +11,7 @@ public class FlowEngine extends Service<FlowState> {
     /**
      * The state to start from
      */
-    private SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
+	SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
     
     @Override
     protected Task<FlowState> createTask() {
