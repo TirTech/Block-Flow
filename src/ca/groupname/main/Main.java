@@ -31,7 +31,7 @@ public class Main extends Application {
         
         //Build splash scene
         VBox splashPane = new VBox();
-        Image image = new Image("logo.png");
+		Image image = new Image("logo.png");
         ImageView imgView = new ImageView(image);
         splashPane.getChildren().add(imgView);
         Scene splashScene = new Scene(splashPane, 500, 500);
