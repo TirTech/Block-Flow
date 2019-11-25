@@ -1,7 +1,6 @@
 package ca.groupname.flows;
 
-import ca.groupname.Logic.Variable;
-import javafx.beans.property.SimpleMapProperty;
+import ca.groupname.logic.Variable;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

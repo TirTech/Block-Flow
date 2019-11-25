@@ -2,3 +2,5 @@
 /out/
 /.idea/workspace.xml
 /bin
+*.flow
+*.class
