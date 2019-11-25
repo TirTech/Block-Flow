@@ -1,4 +1,4 @@
-package ca.groupname.Logic;
+package ca.groupname.logic;
 
 import ca.groupname.expressions.SupportedTypes;
 import javafx.beans.property.SimpleObjectProperty;

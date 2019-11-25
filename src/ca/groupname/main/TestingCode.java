@@ -1,6 +1,6 @@
 package ca.groupname.main;
 
-import ca.groupname.Logic.Variable;
+import ca.groupname.logic.Variable;
 import ca.groupname.flows.*;
 
 /**
