@@ -1,18 +1,15 @@
 package ca.groupname.views;
 
 import ca.groupname.Logic.Variable;
-import ca.groupname.expressions.SupportedTypes;
 import ca.groupname.util.StyleUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class VariableView extends VBox {
@@ -21,10 +18,12 @@ public class VariableView extends VBox {
     private NewVariableView newVarPane = new NewVariableView();
     private Button printVars = new Button("Print vars");
     private Button addVar = new Button("Add variable");
+    private Button removeVar = new Button("Remove Variable");
     private TableColumn<Variable, String> colValue = new TableColumn<>("Value");
     private TableColumn<Variable, String> colType = new TableColumn<>("Type");
     private TableColumn<Variable, String> colName = new TableColumn<>("Name");
     private SimpleListProperty<Variable> vars = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private HBox varControls = new HBox(addVar, removeVar);
     
     public VariableView(ObservableList<Variable> variableList) {
         vars.set(variableList);
@@ -36,9 +35,18 @@ public class VariableView extends VBox {
         
         // Actions and Events
         addVar.setOnAction(e -> {
-            this.getChildren().add(this.getChildren().indexOf(addVar) + 1, newVarPane);
+            this.getChildren().add(this.getChildren().indexOf(varControls) + 1, newVarPane);
             addVar.setDisable(true);
         });
+    
+        removeVar.setOnAction(e -> {
+            Variable selection = table.getSelectionModel().getSelectedItem();
+            if (selection != null) {
+                vars.remove(selection);
+            }
+        });
+    
+        table.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> removeVar.setDisable(newVal == null));
         
         newVarPane.setOnSubmit((newVar) -> {
             vars.add(newVar);
@@ -50,29 +58,22 @@ public class VariableView extends VBox {
             this.getChildren().remove(newVarPane);
             addVar.setDisable(false);
         });
+    
         // Setup view layout
         table.setEditable(true);
+        table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         table.getColumns().addAll(colName, colValue, colType);
         table.itemsProperty().bind(this.vars);
         table.setPlaceholder(new Label("No variables. \nClick \"Add Variable\" above."));
-        getChildren().addAll(printVars, addVar, table);
+    
+        removeVar.setDisable(true);
+        varControls.setSpacing(5);
+        getChildren().addAll(varControls, table);
         
         // Formatting
         setPadding(new Insets(10));
         setBorder(StyleUtils.getCurvedBorderGrey(5));
         this.setSpacing(5);
-        
-        // DEBUG --------
-        printVars.setOnAction(e -> {
-            for (Variable v : vars.get()) {
-                System.out.printf("-----\nName: %s\nType: %s\nValue: %s\n-----", v.getName(), v.getType(), v.getValue());
-                if (v.getType() == SupportedTypes.INT) {
-                    System.out.println((Integer) v.getValue() + 5);
-                } else if (v.getType() == SupportedTypes.DOUBLE) {
-                    System.out.println((Double) v.getValue() + 5.1);
-                }
-            }
-        });
     }
     
     /**

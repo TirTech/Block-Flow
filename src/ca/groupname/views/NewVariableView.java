@@ -11,10 +11,13 @@ import javafx.scene.layout.HBox;
 
 import java.util.function.Consumer;
 
+/**
+ * A view for creating new variable objects
+ */
 public class NewVariableView extends GridPane {
     
     private TextField txtName = new TextField();
-    private ChoiceBox<SupportedTypes> cbTypes = new ChoiceBox(FXCollections.observableArrayList(SupportedTypes.values()));
+    private ChoiceBox<SupportedTypes> cbTypes = new ChoiceBox<>(FXCollections.observableArrayList(SupportedTypes.values()));
     private TextField txtValue = new TextField();
     private Spinner spinInt = new Spinner<Integer>(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
     private Spinner spinDouble = new Spinner<Double>(Double.MIN_VALUE, Double.MAX_VALUE, 0.0);
@@ -25,6 +28,7 @@ public class NewVariableView extends GridPane {
     
     public NewVariableView() {
         
+        // View init
         this.addRow(0, new Label("Name: "), txtName);
         this.addRow(1, new Label("Type: "), cbTypes);
         this.addRow(2, new Label("Value: "), new HBox(txtValue, spinInt, spinDouble));
@@ -35,6 +39,20 @@ public class NewVariableView extends GridPane {
         spinDouble.setEditable(true);
         btnSubmit.setDisable(true);
         
+        // Fix bad input in spinner fields
+        spinInt.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && ! newVal.matches("[0-9]*")) {
+                spinInt.getEditor().setText(oldVal);
+            }
+        });
+        
+        spinDouble.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && ! newVal.matches("[0-9]*\\.?[0-9]*")) {
+                spinDouble.getEditor().setText(oldVal);
+            }
+        });
+        
+        // Button logic
         txtName.textProperty().addListener((obs, oldVal, newVal) -> btnSubmit.setDisable(newVal == null || newVal.trim().isEmpty()));
         
         btnCancel.setOnAction(e -> {
@@ -88,15 +106,28 @@ public class NewVariableView extends GridPane {
         cbTypes.setValue(SupportedTypes.STRING);
     }
     
+    /**
+     * Enables or disables the visibility and drawing of a node
+     * @param node  the node to toggle
+     * @param state whether to show the node
+     */
     private void toggleNode(Node node, boolean state) {
         node.setVisible(state);
         node.setManaged(state);
     }
     
+    /**
+     * Set the callback for the submission of this form
+     * @param onSubmit the function to call
+     */
     public void setOnSubmit(Consumer<Variable> onSubmit) {
         this.onSubmit = onSubmit;
     }
     
+    /**
+     * Set the callback for the cancellation of this form
+     * @param onCancel the function to call
+     */
     public void setOnCancel(VoidFunction onCancel) {
         this.onCancel = onCancel;
     }
