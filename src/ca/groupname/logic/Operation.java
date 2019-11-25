@@ -2,6 +2,7 @@ package ca.groupname.logic;
 
 import ca.groupname.exceptions.ExpressionException;
 import ca.groupname.expressions.Expression;
+import ca.groupname.expressions.SupportedTypes;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.math.BigInteger;
@@ -20,61 +21,61 @@ public enum Operation {
     INT_PLUS((l, r) -> {
         int lVal = intValue(l);
         int rVal = intValue(r);
-        return new Variable<>((lVal + " + " + rVal), int.class, (lVal + rVal));
+        return new Variable<>((lVal + " + " + rVal), SupportedTypes.INT, (lVal + rVal));
     }),
     INT_SUB((l, r) -> {
         int lVal = intValue(l);
         int rVal = intValue(r);
-        return new Variable<>((lVal + " - " + rVal) , int.class, (lVal - rVal));
+        return new Variable<>((lVal + " - " + rVal), SupportedTypes.INT, (lVal - rVal));
     }),
     INT_MULT((l, r) -> {
         int lVal = intValue(l);
         int rVal = intValue(r);
-        return new Variable<>((lVal + " * " + rVal), int.class, (lVal * rVal));
+        return new Variable<>((lVal + " * " + rVal), SupportedTypes.INT, (lVal * rVal));
     }),
     INT_DIV((l, r) -> {
         int lVal = intValue(l);
         int rVal = intValue(r);
-        return new Variable<>((lVal + " / " + rVal), int.class, intDivision(lVal, rVal));
+        return new Variable<>((lVal + " / " + rVal), SupportedTypes.INT, intDivision(lVal, rVal));
     }),
     INT_FACT((l, r) -> {
         int lVal = intValue(l);
-        return new Variable<>((lVal + "!"), int.class, intFact(lVal));
+        return new Variable<>((lVal + "!"), SupportedTypes.INT, intFact(lVal));
     }),
     INT_MOD((l, r) -> {
         int lVal = intValue(l);
         int rVal = intValue(r);
-        return new Variable<>((lVal + " mod " + rVal), int.class, mod(lVal, rVal));
+        return new Variable<>((lVal + " mod " + rVal), SupportedTypes.INT, mod(lVal, rVal));
     }),
 
     DOUBLE_POW((l, r) -> {
         int lVal = intValue(l);
         int rVal = intValue(r);
-        return new Variable<>((lVal + " ^ " + rVal), double.class, Math.pow(lVal, rVal));
+        return new Variable<>((lVal + " ^ " + rVal), SupportedTypes.DOUBLE, Math.pow(lVal, rVal));
     }),
     DOUBLE_PLUS((l, r) -> {
         double lVal = doubleValue(l);
         double rVal = doubleValue(r);
-        return new Variable<>((lVal + " + " + rVal), double.class, (lVal + rVal));
+        return new Variable<>((lVal + " + " + rVal), SupportedTypes.DOUBLE, (lVal + rVal));
     }),
     DOUBLE_SUB((l, r) -> {
         double lVal = doubleValue(l);
         double rVal = doubleValue(r);
-        return new Variable<>((lVal + " - " + rVal) , double.class, (lVal - rVal));
+        return new Variable<>((lVal + " - " + rVal), SupportedTypes.DOUBLE, (lVal - rVal));
     }),
     DOUBLE_MULT((l, r) -> {
         double lVal = doubleValue(l);
         double rVal = doubleValue(r);
-        return new Variable<>((lVal + " * " + rVal), double.class, (lVal * rVal));
+        return new Variable<>((lVal + " * " + rVal), SupportedTypes.DOUBLE, (lVal * rVal));
     }),
     DOUBLE_DIV((l, r) -> {
         double lVal = doubleValue(l);
         double rVal = doubleValue(r);
-        return new Variable<>((lVal + " / " + rVal), double.class, doubleDivision(lVal, rVal));
+        return new Variable<>((lVal + " / " + rVal), SupportedTypes.DOUBLE, doubleDivision(lVal, rVal));
     }),
     DOUBLE_FACT((l, r) -> {
         double lVal = doubleValue(l);
-        return new Variable<>((lVal + "!"), double.class, doubleFact(lVal));
+        return new Variable<>((lVal + "!"), SupportedTypes.DOUBLE, doubleFact(lVal));
     }),
     
     NOT((l, r) -> {

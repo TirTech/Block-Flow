@@ -2,7 +2,13 @@ package ca.groupname.main;
 
 import ca.groupname.expressions_testing.ExpressionTesting;
 import ca.groupname.logic.Variable;
-import ca.groupname.flows.*;
+import ca.groupname.Exceptions.InvalidFlowStateException;
+import ca.groupname.Exceptions.MissingFlowStateException;
+import ca.groupname.expressions.SupportedTypes;
+import ca.groupname.flows.Block;
+import ca.groupname.flows.FlowEngine;
+import ca.groupname.flows.FlowState;
+import ca.groupname.flows.FlowStatus;
 
 /**
  * Do whatever with this class. I just use it for testing to keep the rest of the code clean
@@ -54,7 +60,7 @@ public class TestingCode {
                 Variable<Integer> varX = state.getVar("x");
                 if (varX == null) {
                     System.out.println("Creating x...");
-                    state.addVars(new Variable("x", Integer.class, 0));
+                    state.addVars(new Variable("x", SupportedTypes.INT, 0));
                 } else {
                     System.out.println("[" + varX.getValue() + "] Running block...");
                     varX.setValue(varX.getValue() + 1);
@@ -89,10 +95,10 @@ public class TestingCode {
      */
     private static void testScoping() {
         FlowState testState = new FlowState();
-        testState.addVars(new Variable("X", Integer.class, 5));
-        testState.addVars(new Variable("Y", Integer.class, 6));
+        testState.addVars(new Variable("X", SupportedTypes.INT, 5));
+        testState.addVars(new Variable("Y", SupportedTypes.INT, 6));
         testState.enterScope();
-        testState.addVars(new Variable("X", Integer.class, 7));
+        testState.addVars(new Variable("X", SupportedTypes.INT, 7));
         System.out.println("X = " + testState.getVar("X").getValue());
         if (testState.getVar("Y") != null) {
             System.out.println("WHAT?? Var Y has value " + testState.getVar("Y").getValue());
@@ -123,7 +129,7 @@ public class TestingCode {
         };
         state.setCurrentBlock(testBlock);
         engine.setFlowState(state);
-        Variable var = new Variable("teststring", String.class, "START");
+        Variable var = new Variable("teststring", SupportedTypes.STRING, "START");
         state.addVars(var);
         var.valueProperty().addListener((obs, oldVal, newVal) -> System.out.println(newVal));
         engine.start();
@@ -139,7 +145,7 @@ public class TestingCode {
                 Variable<Integer> varX = state.getVar("x");
                 if (varX == null) {
                     System.out.println("Creating x...");
-                    state.addVars(new Variable("x", Integer.class, 0));
+                    state.addVars(new Variable("x", SupportedTypes.INT, 0));
                 } else {
                     System.out.println("[" + varX.getValue() + "] Running block...");
                     varX.setValue(varX.getValue() + 1);
@@ -195,7 +201,7 @@ public class TestingCode {
                 Variable<Integer> varX = state.getVar("x");
                 if (varX == null) {
                     System.out.println("Creating x...");
-                    state.addVars(new Variable("x", Integer.class, 0));
+                    state.addVars(new Variable("x", SupportedTypes.INT, 0));
                 } else {
                     System.out.println("[" + varX.getValue() + "] Running block...");
                     varX.setValue(varX.getValue() + 1);

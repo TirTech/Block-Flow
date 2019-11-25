@@ -2,6 +2,7 @@ package ca.groupname.logic;
 
 import ca.groupname.expressions.SupportedTypes;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +22,7 @@ public class Variable<T> {
     /**
      * The name of the variable. Should not be blank
      */
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     /**
      * The type of the variable extending Object
      */
@@ -32,25 +33,14 @@ public class Variable<T> {
     private SimpleObjectProperty<T> value = new SimpleObjectProperty<>();
     
     /**
-     * Creates a new variable with the given name, class (type), and with default value of <code>null</code>
-     * @param name  the name of the variable
-     * @param clazz the type of the variable
-     */
-    public Variable(String name, Class<T> clazz) {
-        this(name, clazz, null);
-    }
-    
-    /**
      * Creates a new variable with the given name, class (type), and default value
      * @param name        the name of the variable
-     * @param clazz       the type of the variable
      * @param initalValue the initial value of the variable
      */
-    public Variable(String name, Class<T> clazz, T initalValue) {
-        this.clazz = clazz;
-        this.name = name;
+    public Variable(String name, SupportedTypes type, T initalValue) {
+        this.name.set(name);
         this.value.set(initalValue);
-		this.type = SupportedTypes.determineType(clazz);
+        this.type = type;
     }
     
     /**
@@ -82,9 +72,9 @@ public class Variable<T> {
      * @return the variables name
      */
     public String getName() {
-        return name;
+        return name.get();
     }
-    
+
     /**
      * Filters a given collection, returning a list of all variable items in the collection who's type matches (or is a subclass) of the type
      * of this variable. i.e. if this variable is of type Number, then this will return all collection variables of type Number, Integer, Double, etc.
@@ -93,15 +83,15 @@ public class Variable<T> {
      * @return a filtered list of variables of type <code>Class<? extends T></code>
      */
     public ArrayList<Variable> getAllSimilarTyped(Collection<? extends Variable> lst) {
-        return lst.stream().filter(v -> clazz.isAssignableFrom(v.getType())).collect(Collectors.toCollection(ArrayList::new));
+        return lst.stream().filter(v -> type == v.getType()).collect(Collectors.toCollection(ArrayList::new));
     }
     
     /**
      * Gets the class of the variables value as defined at creation.
      * @return the variables type
      */
-    public Class<T> getType() {
-        return clazz;
+    public SupportedTypes getType() {
+        return type;
     }
     
     public boolean isSupportedType() {

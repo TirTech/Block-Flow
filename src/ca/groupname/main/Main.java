@@ -1,11 +1,15 @@
 package ca.groupname.main;
 
+import ca.groupname.views.VariableView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -74,9 +78,17 @@ public class Main extends Application {
      * @param primaryStage the primary stage for this application, onto which the application scene can be set.
      */
     private void postInit(Stage primaryStage) {
-        VBox root = new VBox();
-        Label placeholder = new Label("This is a blank placeholder");
-        root.getChildren().add(placeholder);
+        BorderPane root = new BorderPane();
+        Label graphView = new Label("graphView");
+        Label nodeView = new Label("nodeView");
+        Label bottomView = new Label("bottomView");
+        VariableView varView = new VariableView(FXCollections.observableArrayList());
+        root.setRight(varView);
+        root.setLeft(nodeView);
+        root.setBottom(bottomView);
+        root.setCenter(graphView);
+        root.setPadding(new Insets(5));
         primaryStage.setScene(new Scene(root, 500, 500));
+    
     }
 }

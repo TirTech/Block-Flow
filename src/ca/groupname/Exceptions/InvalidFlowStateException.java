@@ -1,4 +1,4 @@
-package ca.groupname.flows;
+package ca.groupname.Exceptions;
 
 public class InvalidFlowStateException extends Exception {
     public InvalidFlowStateException() {
