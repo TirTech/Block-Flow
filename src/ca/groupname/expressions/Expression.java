@@ -10,12 +10,14 @@ public class Expression {
     private Operation operation;
     private Expression operandB;
     private Variable value;
+    private Variable valueA;
+    private Variable valueB;
     
     FlowState flowState;
 
     public Expression() {
 //        flowState.getCurrentBlock();
-        System.out.println(operation.toString());
+//        System.out.println(operation.toString());
 //        this.operation = (a, b) -> {return operation(a, b)};
     }
     
@@ -28,8 +30,18 @@ public class Expression {
             return value;
         }
         else {
-            this.value = operation.perform(operandA, operandB);
-            return value;
+            if (this.operation == null) {
+                // operation is null, set value to operandA's value
+//                if (this.operandA.getValue().isSupportedType()) {
+//                    this.value =
+//                    return value;
+//                }
+                return value;
+            }
+            else {
+                this.value = operation.perform(operandA, operandB);
+                return value;
+            }
         }
 //        Class clazz = exp.getClass();
 //        if (clazz == Expression.class) {
@@ -44,7 +56,7 @@ public class Expression {
     public void setAttrs(Expression opA, Operation op, Expression opB) {
         this.operandA = opA;
         this.operation = op;
-        this.operandA = opA;
+        this.operandB = opB;
     }
     
     public void setOperandA(Expression operandA) {
@@ -57,5 +69,13 @@ public class Expression {
     
     public void setOperandB(Expression operandB) {
         this.operandB = operandB;
+    }
+    
+    public Variable getValue() {
+        return value;
+    }
+    
+    public Variable setValue(Variable v) {
+        return value = v;
     }
 }

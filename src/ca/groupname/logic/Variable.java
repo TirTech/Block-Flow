@@ -50,7 +50,7 @@ public class Variable<T> {
         this.clazz = clazz;
         this.name = name;
         this.value.set(initalValue);
-		this.type = type.determineType(clazz);
+		this.type = SupportedTypes.determineType(clazz);
     }
     
     /**
@@ -102,5 +102,13 @@ public class Variable<T> {
      */
     public Class<T> getType() {
         return clazz;
+    }
+    
+    public boolean isSupportedType() {
+        return this.type != null;
+    }
+    
+    public String toString() {
+        return "\"" + name + "\", of type: " + clazz + ".\tvalue:\t{" + value.get() + "}";
     }
 }

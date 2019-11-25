@@ -1,5 +1,6 @@
 package ca.groupname.main;
 
+import ca.groupname.expressions_testing.ExpressionTesting;
 import ca.groupname.logic.Variable;
 import ca.groupname.flows.*;
 
@@ -14,6 +15,8 @@ public class TestingCode {
         //testFlowEngineBasic();
         //testFlowEnginePauseMethod();
         //testBreakpointing();
+        ExpressionTesting expTest = new ExpressionTesting();
+        expTest.test();
     }
     
     /**

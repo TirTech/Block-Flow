@@ -15,7 +15,7 @@ public enum SupportedTypes {
         return this.clazz;
     }
 
-    public SupportedTypes determineType(Class clazz) {
+    public static SupportedTypes determineType(Class clazz) {
         for (SupportedTypes t : SupportedTypes.values()) {
             if (clazz == t.clazz) {
                 return t;
