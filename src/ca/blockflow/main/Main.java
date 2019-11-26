@@ -1,6 +1,9 @@
 package ca.blockflow.main;
 
 import ca.blockflow.testing.TestingCode;
+import ca.blockflow.util.StyleUtils;
+import ca.blockflow.views.AboutView;
+import ca.blockflow.views.HelpView;
 import ca.blockflow.views.VariableView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
@@ -8,8 +11,9 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,6 +26,7 @@ public class Main extends Application {
     }
     
     public void stop() {
+        System.out.println("Bye!");
     }
     
     public void start(Stage primaryStage) {
@@ -36,10 +41,8 @@ public class Main extends Application {
         
         //Build splash scene
         VBox splashPane = new VBox();
-        Image image = new Image("logo.png");
-        ImageView imgView = new ImageView(image);
-        splashPane.getChildren().add(imgView);
-        Scene splashScene = new Scene(splashPane, 500, 500);
+        splashPane.getChildren().add(StyleUtils.getLogo(true, 500));
+        Scene splashScene = new Scene(splashPane);
         
         //Set up stage
         primaryStage.setScene(splashScene);
@@ -79,17 +82,41 @@ public class Main extends Application {
      * @param primaryStage the primary stage for this application, onto which the application scene can be set.
      */
     private void postInit(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        Label graphView = new Label("graphView");
+        VBox root = new VBox();
+        BorderPane content = new BorderPane();
+        //FlowView flowView = new FlowView();
         Label nodeView = new Label("nodeView");
         Label bottomView = new Label("bottomView");
         VariableView varView = new VariableView(FXCollections.observableArrayList());
-        root.setRight(varView);
-        root.setLeft(nodeView);
-        root.setBottom(bottomView);
-        root.setCenter(graphView);
-        root.setPadding(new Insets(5));
+        MenuBar menus = buildMenuBar();
+        content.setPadding(new Insets(5));
+        content.setRight(varView);
+        content.setLeft(nodeView);
+        content.setBottom(bottomView);
+        //content.setCenter(flowView);
+        root.getChildren().addAll(menus, content);
         primaryStage.setScene(new Scene(root, 500, 500));
+        //flowView.setRootView(new BlockView());
+    }
     
+    private MenuBar buildMenuBar() {
+        MenuBar menu = new MenuBar();
+        Menu mnuHelp = new Menu("Help");
+        MenuItem miHelp = new MenuItem("Help");
+        MenuItem miAbout = new MenuItem("About");
+        mnuHelp.getItems().addAll(miAbout, miHelp);
+        menu.getMenus().addAll(mnuHelp);
+        
+        miAbout.setOnAction(e -> {
+            AboutView about = new AboutView();
+            about.show();
+        });
+        
+        miHelp.setOnAction(e -> {
+            HelpView help = new HelpView();
+            help.show();
+        });
+        
+        return menu;
     }
 }
