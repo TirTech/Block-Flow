@@ -8,146 +8,186 @@ package ca.blockflow.testing;
 
 import ca.blockflow.expressions.Expression;
 import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.Operation;
 import ca.blockflow.logic.Variable;
+
+import java.util.HashMap;
 
 import static ca.blockflow.logic.Operation.*;
 
-public class ExpressionTesting {
-    
-    private Variable x;
-    private Variable y;
-    private Variable s1;
-    private Variable s2;
-    private Variable t;
-    private Variable f;
+class ExpressionTesting {
     
     private Expression xExp;
     private Expression yExp;
+    private Expression zExp;
+    private Expression aExp;
     private Expression s1Exp;
     private Expression s2Exp;
+    private Expression s3Exp;
+    private Expression s4Exp;
+    private Expression s5Exp;
     private Expression tExp;
     private Expression fExp;
     
-    public ExpressionTesting() {
+    private int testNumber;
     
-        x = new Variable<>("x", SupportedTypes.INT, 6);
-        y = new Variable<>("y", SupportedTypes.INT, - 25);
-        s1 = new Variable<>("text1", SupportedTypes.STRING, "This string is for testing purposes ");
-        s2 = new Variable<>("text2", SupportedTypes.STRING, "so is this one.");
-        t = new Variable<>("true", SupportedTypes.BOOLEAN, true);
-        f = new Variable<>("false", SupportedTypes.BOOLEAN, false);
+    ExpressionTesting() {
+    
+        Variable x = new Variable<>("x", SupportedTypes.INT, 6);
+        Variable y = new Variable<>("y", SupportedTypes.INT, - 25);
+        Variable z = new Variable<>("z", SupportedTypes.INT, 9);
+        Variable a = new Variable<>("a", SupportedTypes.DOUBLE, - 25.001);
+        Variable s1 = new Variable<>("text1", SupportedTypes.STRING, "This string is for testing purposes ");
+        Variable s2 = new Variable<>("text2", SupportedTypes.STRING, "so is this one.");
+        Variable s3 = new Variable<>("text2", SupportedTypes.STRING, "Hello there!");
+        Variable s4 = new Variable<>("text2", SupportedTypes.STRING, "Hello there!");
+        Variable s5 = new Variable<>("text2", SupportedTypes.STRING, "Hello World!.");
+        Variable t = new Variable<>("true", SupportedTypes.BOOLEAN, true);
+        Variable f = new Variable<>("false", SupportedTypes.BOOLEAN, false);
+    
+        Expression workingExp = new Expression();
+        testNumber = 0;
         
-        xExp = new Expression();
-        xExp.setValue(x);
-        
-        yExp = new Expression();
-        yExp.setValue(y);
-        
-        s1Exp = new Expression();
-        s1Exp.setValue(s1);
-        
-        s2Exp = new Expression();
-        s2Exp.setValue(s2);
-        
-        tExp = new Expression();
-        tExp.setValue(t);
-        
-        fExp = new Expression();
-        fExp.setValue(f);
+        xExp = workingExp.simpleAssignExpression(x);
+        yExp = workingExp.simpleAssignExpression(y);
+        zExp = workingExp.simpleAssignExpression(z);
+        aExp = workingExp.simpleAssignExpression(a);
+        s1Exp = workingExp.simpleAssignExpression(s1);
+        s2Exp = workingExp.simpleAssignExpression(s2);
+        s3Exp = workingExp.simpleAssignExpression(s3);
+        s4Exp = workingExp.simpleAssignExpression(s4);
+        s5Exp = workingExp.simpleAssignExpression(s5);
+        tExp = workingExp.simpleAssignExpression(t);
+        fExp = workingExp.simpleAssignExpression(f);
     }
     
-    public void test() {
+    void test() {
+        
+        //// Variable Testing ////
+    
+        System.out.println("#" + ++testNumber + "\tEVALUATING x :\n\t" + xExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING y :\n\t" + yExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING z :\n\t" + zExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING a :\n\t" + aExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s1 :\n\t" + s1Exp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s2 :\n\t" + s2Exp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s3 :\n\t" + s3Exp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s4 :\n\t" + s4Exp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s5 :\n\t" + s5Exp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING t :\n\t" + tExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING f :\n\t" + fExp.evaluateExpression() + "\n");
     
         //// Integer Testing ////
     
-        Expression rootIntAdd = new Expression();
-        rootIntAdd.setAttrs(xExp, INT_PLUS, yExp);
-        System.out.println("EVALUATING x + y :\n\t" + rootIntAdd.evaluateExpression());
-    
-        Expression rootIntSub = new Expression();
-        rootIntSub.setAttrs(xExp, INT_SUB, yExp);
-        System.out.println("EVALUATING x - y :\n\t" + rootIntSub.evaluateExpression());
-    
-        Expression rootIntMul = new Expression();
-        rootIntMul.setAttrs(xExp, INT_MULT, yExp);
-        System.out.println("EVALUATING x * y :\n\t" + rootIntMul.evaluateExpression());
-    
-        Expression rootIntDiv = new Expression();
-        rootIntDiv.setAttrs(xExp, INT_DIV, yExp);
-        System.out.println("EVALUATING x / y :\n\t" + rootIntDiv.evaluateExpression());
-    
-        Expression rootIntFact = new Expression();
-        rootIntFact.setAttrs(xExp, INT_FACT, yExp);
-        System.out.println("EVALUATING x! :\n\t" + rootIntFact.evaluateExpression());
-    
-        Expression rootIntMod = new Expression();
-        rootIntMod.setAttrs(xExp, INT_MOD, yExp);
-        System.out.println("EVALUATING x % y :\n\t" + rootIntMod.evaluateExpression());
+        Variable xAddY_true = new Variable<>("x+y", SupportedTypes.INT, -19);
+        Variable xAddY_false = new Variable<>("x+y", SupportedTypes.INT, 99);
+        System.out.println(testHeader(xExp, INT_PLUS, yExp, "x + y", xAddY_true));
+        System.out.println(testHeader(xExp, INT_PLUS, yExp, "x + y", xAddY_false));
+        System.out.println(testHeader(xExp, INT_SUB, yExp, "x - y"));
+        System.out.println(testHeader(xExp, INT_MULT, yExp, "x * y"));
+        System.out.println(testHeader(xExp, INT_DIV, yExp, "x / y"));
+        System.out.println(testHeader(xExp, INT_FACT, yExp, "x!"));
+        System.out.println(testHeader(xExp, INT_MOD, yExp, "x mod y"));
     
     
         //// Double Testing ////
     
-        Expression rootDoubleAdd = new Expression();
-        rootDoubleAdd.setAttrs(xExp, DOUBLE_PLUS, yExp);
-        System.out.println("EVALUATING x + y :\n\t" + rootDoubleAdd.evaluateExpression());
-    
-        Expression rootDoubleSub = new Expression();
-        rootDoubleSub.setAttrs(xExp, DOUBLE_SUB, yExp);
-        System.out.println("EVALUATING x - y :\n\t" + rootDoubleSub.evaluateExpression());
-    
-        Expression rootDoubleDiv = new Expression();
-        rootDoubleDiv.setAttrs(xExp, DOUBLE_DIV, yExp);
-        System.out.println("EVALUATING x / y :\n\t" + rootDoubleDiv.evaluateExpression());
-    
-        Expression rootDoubleMul = new Expression();
-        rootDoubleMul.setAttrs(xExp, DOUBLE_MULT, yExp);
-        System.out.println("EVALUATING x * y :\n\t" + rootDoubleMul.evaluateExpression());
-    
-        Expression rootDoublePow = new Expression();
-        rootDoublePow.setAttrs(xExp, DOUBLE_POW, yExp);
-        System.out.println("EVALUATING x ^ y :\n\t" + rootDoublePow.evaluateExpression());
-    
-        Expression rootDoubleFact = new Expression();
-        rootDoubleFact.setAttrs(xExp, DOUBLE_FACT, yExp);
-        System.out.println("EVALUATING x! :\n\t" + rootDoubleFact.evaluateExpression());
+        System.out.println(testHeader(xExp, DOUBLE_PLUS, yExp, "x + y"));
+        System.out.println(testHeader(yExp, DOUBLE_PLUS, aExp, "y + a"));
+        System.out.println(testHeader(yExp, DOUBLE_SUB, aExp, "y - a"));
+        System.out.println(testHeader(xExp, DOUBLE_SUB, yExp, "x - y"));
+        System.out.println(testHeader(xExp, DOUBLE_DIV, yExp, "x / y"));
+        System.out.println(testHeader(xExp, DOUBLE_MULT, yExp, "x * y"));
+        System.out.println(testHeader(xExp, DOUBLE_POW, yExp, "x ^ y"));
+        System.out.println(testHeader(xExp, DOUBLE_FACT, yExp, "x!"));
     
     
         //// Boolean Testing ////
     
-        Expression rootBooleanNot = new Expression();
-        rootBooleanNot.setAttrs(tExp, NOT, tExp);
-        System.out.println("EVALUATING !t :\n\t" + rootBooleanNot.evaluateExpression());
-    
-        Expression rootBooleanAnd = new Expression();
-        rootBooleanAnd.setAttrs(tExp, AND, tExp);
-        System.out.println("EVALUATING t && t :\n\t" + rootBooleanAnd.evaluateExpression());
-    
-        Expression rootBooleanOr = new Expression();
-        rootBooleanOr.setAttrs(tExp, OR, fExp);
-        System.out.println("EVALUATING t || f :\n\t" + rootBooleanOr.evaluateExpression());
-    
-        Expression rootBooleanXor = new Expression();
-        rootBooleanXor.setAttrs(tExp, XOR, tExp);
-        System.out.println("EVALUATING t xor t :\n\t" + rootBooleanXor.evaluateExpression());
+        System.out.println(testHeader(tExp, NOT, tExp, "!t"));
+        System.out.println(testHeader(tExp, AND, tExp, "t && t"));
+        System.out.println(testHeader(tExp, OR, fExp, "t || f"));
+        System.out.println(testHeader(tExp, XOR, tExp, "t xor t"));
+        System.out.println(testHeader(tExp, NOR, tExp, "t nor t"));
     
     
         //// String Testing ////
     
-        Expression rootStringConcat = new Expression();
-        rootStringConcat.setAttrs(s1Exp, CONCAT, s2Exp);
-        System.out.println("EVALUATING s1 + s2 :\n\t" + rootStringConcat.evaluateExpression());
-    
-        Expression rootStringIntConcat = new Expression();
-        rootStringIntConcat.setAttrs(s1Exp, CONCAT, xExp);
-        System.out.println("EVALUATING s1 + x :\n\t" + rootStringIntConcat.evaluateExpression());
-    
-        Expression rootStringBooleanConcat = new Expression();
-        rootStringBooleanConcat.setAttrs(s1Exp, CONCAT, tExp);
-        System.out.println("EVALUATING s1 + t :\n\t" + rootStringBooleanConcat.evaluateExpression());
-    
-        Expression rootStringIndexSearch = new Expression();
-        rootStringIndexSearch.setAttrs(s1Exp, INDEX_SEARCH, yExp);
-        System.out.println("EVALUATING s1[y] :\n\t" + rootStringIndexSearch.evaluateExpression());
+        System.out.println(testHeader(s1Exp, CONCAT, s2Exp, "s1 + s2"));
+        System.out.println(testHeader(s1Exp, CONCAT, xExp, "s1 + x"));
+        System.out.println(testHeader(s1Exp, CONCAT, tExp, "s1 + t"));
         
+        System.out.println(testHeader(s1Exp, INDEX_SEARCH, yExp, "s1[y]"));
+        System.out.println(testHeader(s1Exp, INDEX_SEARCH, xExp, "s1[x]"));
+
+        
+        //// Comparison Testing ////
+        
+        System.out.println(testHeader(s1Exp, EQUALS, s2Exp, "s1 == s2"));
+        System.out.println(testHeader(s1Exp, EQUALS, s1Exp, "s1 == s1"));
+        
+        System.out.println(testHeader(xExp, GREATER_THAN, yExp, "x > y"));
+        System.out.println(testHeader(yExp, GREATER_THAN, xExp, "y > x"));
+        System.out.println(testHeader(s1Exp, GREATER_THAN, yExp, "s1 > y"));
+        System.out.println(testHeader(s1Exp, GREATER_THAN, tExp, "s1 > t"));
+        
+        System.out.println(testHeader(xExp, LESS_THAN, yExp, "x < y"));
+        System.out.println(testHeader(yExp, LESS_THAN, xExp, "y < x"));
+        System.out.println(testHeader(s1Exp, LESS_THAN, yExp, "s1 < y"));
+        System.out.println(testHeader(s1Exp, LESS_THAN, tExp, "s1 < t"));
+    
+        System.out.println(testHeader(s3Exp, GREATER_THAN_OR_EQUAL, s4Exp, "s3 >= s4"));
+        System.out.println(testHeader(s3Exp, GREATER_THAN_OR_EQUAL, s5Exp, "s3 >= s5"));
+        System.out.println(testHeader(xExp, GREATER_THAN_OR_EQUAL, yExp, "x >= y"));
+        System.out.println(testHeader(yExp, GREATER_THAN_OR_EQUAL, aExp, "y >= a"));
+        System.out.println(testHeader(aExp, GREATER_THAN_OR_EQUAL, yExp, "a >= y"));
+    
+        System.out.println(testHeader(s3Exp, LESS_THAN_OR_EQUAL, s4Exp, "s3 <= s4"));
+        System.out.println(testHeader(s3Exp, LESS_THAN_OR_EQUAL, s5Exp, "s3 <= s5"));
+        System.out.println(testHeader(xExp, LESS_THAN_OR_EQUAL, yExp, "x <= y"));
+        System.out.println(testHeader(yExp, LESS_THAN_OR_EQUAL, aExp, "y <= a"));
+        System.out.println(testHeader(aExp, LESS_THAN_OR_EQUAL, yExp, "a <= y"));
+        
+        
+        //// Chaining Testing ////
+    
+        // x_plux_y            p = (x + y)
+        Expression x_plus_y = new Expression();
+        x_plus_y.setAttrs(xExp, INT_PLUS, yExp);
+        
+        // p_plus_y            q = (p + y)
+        Expression p_plus_y = new Expression();
+        p_plus_y.setAttrs(x_plus_y, INT_PLUS, yExp);
+        
+        // p_plus_q            r = (p + q)
+        Expression p_plus_q = new Expression();
+        p_plus_q.setAttrs(x_plus_y, INT_PLUS, p_plus_y);
+        System.out.println(testHeader(x_plus_y, INT_PLUS, p_plus_y,"p_plus_q ((x + y) + y)"));
+    
+        // r_concat_r          s = (r + r)
+        System.out.println(testHeader(p_plus_q, CONCAT, p_plus_q,"r_concat_r (r + r)"));
+        
+    }
+    
+    private boolean testHeader(Expression a, Operation o, Expression b, String message, Variable... expectedResult) {
+        Expression e = new Expression();
+        e.setAttrs(a, o, b);
+        Variable result = e.evaluateExpression();
+        
+        SupportedTypes av = a.evaluateExpression().getType();
+        SupportedTypes bv = b.evaluateExpression().getType();
+        SupportedTypes rv = result.getType();
+        
+        String testResults = "\n#" + (++testNumber) + "\tEVALUATING\t";
+        testResults += message + "\n\t{ (" + av + " " + bv + ") => (" + rv + ") }" + " ==>>\n\t" + result;
+    
+        boolean bool = true;
+        if (expectedResult.length > 0) {
+            testResults += "\n\tChecking\tCALC == EXPECTED\n\t";
+            testResults += "\t\t\t(" + result.getValue() + ") == (" + expectedResult[0].getValue() + ")";
+            bool = result.getValue().equals(expectedResult[0].getValue());
+        }
+        System.out.println(testResults);
+        return bool;
     }
 }
