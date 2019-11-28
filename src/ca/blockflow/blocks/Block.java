@@ -1,8 +1,8 @@
 package ca.blockflow.blocks;
 
+import ca.blockflow.exceptions.BlockException;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.main.Saveable;
-import ca.blockflow.exceptions.BlockException;
 
 /**
  * Base class for all blocks. Subclasses must implement the <code>call({@link FlowState} state)</code> method.
@@ -29,7 +29,7 @@ public abstract class Block implements Saveable {
         this.breakpoint = breakpoint;
     }
     
-    public void callBlock(FlowState state) {
+    public void callBlock(FlowState state) throws BlockException {
         Block nextBlock = call(state);
         state.setCurrentBlock(nextBlock);
     }
