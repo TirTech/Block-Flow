@@ -1,4 +1,4 @@
-package ca.blockflow.views;
+package ca.blockflow.views.floweditor;
 
 import ca.blockflow.util.AppUtils;
 import javafx.scene.control.ButtonType;

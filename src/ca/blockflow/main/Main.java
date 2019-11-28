@@ -1,12 +1,17 @@
 package ca.blockflow.main;
 
+import ca.blockflow.blocks.DummyBlock;
 import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.AboutView;
+import ca.blockflow.views.FunctionBlockView;
 import ca.blockflow.views.ExceptionView;
 import ca.blockflow.views.HelpView;
 import ca.blockflow.views.VariableView;
+import ca.blockflow.views.floweditor.BlockView;
+import ca.blockflow.views.floweditor.FlowView;
+import ca.blockflow.views.floweditor.HelpView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -93,14 +98,20 @@ public class Main extends Application {
 //        Label bottomView = new Label("bottomView");
         this.bottomView = new ExceptionView();
         
+        FlowView flowView = new FlowView();
+        Label bottomView = new Label("bottomView");
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
+        BlockView bv = new FunctionBlockView(null, new DummyBlock());
+        //BlockChoiceView bcView = new BlockChoiceView(bv);
         content.setPadding(new Insets(5));
         content.setRight(varView);
-        content.setLeft(nodeView);
+        //content.setLeft(bcView);
         content.setBottom(bottomView);
-        //content.setCenter(flowView);
+        content.setCenter(flowView);
         root.getChildren().addAll(menus, content);
+        primaryStage.setScene(new Scene(root, 800, 800));
+        flowView.setRootView(bv);
         primaryStage.setScene(new Scene(root, 500, 500));
         //flowView.setRootView(new BlockView());
     
