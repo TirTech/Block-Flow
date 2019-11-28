@@ -34,4 +34,31 @@ public class ExpressionException extends Exception {
         }
         System.out.println(BORDER);
     }
+    
+    public void creationException(String errorMessage) {
+        System.out.println(BORDER);
+        System.out.println("\tExpression creation failed.\n" + errorMessage + ".");
+        if (PRINT_STACK_TRACES) {
+            this.printStackTrace();
+        }
+        System.out.println(BORDER);
+    }
+    
+    public void unassignedExpression(String errorMessage) {
+        System.out.println(BORDER);
+        System.out.println("\tExpression cannot be evaluated.\n" + errorMessage + ".");
+        if (PRINT_STACK_TRACES) {
+            this.printStackTrace();
+        }
+        System.out.println(BORDER);
+    }
+    
+    public void comparisonException(String errorMessage) {
+        System.out.println(BORDER);
+        System.out.println("\tComparison values invalid.\n" + errorMessage + ".");
+        if (PRINT_STACK_TRACES) {
+            this.printStackTrace();
+        }
+        System.out.println(BORDER);
+    }
 }
