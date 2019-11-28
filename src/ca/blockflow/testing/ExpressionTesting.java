@@ -8,6 +8,7 @@ package ca.blockflow.testing;
 
 import ca.blockflow.expressions.Expression;
 import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Operation;
 import ca.blockflow.logic.Variable;
 
@@ -30,6 +31,7 @@ class ExpressionTesting {
     private Expression fExp;
     
     private int testNumber;
+    private Expression workingExp;
     
     ExpressionTesting() {
     
@@ -41,11 +43,15 @@ class ExpressionTesting {
         Variable s2 = new Variable<>("text2", SupportedTypes.STRING, "so is this one.");
         Variable s3 = new Variable<>("text2", SupportedTypes.STRING, "Hello there!");
         Variable s4 = new Variable<>("text2", SupportedTypes.STRING, "Hello there!");
+        
         Variable s5 = new Variable<>("text2", SupportedTypes.STRING, "Hello World!.");
         Variable t = new Variable<>("true", SupportedTypes.BOOLEAN, true);
         Variable f = new Variable<>("false", SupportedTypes.BOOLEAN, false);
     
-        Expression workingExp = new Expression();
+        workingExp = new Expression();
+        FlowState flowState = new FlowState();
+        
+        workingExp.setFlowState(flowState);
         testNumber = 0;
         
         xExp = workingExp.simpleAssignExpression(x);
@@ -65,17 +71,17 @@ class ExpressionTesting {
         
         //// Variable Testing ////
     
-        System.out.println("#" + ++testNumber + "\tEVALUATING x :\n\t" + xExp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING y :\n\t" + yExp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING z :\n\t" + zExp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING a :\n\t" + aExp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING s1 :\n\t" + s1Exp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING s2 :\n\t" + s2Exp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING s3 :\n\t" + s3Exp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING s4 :\n\t" + s4Exp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING s5 :\n\t" + s5Exp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING t :\n\t" + tExp.evaluateExpression() + "\n");
-        System.out.println("#" + ++testNumber + "\tEVALUATING f :\n\t" + fExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING x :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING y :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING z :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING a :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s1 :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s2 :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s3 :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s4 :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING s5 :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING t :\n\t" + workingExp.evaluateExpression() + "\n");
+        System.out.println("#" + ++testNumber + "\tEVALUATING f :\n\t" + workingExp.evaluateExpression() + "\n");
     
         //// Integer Testing ////
     
@@ -170,9 +176,9 @@ class ExpressionTesting {
     }
     
     private boolean testHeader(Expression a, Operation o, Expression b, String message, Variable... expectedResult) {
-        Expression e = new Expression();
-        e.setAttrs(a, o, b);
-        Variable result = e.evaluateExpression();
+//        Expression e = new Expression();
+        workingExp.setAttrs(a, o, b);
+        Variable result = workingExp.evaluateExpression();
         
         SupportedTypes av = a.evaluateExpression().getType();
         SupportedTypes bv = b.evaluateExpression().getType();

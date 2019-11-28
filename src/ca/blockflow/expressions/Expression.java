@@ -27,7 +27,7 @@ public class Expression {
     public Expression simpleAssignExpression(Variable v) {
         Expression e = new Expression();
         e.setValue(v);
-        e.setOperation(Operation.NO_OP);
+//        e.setOperation(Operation.NO_OP);
         initExpression(e, Operation.NO_OP, null);
         return e;
     }
@@ -61,7 +61,14 @@ public class Expression {
         try {
             if (operation == Operation.NO_OP) {
                 if (value != null) {
-                    return value;
+                    String name  = value.getName();
+                    Variable v = this.flowState.getVar(name);
+                    if (v != null) {
+                        return v != null ? v : value;
+                    }
+                    else {
+                        return value;
+                    }
                 } else {
                     throw new ExpressionException();
                 }

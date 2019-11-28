@@ -3,6 +3,7 @@ package ca.blockflow.main;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.AboutView;
+import ca.blockflow.views.ExceptionView;
 import ca.blockflow.views.HelpView;
 import ca.blockflow.views.VariableView;
 import javafx.animation.FadeTransition;
@@ -86,7 +87,10 @@ public class Main extends Application {
         BorderPane content = new BorderPane();
         //FlowView flowView = new FlowView();
         Label nodeView = new Label("nodeView");
-        Label bottomView = new Label("bottomView");
+        
+//        Label bottomView = new Label("bottomView");
+        ExceptionView bottomView = new ExceptionView();
+        
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
         content.setPadding(new Insets(5));
