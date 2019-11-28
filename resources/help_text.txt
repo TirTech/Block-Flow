@@ -1,0 +1,6 @@
+#Header
+    Body text of a paragraph. Hitting enter and starting a new line here will make a new line in the help menu as such.
+    This is now a new paragraph. "#" will create a header in a larger and bold font, but adding many pound signs will just make a header with one less pound. The text should show as one paragraph until there is a new line. Turn on "Soft Wraps" in Settings to make typing these easier.
+
+#Header #2
+    Note that pounds will only apply if they are preceded by no space and start a line. # in lines does not affect styling.
