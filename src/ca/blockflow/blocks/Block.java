@@ -28,9 +28,14 @@ public abstract class Block implements Saveable {
         this.breakpoint = breakpoint;
     }
     
+    public void callBlock(FlowState state) {
+        Block nextBlock = call(state);
+        state.setCurrentBlock(nextBlock);
+    }
+    
     /**
      * <code>call</code> performs actions for this block according to state. All changes should be stored back into state
      * @param state the program state.
      */
-    public abstract void call(FlowState state);
+    public abstract Block call(FlowState state);
 }

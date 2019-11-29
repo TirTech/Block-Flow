@@ -12,12 +12,20 @@ public class StyleUtils {
         return getCurvedBorder(radius, Color.DARKGRAY);
     }
     
-    public static Border getCurvedBorder(int radius, Paint color) {
-        return new Border(new BorderStroke(color, BorderStrokeStyle.SOLID, new CornerRadii(radius), BorderStroke.THIN));
+    public static Border getCurvedBorderBold(int radius, Paint color) {
+        return getCurvedBorder(radius, color, BorderStroke.THICK);
     }
     
-    public static Background solidBackground(Paint color) {
-        return new Background(new BackgroundFill(color, null, null));
+    public static Border getCurvedBorder(int radius, Paint color, BorderWidths stroke) {
+        return new Border(new BorderStroke(color, BorderStrokeStyle.SOLID, new CornerRadii(radius), stroke));
+    }
+    
+    public static Border getCurvedBorder(int radius, Paint color) {
+        return getCurvedBorder(radius, color, BorderStroke.THIN);
+    }
+    
+    public static Background solidBackground(Paint color, int radius) {
+        return new Background(new BackgroundFill(color, radius > 0 ? new CornerRadii(radius) : CornerRadii.EMPTY, null));
     }
     
     public static ImageView getLogo(boolean withBackground, double fitHeight) {

@@ -17,11 +17,11 @@ public class TestingCode {
         //testFlowEngineStepping();
         //testFlowEnginePausing();
         //testScoping();
-        //testFlowEngineBasic();
+        testFlowEngineBasic();
         //testFlowEnginePauseMethod();
         //testBreakpointing();
-        ExpressionTesting expTest = new ExpressionTesting();
-        expTest.test();
+        //ExpressionTesting expTest = new ExpressionTesting();
+        //expTest.test();
     }
     
     /**
@@ -52,20 +52,28 @@ public class TestingCode {
         }
     }
     
-    private static Block makeInfiniteBlock() {
-        return new Block() {
+    /**
+     * Basic FlowEngine test (start with no UI freezing)
+     */
+    private static void testFlowEngineBasic() {
+        FlowEngine engine = new FlowEngine();
+        FlowState state = new FlowState();
+        Block testBlock = new Block() {
             @Override
-            public void call(FlowState state) {
-                Variable<Integer> varX = state.getVar("x");
-                if (varX == null) {
-                    System.out.println("Creating x...");
-                    state.addVars(new Variable("x", SupportedTypes.INT, 0));
-                } else {
-                    System.out.println("[" + varX.getValue() + "] Running block...");
-                    varX.setValue(varX.getValue() + 1);
+            public Block call(FlowState state) {
+                state.getVar("teststring").setValue(state.getVar("teststring").getValue() + "\n> " + System.currentTimeMillis());
+                if (((String) state.getVar("teststring").getValue()).chars().filter(ch -> ch == '>').count() > 500) {
+                    state.setStatus(FlowStatus.STOPPED);
                 }
+                return this;
             }
         };
+        state.setCurrentBlock(testBlock);
+        engine.setFlowState(state);
+        Variable var = new Variable("teststring", SupportedTypes.STRING, "START");
+        state.addVars(var);
+        var.valueProperty().addListener((obs, oldVal, newVal) -> System.out.println(newVal));
+        engine.start();
     }
     
     /**
@@ -110,28 +118,21 @@ public class TestingCode {
         
     }
     
-    /**
-     * Basic FlowEngine test (start with no UI freezing)
-     */
-    private static void testFlowEngineBasic() {
-        FlowEngine engine = new FlowEngine();
-        FlowState state = new FlowState();
-        Block testBlock = new Block() {
+    private static Block makeInfiniteBlock() {
+        return new Block() {
             @Override
-            public void call(FlowState state) {
-                state.getVar("teststring").setValue(state.getVar("teststring").getValue() + "\n> " + System.currentTimeMillis());
-                if (((String) state.getVar("teststring").getValue()).chars().filter(ch -> ch == '>').count() > 500) {
-                    state.setStatus(FlowStatus.STOPPED);
+            public Block call(FlowState state) {
+                Variable<Integer> varX = state.getVar("x");
+                if (varX == null) {
+                    System.out.println("Creating x...");
+                    state.addVars(new Variable("x", SupportedTypes.INT, 0));
+                } else {
+                    System.out.println("[" + varX.getValue() + "] Running block...");
+                    varX.setValue(varX.getValue() + 1);
                 }
-            
+                return this;
             }
         };
-        state.setCurrentBlock(testBlock);
-        engine.setFlowState(state);
-        Variable var = new Variable("teststring", SupportedTypes.STRING, "START");
-        state.addVars(var);
-        var.valueProperty().addListener((obs, oldVal, newVal) -> System.out.println(newVal));
-        engine.start();
     }
     
     /**
@@ -140,7 +141,7 @@ public class TestingCode {
     private static void testFlowEngineStepping() {
         Block newBlock = new Block() {
             @Override
-            public void call(FlowState state) {
+            public Block call(FlowState state) {
                 Variable<Integer> varX = state.getVar("x");
                 if (varX == null) {
                     System.out.println("Creating x...");
@@ -153,6 +154,7 @@ public class TestingCode {
                         state.setStatus(FlowStatus.PAUSED);
                     }
                 }
+                return this;
             }
         };
         FlowEngine engine = new FlowEngine();
@@ -196,7 +198,7 @@ public class TestingCode {
     private static void testFlowEnginePausing() {
         Block newBlock = new Block() {
             @Override
-            public void call(FlowState state) {
+            public Block call(FlowState state) {
                 Variable<Integer> varX = state.getVar("x");
                 if (varX == null) {
                     System.out.println("Creating x...");
@@ -212,6 +214,7 @@ public class TestingCode {
                         state.setStatus(FlowStatus.STOPPED);
                     }
                 }
+                return this;
             }
         };
         FlowEngine engine = new FlowEngine();
