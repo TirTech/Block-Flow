@@ -37,7 +37,7 @@ public class FlowEngine extends Service<FlowState> {
                         // Clear the breakpointed flag
                         workingState.setBreakpointed(false);
                         // Call the block to do work. It will advance the flow though state's currentBlock
-                        workingState.getCurrentBlock().call(workingState);
+                        workingState.getCurrentBlock().callBlock(workingState);
                     }
                     // Keeps the tasks resultant value up to date
                     updateValue(workingState);
