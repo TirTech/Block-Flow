@@ -18,18 +18,20 @@ public class IfBlock {
     /**
      * The next block to be executed. Default value is not set (to be set by the BlockView)
      */
-    private Block nextBlock;
+    private Block trueBlock;
+    private Block falseBlock;
     
     
     public IfBlock() {
         //empty constructor
     }
     
-    public void call(FlowState state) throws BlockException {
+    public Block call(FlowState state) throws BlockException {
         //needs to get expression from view to evaluate
+        Block subBlock = null;
         Variable boolVar = expression.evaluateExpression();
         SupportedTypes t = boolVar.getType();
-        //if(t.determineType(t.getTypeClass()) == true){
+        
         if (t != SupportedTypes.BOOLEAN) {
             throw new BlockException("If Block: expression evaluated to a type other than boolean");
         } else {
@@ -37,13 +39,31 @@ public class IfBlock {
             if (((Variable<Boolean>) boolVar).getValue()) {
                 //select if path condition is true
                 //state.setCurrentBlock();
+                subBlock = trueBlock;
             } else {
+                subBlock = falseBlock;
                 //select path if condition is false
             }
         }
-    
-    
+        
+        return subBlock;
     }//end call
     
+    //@Override
+    public String[] getSubblockNames() {
+        return new String[]{"True", "False"};
+    }
+    
+    //@Override
+    public void setSubblock(String name, Block block) {
+        switch (name) {
+            case "True":
+                this.trueBlock = block;
+                break;
+            case "False":
+                this.falseBlock = block;
+                break;
+        }
+    }
     
 }//end ifblock class

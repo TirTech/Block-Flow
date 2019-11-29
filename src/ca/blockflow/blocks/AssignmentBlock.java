@@ -31,10 +31,9 @@ public class AssignmentBlock extends Block {
     }
     
     @Override
-    public void call(FlowState state) throws BlockException {
+    public Block call(FlowState state) throws BlockException {
         //get list of variables from state and present in dropdown for assignment
         //ok so state.getVar() returns single item
-    
     
         // The variable that is to be assigned a value
         Variable var;
@@ -55,6 +54,8 @@ public class AssignmentBlock extends Block {
     
             throw new BlockException("Assignment block error - type mismatch");
         }//end else
+        //the next block will be decided by flowstate (return null)
+        return null;
     }
     
     /**
