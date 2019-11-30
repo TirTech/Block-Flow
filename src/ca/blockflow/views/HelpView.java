@@ -4,7 +4,7 @@ import ca.blockflow.util.AppUtils;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -25,11 +25,16 @@ public class HelpView extends Dialog {
         super();
         setTitle("Help");
         DialogPane pane = getDialogPane();
+        pane.setMaxWidth(600);
+        pane.setMaxHeight(600);
         pane.getButtonTypes().add(ButtonType.CLOSE);
         
         //Init texts
+        ScrollPane spane = new ScrollPane();
         TextFlow texts = new TextFlow();
-        texts.setMaxWidth(600);
+        spane.setContent(texts);
+        spane.setFitToWidth(true);
+        spane.setFitToHeight(true);
         try {
             texts.getChildren().addAll(loadHelpText());
         } catch (IOException e) {
@@ -37,7 +42,7 @@ public class HelpView extends Dialog {
         }
         
         //Finalize
-        pane.setContent(new VBox(texts));
+        pane.setContent(spane);
     }
     
     private ArrayList<Text> loadHelpText() throws IOException {

@@ -1,6 +1,13 @@
-#Header
-    Body text of a paragraph. Hitting enter and starting a new line here will make a new line in the help menu as such.
-    This is now a new paragraph. "#" will create a header in a larger and bold font, but adding many pound signs will just make a header with one less pound. The text should show as one paragraph until there is a new line. Turn on "Soft Wraps" in Settings to make typing these easier.
+#Help
+This is an in-depth explanation of how to use BlockFlow!
 
-#Header #2
-    Note that pounds will only apply if they are preceded by no space and start a line. # in lines does not affect styling.
+BlockFlow is a flowchart design that works by stacking multiple 'Blocks' on top of each other. Each Block is represented with a unique color and functionality. Blocks run themselves, then all of the Blocks contained within themselves from top to bottom.
+
+    //need more stuff here
+
+#Blocks
+This section is dedicated to the explanation of each individual block type. Blocks can be added by dragging them off of the 'Block' menu presented on the left hand side of the window.
+
+Assignment Block - This block is responsible for assigning variables that have been created in the variable creation window with a value.
+If Block - This block is responsible for decision making. It is made up of two parts, If and Else. If the comparison is true, the 'If' section will be run. If the comparison is false, the 'Else' section will be run.
+For Block - This block is responsible for doing an action multiple times. It has a condition like an If Block and will run itself repeatedly until that condition is false.
