@@ -4,11 +4,7 @@ import ca.blockflow.blocks.DummyBlock;
 import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
-import ca.blockflow.views.AboutView;
-import ca.blockflow.views.FunctionBlockView;
-import ca.blockflow.views.ExceptionView;
-import ca.blockflow.views.HelpView;
-import ca.blockflow.views.VariableView;
+import ca.blockflow.views.*;
 import ca.blockflow.views.floweditor.BlockView;
 import ca.blockflow.views.floweditor.FlowView;
 import ca.blockflow.views.floweditor.HelpView;
@@ -17,7 +13,6 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -92,28 +87,20 @@ public class Main extends Application {
     private void postInit(Stage primaryStage) {
         VBox root = new VBox();
         BorderPane content = new BorderPane();
-        //FlowView flowView = new FlowView();
-        Label nodeView = new Label("nodeView");
-        
-//        Label bottomView = new Label("bottomView");
-        this.bottomView = new ExceptionView();
-        
+        bottomView = new ExceptionView();
         FlowView flowView = new FlowView();
-        Label bottomView = new Label("bottomView");
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
         BlockView bv = new FunctionBlockView(null, new DummyBlock());
-        //BlockChoiceView bcView = new BlockChoiceView(bv);
+        BlockChoiceView bcView = new BlockChoiceView(bv);
         content.setPadding(new Insets(5));
         content.setRight(varView);
-        //content.setLeft(bcView);
+        content.setLeft(bcView);
         content.setBottom(bottomView);
         content.setCenter(flowView);
         root.getChildren().addAll(menus, content);
         primaryStage.setScene(new Scene(root, 800, 800));
         flowView.setRootView(bv);
-        primaryStage.setScene(new Scene(root, 500, 500));
-        //flowView.setRootView(new BlockView());
     
         ///////////////////////////////////////////////
         try {
