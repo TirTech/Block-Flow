@@ -1,5 +1,6 @@
 package ca.blockflow.views;
 
+import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 
 import javafx.scene.layout.VBox;
@@ -12,7 +13,6 @@ public class ExceptionView extends VBox {
     
     private TextFlow console;
     private Text pathText;
-    private Font consoleFont;
     
     private Color ERROR_COLOR;
     private String PATH;
@@ -26,10 +26,9 @@ public class ExceptionView extends VBox {
         this.ERROR_COLOR = Color.RED;
         this.PATH = "C:\\blockflow\\main$";
         this.console = new TextFlow();
-        this.consoleFont = new Font("Times", 18);
         this.pathText = new Text(PATH);
     
-        pathText.setFont(consoleFont);
+        pathText.setFont(StyleUtils.consoleFont);
         console.getChildren().add(pathText);
         console.setPrefWidth(500);
         console.setPrefHeight(150);
@@ -38,8 +37,8 @@ public class ExceptionView extends VBox {
     }
     
     public void setConsole(String text) {
-        Text newText = new Text("\n" + PATH + "\t" + text + "\n");
-        newText.setFont(consoleFont);
+        Text newText = StyleUtils.consoleText("\n" + PATH + "\t" + text + "\n");
+        newText.setFont(StyleUtils.consoleFont);
         if (!text.equals("")) {
             newText.setFill(ERROR_COLOR);
         }

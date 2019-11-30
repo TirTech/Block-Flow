@@ -5,8 +5,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class StyleUtils {
+    
+    public static final Font consoleFont = new Font("Times", 18);
     
     public static Border getCurvedBorderGrey(int radius) {
         return getCurvedBorder(radius, Color.DARKGRAY);
@@ -25,5 +29,11 @@ public class StyleUtils {
         view.setPreserveRatio(true);
         view.setFitHeight(fitHeight);
         return view;
+    }
+    
+    public static Text consoleText(String s) {
+        Text text = new Text(s);
+        text.setFont(StyleUtils.consoleFont);
+        return text;
     }
 }
