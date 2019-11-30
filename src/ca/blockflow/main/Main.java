@@ -88,12 +88,8 @@ public class Main extends Application {
         VBox root = new VBox();
         BorderPane content = new BorderPane();
         bottomView = new ExceptionView();
-        BlockMenuView blockMenu = new BlockMenuView();
         FlowView flowView = new FlowView();
-        //FlowView flowView = new FlowView();
-        //Label nodeView = new Label("nodeView");
         BlockMenuView blockMenu = new BlockMenuView();
-        Label bottomView = new Label("bottomView");
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
         BlockView bv = new FunctionBlockView(null, new DummyBlock());
