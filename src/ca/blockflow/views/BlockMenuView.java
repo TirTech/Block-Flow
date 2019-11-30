@@ -14,18 +14,18 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 public class BlockMenuView extends VBox {
-    VBox basicBlocksTab = new VBox(new Text("Basic Blocks"));
+    private VBox basicBlocksTab = new VBox(new Text("Basic Blocks"));
     
     //  --- HBoxs containing selection data ---
-    HBox cVarData = new HBox(
+    private HBox cVarData = new HBox(
             StyleUtils.getVariableIcon(25),
             new Text("Variable")
     );
-    HBox cFuncData = new HBox(
+    private HBox cFuncData = new HBox(
             StyleUtils.getFunctionIcon(25),
             new Text("Function")
     );
-    HBox cLoopData = new HBox(
+    private HBox cLoopData = new HBox(
             StyleUtils.getLoopIcon(25),
             new Text("Loop")
     );
@@ -40,7 +40,7 @@ public class BlockMenuView extends VBox {
     private Pane createFunctionBlock = new Pane(funcOptionRec, cFuncData);
     private Pane createLoopBlock = new Pane(loopOptionRec, cLoopData);
     
-    VBox optionList = new VBox(createVarBlock, createFunctionBlock, createLoopBlock);
+    private VBox optionList = new VBox(createVarBlock, createFunctionBlock, createLoopBlock);
     
     /*
      * Creates a new rectangle object
@@ -132,7 +132,7 @@ public class BlockMenuView extends VBox {
     
         //  --- Block Menu Tab Setup    ---
         this.setBorder(StyleUtils.getCurvedBorderGrey(5));
-        this.setPrefSize(114, 300);
+        this.setPrefSize(112, 300);
         this.setMaxSize(150,500);
         this.setAlignment(Pos.TOP_CENTER);
         
