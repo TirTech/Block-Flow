@@ -1,6 +1,7 @@
 package ca.blockflow.blocks;
 
 import ca.blockflow.exceptions.BlockException;
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.main.Saveable;
 
@@ -29,7 +30,7 @@ public abstract class Block implements Saveable {
         this.breakpoint = breakpoint;
     }
     
-    public void callBlock(FlowState state) throws BlockException {
+    public void callBlock(FlowState state) throws BlockException, ExceptionHandler {
         Block nextBlock = call(state);
         state.setCurrentBlock(nextBlock);
     }
@@ -38,5 +39,5 @@ public abstract class Block implements Saveable {
      * <code>call</code> performs actions for this block according to state. All changes should be stored back into state
      * @param state the program state.
      */
-    public abstract Block call(FlowState state) throws BlockException;
+    public abstract Block call(FlowState state) throws BlockException, ExceptionHandler;
 }
