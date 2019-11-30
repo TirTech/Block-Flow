@@ -1,5 +1,6 @@
 # ignore compiled files and IDE output
 /out/
 /.idea/workspace.xml
+/bin/
 *.flow
 *.class
