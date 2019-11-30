@@ -89,13 +89,14 @@ public class Main extends Application {
         BorderPane content = new BorderPane();
         bottomView = new ExceptionView();
         FlowView flowView = new FlowView();
+        BlockMenuView blockMenu = new BlockMenuView();
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
         BlockView bv = new FunctionBlockView(null, new DummyBlock());
         BlockChoiceView bcView = new BlockChoiceView(bv);
         content.setPadding(new Insets(5));
         content.setRight(varView);
-        content.setLeft(bcView);
+        content.setLeft(blockMenu);
         content.setBottom(bottomView);
         content.setCenter(flowView);
         root.getChildren().addAll(menus, content);
