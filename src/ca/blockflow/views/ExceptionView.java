@@ -1,32 +1,57 @@
 package ca.blockflow.views;
 
 import ca.blockflow.util.StyleUtils;
-import javafx.scene.control.TextArea;
 
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class ExceptionView extends VBox {
     
-    private TextArea console;
-    private String path;
+    private TextFlow console;
+    private Text pathText;
+    private Font consoleFont;
+    
+    private Color ERROR_COLOR;
+    private String PATH;
     
     public ExceptionView() {
-        this.path = "C:\\blockflow\\main$";
-        this.console = new TextArea(path);
-        this.console.setFont(new Font("Times", 18));
-//        this.setWidth(500);
-//        this.setHeight(80);
-        this.setBorder(StyleUtils.getCurvedBorderGrey(5));
+        initConsole();
         this.getChildren().add(console);
-//        this.getChildren().addAll());
+    }
+    
+    private void initConsole() {
+        this.ERROR_COLOR = Color.RED;
+        this.PATH = "C:\\blockflow\\main$";
+        this.console = new TextFlow();
+        this.consoleFont = new Font("Times", 18);
+        this.pathText = new Text(PATH);
+    
+        pathText.setFont(consoleFont);
+        console.getChildren().add(pathText);
+        console.setPrefWidth(500);
+        console.setPrefHeight(150);
+    
+        this.setBorder(StyleUtils.getCurvedBorderGrey(5));
     }
     
     public void setConsole(String text) {
-        this.console.setText(path + "\t" + text);
+        Text newText = new Text("\n" + PATH + "\t" + text + "\n");
+        newText.setFont(consoleFont);
+        if (!text.equals("")) {
+            newText.setFill(ERROR_COLOR);
+        }
+        System.out.println("setting console to: " + newText);
+        this.console.getChildren().add(newText);
     }
     
     public String getConsoleText() {
-        return this.console.getText();
+        return this.console.getAccessibleText();
+    }
+    
+    public ExceptionView getInstance() {
+        return this;
     }
 }

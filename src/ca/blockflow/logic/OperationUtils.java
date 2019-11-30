@@ -1,6 +1,7 @@
 package ca.blockflow.logic;
 
 import ca.blockflow.exceptions.ExpressionException;
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.expressions.Expression;
 
 import java.math.BigDecimal;
@@ -37,10 +38,10 @@ public class OperationUtils {
         }
     }
     
-    static int mod(int l, int r) {
-        try {
+    static int mod(int l, int r) throws ExceptionHandler{
             if (r < 0) {
-                throw new ExpressionException();
+                ExpressionException.modByZeroException("ATTEMPTING to mod: " + l + " % " + r);
+                return 0;
             }
             else {
                 if (l >= 0) {
@@ -52,10 +53,6 @@ public class OperationUtils {
                     return i.modInverse(j).intValue();
                 }
             }
-        } catch (ExpressionException e) {
-            e.modByZeroException("ATTEMPTING to mod: " + l + " % " + r);
-            return 0;
-        }
     }
     
     static int intFact(int n) {
@@ -67,31 +64,23 @@ public class OperationUtils {
         }
     }
     
-    static int intDivision(int l, int r) {
-        try {
-            if (r == 0) {
-                throw new ExpressionException();
-            }
-            return l / r;
-        } catch (ExpressionException e) {
-            e.divisionByZeroException("ATTEMPTING to divide: " + l + " / " + r);
+    static int intDivision(int l, int r) throws ExceptionHandler {
+        if (r == 0) {
+            ExpressionException.divisionByZeroException("ATTEMPTING to divide: " + l + " / " + r);
             return 0;
         }
+        return l / r;
     }
     
-    static double doubleDivision(double l, double r) {
-        try {
-            if (r == 0.0) {
-                throw new ExpressionException();
-            }
-            return l / r;
-        } catch (ExpressionException e) {
-            e.divisionByZeroException("ATTEMPTING to divide: " + l + " / " + r);
+    static double doubleDivision(double l, double r) throws ExceptionHandler{
+        if (r == 0.0) {
+            ExpressionException.divisionByZeroException("ATTEMPTING to divide: " + l + " / " + r);
             return 0;
         }
+        return l / r;
     }
     
-    static boolean greaterThan(Object lVal, Object rVal) {
+    static boolean greaterThan(Object lVal, Object rVal) throws ExceptionHandler {
         boolean lIsInt = validInt(lVal);
         boolean rIsInt = validInt(rVal);
         boolean lIsDouble = validDouble(lVal);
@@ -101,7 +90,6 @@ public class OperationUtils {
         boolean lIsBoolean = validBoolean(lVal);
         boolean rIsBoolean = validBoolean(rVal);
     
-        try {
             if (lIsInt && rIsInt) {
                 return intValue(lVal) > intValue(rVal);
             } else if (lIsDouble && rIsDouble) {
@@ -127,16 +115,12 @@ public class OperationUtils {
                 return lIntVal > rIntVal;
             } else {
                 // throw error? HARD CODE?
-                throw new ExpressionException();
+                ExpressionException.comparisonException("Trying to compare: " + lVal + " < " + rVal);
+                return false;
             }
-        }
-        catch(ExpressionException e) {
-            e.comparisonException("Trying to compare: " + lVal + " < " + rVal);
-            return false;
-        }
     }
     
-    static boolean lessThan(Object lVal, Object rVal) {
+    static boolean lessThan(Object lVal, Object rVal) throws ExceptionHandler {
         boolean lIsInt = validInt(lVal);
         boolean rIsInt = validInt(rVal);
         boolean lIsDouble = validDouble(lVal);
@@ -146,7 +130,6 @@ public class OperationUtils {
         boolean lIsBoolean = validBoolean(lVal);
         boolean rIsBoolean = validBoolean(rVal);
         
-        try {
             if (lIsInt && rIsInt) {
                 return intValue(lVal) < intValue(rVal);
             } else if (lIsDouble && rIsDouble) {
@@ -172,16 +155,12 @@ public class OperationUtils {
                 return lIntVal < rIntVal;
             } else {
                 // throw error? HARD CODE
-                throw  new ExpressionException();
+                 ExpressionException.comparisonException("Trying to compare: " + lVal + " < " + rVal);
+                return false;
             }
-        }
-        catch (ExpressionException e) {
-            e.comparisonException("Trying to compare: " + lVal + " < " + rVal);
-            return false;
-        }
     }
     
-    private static boolean[] boolValues(Object lVal, Object rVal) throws ExpressionException{
+    private static boolean[] boolValues(Object lVal, Object rVal) throws ExceptionHandler{
         boolean lIsInt = validInt(lVal);
         boolean rIsInt = validInt(rVal);
         boolean lIsDouble = validDouble(lVal);
@@ -221,16 +200,12 @@ public class OperationUtils {
         return lVal.equals(rVal);
     }
     
-    static String indexSearch(Object lst, int index) {
+    static String indexSearch(Object lst, int index) throws ExceptionHandler{
         String word = (String) lst;
-        try {
-            if (index >= 0 && index < word.length()) {
-                return word.charAt(index) + "";
-            } else {
-                throw new ExpressionException();
-            }
-        } catch (ExpressionException e) {
-            e.indexOutOfRangeException("ATTEMPTING get element " + index + ", from a string of size " + word.length());
+        if (index >= 0 && index < word.length()) {
+            return word.charAt(index) + "";
+        } else {
+            ExpressionException.indexOutOfRangeException("ATTEMPTING get element " + index + ", from a string of size " + word.length());
             return "";
         }
     }
@@ -323,15 +298,15 @@ public class OperationUtils {
         return 0;
     }
     
-    static Object genericVal(Expression e) {
+    static Object genericVal(Expression e) throws ExceptionHandler {
         return Operation.getExpValue(e).getValue();
     }
     
-    static boolean booleanVal(Expression e) {
+    static boolean booleanVal(Expression e) throws ExceptionHandler {
         return (boolean) Operation.getExpValue(e).getValue();
     }
     
-    static int intValue(Expression e) {
+    static int intValue(Expression e) throws ExceptionHandler {
         return (int) Operation.getExpValue(e).getValue();
     }
     
@@ -355,7 +330,7 @@ public class OperationUtils {
         }
     }
     
-    static double doubleValue(Expression e) {
+    static double doubleValue(Expression e) throws ExceptionHandler {
         Object o = Operation.getExpValue(e).getValue();
         if (validInt(o)) {
             return new Double(o.toString());

@@ -1,5 +1,6 @@
 package ca.blockflow.expressions;
 
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.exceptions.ExpressionException;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Operation;
@@ -24,7 +25,7 @@ public class Expression {
         this.flowState = flowState;
     }
     
-    public Expression simpleAssignExpression(Variable v) {
+    public Expression simpleAssignExpression(Variable v) throws ExceptionHandler {
         Expression e = new Expression();
         e.setValue(v);
 //        e.setOperation(Operation.NO_OP);
@@ -32,57 +33,46 @@ public class Expression {
         return e;
     }
     
-    public boolean initExpression(Expression a, Operation o, Expression b) {
-        try {
-            if (a == null && value == null) {
-                throw new ExpressionException();
-            }
-            else if (value != null){
-                ///////////////////////////////////
-            }
-            else if (o == null) {
-                o = Operation.NO_OP;
-            }
-            this.operandA = a;
-            this.operation = o;
-            this.operandB = b;
-            return true;
+    public boolean initExpression(Expression a, Operation o, Expression b) throws ExceptionHandler {
+        if (a == null && value == null) {
+            ExpressionException.creationException("Unable to create an expression for:\n\tA\t-\t<" +
+                                                  a + ">\n\tOP\t-\t<" +
+                                                  o + ">\n\tB\t-\t<" +
+                                                  b + ">");
         }
-        catch (ExpressionException e) {
-            e.creationException("Unable to create an expression for:\n\tA\t-\t<" +
-                                a + ">\n\tOP\t-\t<" +
-                                o + ">\n\tB\t-\t<" +
-                                b + ">");
-            return false;
+        else if (value != null){
+            ///////////////////////////////////
         }
+        else if (o == null) {
+            o = Operation.NO_OP;
+        }
+        this.operandA = a;
+        this.operation = o;
+        this.operandB = b;
+        return true;
     }
 
-    public Variable evaluateExpression() {
-        try {
-            if (operation == Operation.NO_OP) {
-                if (value != null) {
-                    String name  = value.getName();
-                    Variable v = this.flowState.getVar(name);
-                    if (v != null) {
-                        return v != null ? v : value;
-                    }
-                    else {
-                        return value;
-                    }
-                } else {
-                    throw new ExpressionException();
+    public Variable evaluateExpression() throws ExceptionHandler {
+        if (operation == Operation.NO_OP) {
+            if (value != null) {
+                String name  = value.getName();
+                Variable v = this.flowState.getVar(name);
+                if (v != null) {
+                    return v != null ? v : value;
                 }
-            }
-            else if (value != null && operandB == null) {
-                return value;
-            }
-            else {
-                return operation.perform(operandA, operandB);
+                else {
+                    return value;
+                }
+            } else {
+                ExpressionException.unassignedExpression("Tried to evaluate expression: " + operation + "(" + operandA + ", " + operandB + ")");;
+                return null;
             }
         }
-        catch (ExpressionException e) {
-            e.unassignedExpression("Tried to evaluate expression: " + operation + "(" + operandA + ", " + operandB + ")");
-            return null;
+        else if (value != null && operandB == null) {
+            return value;
+        }
+        else {
+            return operation.perform(operandA, operandB);
         }
     }
     
