@@ -1,6 +1,7 @@
 package ca.blockflow.blocks;
 
 import ca.blockflow.exceptions.BlockException;
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.expressions.Expression;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
@@ -31,7 +32,7 @@ public class AssignmentBlock extends Block {
     }
     
     @Override
-    public Block call(FlowState state) throws BlockException {
+    public Block call(FlowState state) throws BlockException, ExceptionHandler {
         //get list of variables from state and present in dropdown for assignment
         //ok so state.getVar() returns single item
     
@@ -46,7 +47,7 @@ public class AssignmentBlock extends Block {
         //evaluates the given expression to a value and sets it to the expression variable value
         expVar = expression.evaluateExpression();
         
-        //type check intended/desired vs given
+        //type check intended/desired vs given0
         if(var.getType() == expVar.getType()){
             var.setValue(expVar.getValue());
         }

@@ -42,13 +42,13 @@ public class NewVariableView extends GridPane {
         
         // Fix bad input in spinner fields
         spinInt.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && ! newVal.matches("[0-9]*")) {
+            if (newVal != null && ! newVal.matches("-?[0-9]*")) {
                 spinInt.getEditor().setText(oldVal);
             }
         });
         
         spinDouble.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && ! newVal.matches("[0-9]*\\.?[0-9]*")) {
+            if (newVal != null && ! newVal.matches("-?[0-9]*\\.?[0-9]*")) {
                 spinDouble.getEditor().setText(oldVal);
             }
         });

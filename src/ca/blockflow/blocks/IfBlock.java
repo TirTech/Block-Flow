@@ -1,6 +1,7 @@
 package ca.blockflow.blocks;
 
 import ca.blockflow.exceptions.BlockException;
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.expressions.Expression;
 import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.flows.FlowState;
@@ -26,7 +27,7 @@ public class IfBlock {
         //empty constructor
     }
     
-    public Block call(FlowState state) throws BlockException {
+    public Block call(FlowState state) throws BlockException, ExceptionHandler {
         //needs to get expression from view to evaluate
         Block subBlock = null;
         Variable boolVar = expression.evaluateExpression();
