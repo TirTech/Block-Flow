@@ -1,64 +1,41 @@
 package ca.blockflow.exceptions;
 
-public class ExpressionException extends Exception {
+import java.util.Arrays;
+
+public class ExpressionException extends Exception{
     
-    private final boolean PRINT_STACK_TRACES = false;
-    private final String BORDER = "############################################################";
+    private static final String NEW_LINE_SPACE = "\n\t\t\t\t\t";
     
     public ExpressionException() {
     }
     
-    public void divisionByZeroException(String errorMessage) {
-        System.out.println(BORDER);
-        System.out.println("\tDivision by zero.\n" + errorMessage + ".");
-        if (PRINT_STACK_TRACES) {
-            this.printStackTrace();
-        }
-        System.out.println(BORDER);
+    public static void divisionByZeroException(String errorMessage) throws ExceptionHandler {
+        errorMessage = "\tDivision by zero." + NEW_LINE_SPACE + errorMessage + ".";
+        throw new ExceptionHandler(errorMessage);
     }
     
-    public void indexOutOfRangeException(String errorMessage) {
-        System.out.println(BORDER);
-        System.out.println("\tIndex out of range.\n" + errorMessage + ".");
-        if (PRINT_STACK_TRACES) {
-            this.printStackTrace();
-        }
-        System.out.println(BORDER);
+    public static void indexOutOfRangeException(String errorMessage) throws ExceptionHandler{
+        errorMessage = "\tIndex out of range." + NEW_LINE_SPACE + errorMessage + ".";
+        throw new ExceptionHandler(errorMessage);
     }
     
-    public void modByZeroException(String errorMessage) {
-        System.out.println(BORDER);
-        System.out.println("\tModulus invalid.\n" + errorMessage + ".");
-        if (PRINT_STACK_TRACES) {
-            this.printStackTrace();
-        }
-        System.out.println(BORDER);
+    public static void modByZeroException(String errorMessage) throws ExceptionHandler{
+        errorMessage = "\tModulus invalid." + NEW_LINE_SPACE + errorMessage + ".";
+        throw new ExceptionHandler(errorMessage);
     }
     
-    public void creationException(String errorMessage) {
-        System.out.println(BORDER);
-        System.out.println("\tExpression creation failed.\n" + errorMessage + ".");
-        if (PRINT_STACK_TRACES) {
-            this.printStackTrace();
-        }
-        System.out.println(BORDER);
+    public static void creationException(String errorMessage) throws ExceptionHandler {
+        errorMessage = "\tExpression creation failed." + NEW_LINE_SPACE + errorMessage + ".";
+        throw new ExceptionHandler(errorMessage);
     }
     
-    public void unassignedExpression(String errorMessage) {
-        System.out.println(BORDER);
-        System.out.println("\tExpression cannot be evaluated.\n" + errorMessage + ".");
-        if (PRINT_STACK_TRACES) {
-            this.printStackTrace();
-        }
-        System.out.println(BORDER);
+    public static void unassignedExpression(String errorMessage) throws ExceptionHandler {
+        errorMessage = "\tExpression cannot be evaluated." + NEW_LINE_SPACE + errorMessage + ".";
+        throw new ExceptionHandler(errorMessage);
     }
     
-    public void comparisonException(String errorMessage) {
-        System.out.println(BORDER);
-        System.out.println("\tComparison values invalid.\n" + errorMessage + ".");
-        if (PRINT_STACK_TRACES) {
-            this.printStackTrace();
-        }
-        System.out.println(BORDER);
+    public static void comparisonException(String errorMessage) throws ExceptionHandler {
+        errorMessage = "\tComparison values invalid." + NEW_LINE_SPACE + errorMessage + ".";
+        throw new ExceptionHandler(errorMessage);
     }
 }

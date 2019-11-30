@@ -1,6 +1,7 @@
 package ca.blockflow.testing;
 
 import ca.blockflow.blocks.Block;
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.exceptions.InvalidFlowStateException;
 import ca.blockflow.exceptions.MissingFlowStateException;
 import ca.blockflow.expressions.SupportedTypes;
@@ -13,7 +14,7 @@ import ca.blockflow.logic.Variable;
  * Do whatever with this class. I just use it for testing to keep the rest of the code clean
  */
 public class TestingCode {
-    public static void test() {
+    public static void test() throws ExceptionHandler {
         //testFlowEngineStepping();
         //testFlowEnginePausing();
         //testScoping();

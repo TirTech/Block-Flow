@@ -1,5 +1,6 @@
 package ca.blockflow.logic;
 
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.expressions.Expression;
 
 import java.util.function.BiFunction;
@@ -142,16 +143,16 @@ public enum Operation {
                               OperationUtils.equals(lVal, rVal) || lessThan(lVal, rVal));
     });
     
-    private BiFunction<Expression,Expression,Variable> func;
+    private BiFunctionUtil<Expression,Expression,Variable> func;
 
-    Operation(BiFunction<Expression, Expression, Variable> func) {
+    Operation(BiFunctionUtil<Expression, Expression, Variable> func) {
         this.func = func;
     }
 
-    public Variable perform(Expression l, Expression r) {
+    public Variable perform(Expression l, Expression r) throws ExceptionHandler {
         return this.func.apply(l, r);
     }
 
-    public static Variable getExpValue(Expression exp) { return exp.evaluateExpression(); }
+    public static Variable getExpValue(Expression exp) throws ExceptionHandler { return exp.evaluateExpression(); }
     
 }

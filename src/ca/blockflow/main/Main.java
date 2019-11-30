@@ -1,8 +1,10 @@
 package ca.blockflow.main;
 
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.AboutView;
+import ca.blockflow.views.ExceptionView;
 import ca.blockflow.views.HelpView;
 import ca.blockflow.views.VariableView;
 import javafx.animation.FadeTransition;
@@ -21,6 +23,8 @@ import javafx.util.Duration;
 
 public class Main extends Application {
     
+    private static ExceptionView bottomView;
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -29,7 +33,7 @@ public class Main extends Application {
         System.out.println("Bye!");
     }
     
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws ExceptionHandler {
         doSplash(primaryStage);
     }
     
@@ -74,7 +78,6 @@ public class Main extends Application {
      */
     private void preInit(Stage primaryStage) {
         // Do stuff
-        TestingCode.test();
     }
     
     /**
@@ -86,7 +89,10 @@ public class Main extends Application {
         BorderPane content = new BorderPane();
         //FlowView flowView = new FlowView();
         Label nodeView = new Label("nodeView");
-        Label bottomView = new Label("bottomView");
+        
+//        Label bottomView = new Label("bottomView");
+        this.bottomView = new ExceptionView();
+        
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
         content.setPadding(new Insets(5));
@@ -97,6 +103,14 @@ public class Main extends Application {
         root.getChildren().addAll(menus, content);
         primaryStage.setScene(new Scene(root, 500, 500));
         //flowView.setRootView(new BlockView());
+    
+        ///////////////////////////////////////////////
+        try {
+            TestingCode.test();
+        } catch (ExceptionHandler exceptionHandler) {
+            exceptionHandler.printStackTrace();
+        }
+        //////////////////////////////////////////////
     }
     
     private MenuBar buildMenuBar() {
@@ -118,5 +132,9 @@ public class Main extends Application {
         });
         
         return menu;
+    }
+    
+    public static ExceptionView getConsoleView() {
+        return bottomView;
     }
 }
