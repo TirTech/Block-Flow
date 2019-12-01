@@ -41,6 +41,4 @@ public class FlowView extends ScrollPane {
         this.rootView = view;
         this.setContent(rootView);
     }
-    
-    
 }

@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Collection;
+
 /**
  * Saves the state of a flowchart execution, including variables, current block, and the state of the flow execution
  */
@@ -112,6 +114,15 @@ public class FlowState {
      */
     public SimpleListProperty<Scope> scopesProperty() {
         return scopes;
+    }
+    
+    /**
+     * Adds the variables to the current scope. If the variable already exists it will not be changed
+     * @param vars the variables to add
+     */
+    public void addVars(Collection<Variable> vars) {
+        Variable[] v = new Variable[vars.size()];
+        addVars(vars.toArray(v));
     }
     
     /**

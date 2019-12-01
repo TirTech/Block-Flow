@@ -7,7 +7,7 @@ import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
-public class IfBlock {
+public class IfBlock extends Block {
     
     /**
      * The expression given to assignment block from the BlockView.
@@ -50,12 +50,12 @@ public class IfBlock {
         return subBlock;
     }//end call
     
-    //@Override
+    @Override
     public String[] getSubblockNames() {
         return new String[]{"True", "False"};
     }
     
-    //@Override
+    @Override
     public void setSubblock(String name, Block block) {
         switch (name) {
             case "True":

@@ -1,7 +1,10 @@
 package ca.blockflow.views.floweditor;
 
 import ca.blockflow.blocks.Block;
+import ca.blockflow.blocks.BlockTypes;
+import ca.blockflow.main.AppModel;
 import ca.blockflow.util.StyleUtils;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -17,21 +20,33 @@ public class BlockView extends VBox {
     private static int UUID_GLOBAL = 0;
     private final int UUID = ++ UUID_GLOBAL;
     private Label nameLabel = new Label("New Block" + ">" + UUID);
-    private Color blockColor = Color.DODGERBLUE;
+    private SimpleObjectProperty<Color> blockColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
     private Block backingBlock;
     private ArrayList<SubblockContainer> containers = new ArrayList<>();
     private SubblockContainer parent;
+    private BlockTypes type;
     
-    public BlockView(SubblockContainer parent, Block backingBlock) {
+    public BlockView(SubblockContainer parent, BlockTypes type) {
         super();
-        this.parent = parent;
-        this.backingBlock = backingBlock;
-        initView();
+        try {
+            this.parent = parent;
+            this.backingBlock = type.getBlockClass().newInstance();
+            this.nameLabel.setText(type.getBlockName());
+            this.type = type;
+            initView();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
     
     private void initView() {
-        this.setBorder(StyleUtils.getCurvedBorder(5, blockColor.darker()));
-        this.setBackground(StyleUtils.solidBackground(blockColor, 5));
+        this.blockColor.bind(AppModel.getInstance().getColors().getColor(type));
+        blockColor.addListener((obs, oldVal, newVal) -> {
+            this.setBackground(StyleUtils.solidBackground(newVal, 5));
+            this.setBorder(StyleUtils.getCurvedBorder(5, newVal.darker()));
+        });
+        this.setBorder(StyleUtils.getCurvedBorder(5, blockColor.get().darker()));
+        this.setBackground(StyleUtils.solidBackground(blockColor.get(), 5));
         this.setSpacing(5);
         this.setPadding(new Insets(5));
         this.getChildren().addAll(nameLabel);
@@ -40,7 +55,7 @@ public class BlockView extends VBox {
                 Arrays.stream(backingBlock.getSubblockNames()))
                                    .toArray(String[]::new);
         for (String sub : subblocks) {
-            SubblockContainer container = new SubblockContainer(sub, new Color(Math.random(), Math.random(), Math.random(), 1.0), this);
+            SubblockContainer container = new SubblockContainer(sub, blockColor, this);
             this.containers.add(container);
             this.getChildren().add(container);
         }

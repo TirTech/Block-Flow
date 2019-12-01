@@ -1,6 +1,7 @@
 package ca.blockflow.controllers;
 
 import ca.blockflow.blocks.Block;
+import ca.blockflow.blocks.BlockTypes;
 import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.floweditor.BlockView;
@@ -28,14 +29,19 @@ public class SubblockContainerController {
             d.consume();
         });
         view.setOnDragDropped(e -> {
-            Block draggedBlock = (Block) e.getDragboard().getContent(AppUtils.REF_BLOCK);
-            if (draggedBlock != null) {
-                System.out.println("OOO A BLOCK DRAG!");
-                BlockView newBlock = new BlockView(view, draggedBlock);
-                view.getSubblocks().add(newBlock);
-                view.getChildren().add(newBlock);
-                e.setDropCompleted(true);
-                e.consume(); //Required to prevent duplicates up the event tree
+            try {
+                BlockTypes type = (BlockTypes) e.getDragboard().getContent(AppUtils.REF_BLOCK);
+                if (type != null) {
+                    Block draggedBlock = type.getBlockClass().newInstance();
+                    System.out.println("OOO A BLOCK DRAG!");
+                    BlockView newBlock = new BlockView(view, type);
+                    view.getSubblocks().add(newBlock);
+                    view.getChildren().add(newBlock);
+                    e.setDropCompleted(true);
+                    e.consume(); //Required to prevent duplicates up the event tree
+                }
+            } catch (IllegalAccessException | InstantiationException e1) {
+                e1.printStackTrace();
             }
         });
         view.setOnDragEntered(e -> view.setBorder(StyleUtils.getCurvedBorderBold(5, Color.BLACK)));

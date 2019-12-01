@@ -5,23 +5,31 @@ import javafx.scene.image.ImageView;
 
 
 public enum BlockTypes {
-    FUNCTION("Function", "function_icon.png", "FunctionBlock"),
-    IF("If", "if_icon.png", "IfBlock"),
-    LOOP("Loop", "loop_icon.png", "LoopBlock"),
-    VARIABLE("Variable", "variable_icon.png", "AssignmentBlock");
+    FUNCTION("Function", "function_icon.png", FunctionBlock.class),
+    IF("If", "if_icon.png", IfBlock.class),
+    ASSIGNMENT("Assignment", "variable_icon.png", AssignmentBlock.class);
     
     private final String blockName;
     private final String iconPath;
-    private final String blockType;
+    private final Class<? extends Block> blockClass;
+    
     /**
      * @param blockName The string name of the block type
      * @param iconPath the path of the image icon
-     * @param blockType the block type name
-     */
-    BlockTypes(String blockName, String iconPath, String blockType) {
+     * @param blockClass the block's class
+     * */
+    BlockTypes(String blockName, String iconPath, Class<? extends Block> blockClass) {
         this.blockName = blockName;
         this.iconPath = iconPath;
-        this.blockType = blockType;
+        this.blockClass = blockClass;
+    }
+    
+    /**
+     * Gets the class that this type represents
+     * @return the backing class
+     */
+    public Class<? extends Block> getBlockClass() {
+        return blockClass;
     }
     
     /**
@@ -30,24 +38,19 @@ public enum BlockTypes {
     public String getBlockName(){return blockName;}
     
     /**
-     * @return returns the block type used as a string
-     */
-    public String getBlockType(){return  blockType;}
-    
-    /**
      * @param fitHeight The size of the icon to return
      * @return returns the icon of the block as an ImageView
      */
-    public ImageView getIcon(int fitHeight){return StyleUtils.getImage(this.iconPath, fitHeight);}
+    public ImageView getIcon(int fitHeight) {return StyleUtils.getImage("icons/" + this.iconPath, fitHeight);}
     
     /**
      * @return returns a drag sized icon image
      */
-    public ImageView getDragIcon(){return StyleUtils.getImage( "drag_" + this.iconPath, 15);}
+    public ImageView getDragIcon() {return StyleUtils.getImage("icons/" + "drag_" + this.iconPath, 15);}
     
     /**
      * @return returns the string path of the icon image
      */
-    public String getIconPath(){return iconPath;}
+    public String getIconPath() {return "icons/" + iconPath;}
 }
 

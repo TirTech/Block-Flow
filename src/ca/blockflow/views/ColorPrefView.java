@@ -1,8 +1,9 @@
 package ca.blockflow.views;
 
+import ca.blockflow.blocks.BlockTypes;
+import ca.blockflow.main.AppModel;
 import ca.blockflow.util.StyleUtils;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
@@ -11,6 +12,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Arrays;
+
 public class ColorPrefView extends Dialog {
     
     public ColorPrefView() {
@@ -18,20 +21,12 @@ public class ColorPrefView extends Dialog {
         setTitle("Color Picker");
         //create color picker
     
-        ObservableList<String> blockNames =
-                FXCollections.observableArrayList(
-                        "Assignment Block",
-                        "Function Block",
-                        "If-Else Block",
-                        "For-Loop Block");
-    
-        ComboBox blockOptions = new ComboBox<>(blockNames);
-        blockOptions.getSelectionModel().selectFirst();
+        ComboBox<BlockTypes> blockOptions = new ComboBox<>(FXCollections.observableArrayList(Arrays.asList(BlockTypes.values())));
     
         Rectangle rect = new Rectangle(50, 15);
         rect.setFill(Color.WHITE);
         ColorPicker cPicker = new ColorPicker(Color.BLUE);
-        BlockColorPalette colorPalette = new BlockColorPalette();
+        BlockColorPalette colorPalette = AppModel.getInstance().getColors();
     
         Label cPickerLabel = new Label("Pick a block and a Color.");
         cPicker.getStyleClass().add("button");
@@ -40,42 +35,13 @@ public class ColorPrefView extends Dialog {
     
         setColorBtn.setOnAction(e -> {
             rect.setFill(cPicker.getValue());
-            if (blockOptions.getValue().equals("Assignment Block")) {
-                colorPalette.setAsnBlockColor(cPicker.getValue());
-            }
-            if (blockOptions.getValue().equals("Function Block")) {
-                colorPalette.setFuncBlockColor(cPicker.getValue());
-            }
-            if (blockOptions.getValue().equals("If-Else Block")) {
-                colorPalette.setIfBlockColor(cPicker.getValue());
-            }
-            if (blockOptions.getValue().equals("For-Loop Block")) {
-                colorPalette.setForBlockColor(cPicker.getValue());
-            }
+            colorPalette.setColor(blockOptions.getValue(), cPicker.getValue());
         });
     
         blockOptions.valueProperty().addListener((obs, old, newVal) -> {
             //set color of picker based on selected block
-            if (newVal.equals("Assignment Block")) {
-                cPicker.setValue(colorPalette.getAsnBlockColor());
-                rect.setFill(cPicker.getValue());
-            
-            }
-            if (newVal.equals("Function Block")) {
-                cPicker.setValue(colorPalette.getFuncBlockColor());
-                rect.setFill(cPicker.getValue());
-            
-            }
-            if (newVal.equals("If-Else Block")) {
-                cPicker.setValue(colorPalette.getIfBlockColor());
-                rect.setFill(cPicker.getValue());
-            
-            }
-            if (newVal.equals("For-Loop Block")) {
-                cPicker.setValue(colorPalette.getForBlockColor());
-                rect.setFill(cPicker.getValue());
-            
-            }
+            cPicker.setValue(colorPalette.getColor(blockOptions.getValue()).get());
+            rect.setFill(cPicker.getValue());
         });
         /*
         These panes are a mess.
@@ -120,7 +86,8 @@ public class ColorPrefView extends Dialog {
     
         pane.setContent(rootGPane);
         //help with block dropdown selection
-        
+    
+        blockOptions.getSelectionModel().selectFirst();
     }//end constructor
     
     

@@ -1,61 +1,29 @@
 package ca.blockflow.views;
 
-import ca.blockflow.blocks.Block;
+import ca.blockflow.blocks.BlockTypes;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
+
+import java.util.HashMap;
 
 public class BlockColorPalette {
     
-    private Color forBlockColor;
-    private Color ifBlockColor;
-    private Color asnBlockColor;
-    private Color funcBlockColor;
+    private HashMap<BlockTypes, SimpleObjectProperty<Color>> colors = new HashMap<>();
     
     //any blocks added just need to be added with g/setters
     public BlockColorPalette() {
         //default color for binding testing
-        forBlockColor = Color.GRAY;
-        ifBlockColor = Color.GRAY;
-        asnBlockColor = Color.GRAY;
-        funcBlockColor = Color.GRAY;
+        for (BlockTypes value : BlockTypes.values()) {
+            colors.put(value, new SimpleObjectProperty<>(Color.ROYALBLUE));
+        }
     }
     
-    public Color getForBlockColor() {
-        return this.forBlockColor;
+    public void setColor(BlockTypes type, Color color) {
+        colors.get(type).set(color);
     }
     
-    public void setForBlockColor(Color color) {
-        forBlockColor = color;
-    }
-    
-    public Color getIfBlockColor() {
-        return this.ifBlockColor;
-    }
-    
-    public void setIfBlockColor(Color color) {
-        ifBlockColor = color;
-    }
-    
-    public Color getFuncBlockColor() {
-        return this.funcBlockColor;
-    }
-    
-    public void setFuncBlockColor(Color color) {
-        funcBlockColor = color;
-    }
-    
-    public Color getAsnBlockColor() {
-        return this.asnBlockColor;
-    }
-    
-    public void setAsnBlockColor(Color color) {
-        asnBlockColor = color;
-    }
-    
-    public Color getColorForBlockType(Block block) {
+    public SimpleObjectProperty<Color> getColor(BlockTypes type) {
         //grab block type and return the color of that block
-        Color color = null;
-        
-        
-        return color;
+        return colors.get(type);
     }
 }
