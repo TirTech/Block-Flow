@@ -39,30 +39,22 @@ public class StyleUtils {
         return view;
     }
     
-    public static ImageView getVariableIcon(double fitHeight){
-        ImageView view = new ImageView(new Image("variable_icon.png"));
-        view.setPreserveRatio(true);
-        view.setFitHeight(fitHeight);
-        return view;
-    }
-    
-    public static ImageView getFunctionIcon(double fitHeight){
-        ImageView view = new ImageView(new Image("function_icon.png"));
-        view.setPreserveRatio(true);
-        view.setFitHeight(fitHeight);
-        return view;
-    }
-    
-    public static ImageView getLoopIcon(double fitHeight){
-        ImageView view = new ImageView(new Image("loop_icon.png"));
-        view.setPreserveRatio(true);
-        view.setFitHeight(fitHeight);
-        return view;
-    }
-    
     public static Text consoleText(String s) {
         Text text = new Text(s);
         text.setFont(StyleUtils.consoleFont);
         return text;
+    }
+    
+    /**
+     * Gets the Image at the given path
+     * @param path the path of the image file
+     * @param fitHeight the desired size of the image
+     * @return returns the Image at the path location as an ImageView
+     */
+    public static ImageView getImage(String path, double fitHeight) {
+        ImageView view = new ImageView(new Image(path));
+        view.setPreserveRatio(true);
+        view.setFitHeight(fitHeight);
+        return view;
     }
 }

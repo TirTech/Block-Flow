@@ -1,16 +1,20 @@
 package ca.blockflow.views;
 
+import ca.blockflow.blocks.BlockTypes;
+import ca.blockflow.blocks.DummyBlock;
+import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 public class BlockMenuView extends VBox {
@@ -18,16 +22,16 @@ public class BlockMenuView extends VBox {
     
     //  --- HBoxs containing selection data ---
     private HBox cVarData = new HBox(
-            StyleUtils.getVariableIcon(25),
-            new Text("Variable")
+            BlockTypes.VARIABLE.getIcon(25),
+            new Text(BlockTypes.VARIABLE.getBlockName())
     );
     private HBox cFuncData = new HBox(
-            StyleUtils.getFunctionIcon(25),
-            new Text("Function")
+            BlockTypes.FUNCTION.getIcon(25),
+            new Text(BlockTypes.FUNCTION.getBlockName())
     );
     private HBox cLoopData = new HBox(
-            StyleUtils.getLoopIcon(25),
-            new Text("Loop")
+            BlockTypes.LOOP.getIcon(25),
+            new Text(BlockTypes.LOOP.getBlockName())
     );
     
     //  --- Selection Background Object Shapes    ---
@@ -66,28 +70,66 @@ public class BlockMenuView extends VBox {
         return rectangle;
     }
     
+    /**
+     * Creates a drag event
+     * @param d the event being consumed
+     * @param blockType the block type of the block being dragged and added
+     */
+    private void createDrag(Event d, BlockTypes blockType){
+        System.out.println("DRAG STARTED!");
+        Dragboard db = this.startDragAndDrop(TransferMode.ANY);
+        ClipboardContent content = new ClipboardContent();
+        content.put(AppUtils.REF_BLOCK, new DummyBlock());
+        db.setContent(content);
+        db.setDragView(blockType.getDragIcon().getImage());
+        d.consume();
+    }
+    
+    /**
+     * Creates all the Selection Listeners
+     */
     private void setSelectionListeners(){
         //  --- Create Variable Block Listeners ---
         createVarBlock.setOnMousePressed(e -> {
             varOptionRec.strokeWidthProperty().set(3);
         });
+        createVarBlock.setOnDragDetected(d -> {
+            createDrag(d, BlockTypes.VARIABLE);
+        });
         createVarBlock.setOnMouseReleased(e -> {
             varOptionRec.strokeWidthProperty().set(1);
         });
+        createVarBlock.setOnDragOver(d ->{
+            varOptionRec.strokeWidthProperty().set(1);
+        });
+        
     
         //  --- Create Function Block Listeners ---
         createFunctionBlock.setOnMousePressed(e -> {
             funcOptionRec.strokeWidthProperty().set(3);
         });
+        createFunctionBlock.setOnDragDetected(d -> {
+            createDrag(d, BlockTypes.FUNCTION);
+        });
         createFunctionBlock.setOnMouseReleased(e -> {
             funcOptionRec.strokeWidthProperty().set(1);
         });
+        createFunctionBlock.setOnDragOver(d -> {
+            funcOptionRec.strokeWidthProperty().set(1);
+        });
+        
     
         //  --- Create Loop Block Listeners ---
         createLoopBlock.setOnMousePressed(e -> {
             loopOptionRec.strokeWidthProperty().set(3);
         });
+        createLoopBlock.setOnDragDetected(d -> {
+            createDrag(d, BlockTypes.LOOP);
+        });
         createLoopBlock.setOnMouseReleased(e -> {
+            loopOptionRec.strokeWidthProperty().set(1);
+        });
+        createLoopBlock.setOnDragOver(d -> {
             loopOptionRec.strokeWidthProperty().set(1);
         });
     }
