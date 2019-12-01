@@ -47,7 +47,7 @@ public class AssignmentBlock extends Block {
         //evaluates the given expression to a value and sets it to the expression variable value
         expVar = expression.evaluateExpression();
         
-        //type check intended/desired vs given0
+        //type check intended/desired vs given
         if(var.getType() == expVar.getType()){
             var.setValue(expVar.getValue());
         }

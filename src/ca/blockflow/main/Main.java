@@ -2,6 +2,9 @@ package ca.blockflow.main;
 
 import ca.blockflow.blocks.DummyBlock;
 import ca.blockflow.exceptions.ExceptionHandler;
+import ca.blockflow.expressions.Expression;
+import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.Variable;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.*;
@@ -11,15 +14,23 @@ import ca.blockflow.views.floweditor.HelpView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main extends Application {
     
@@ -91,10 +102,22 @@ public class Main extends Application {
     private void postInit(Stage primaryStage) {
         VBox root = new VBox();
         BorderPane content = new BorderPane();
-        bottomView = new ExceptionView();
         FlowView flowView = new FlowView();
         BlockMenuView blockMenu = new BlockMenuView();
         VariableView varView = new VariableView(FXCollections.observableArrayList());
+        bottomView = new ExceptionView();
+        
+//        ArrayList<Variable> vars = new ArrayList<>();
+//        Variable a = new Variable("a", SupportedTypes.INT, 5);
+//        Variable b = new Variable("b", SupportedTypes.INT, -5);
+//        Variable c = new Variable("c", SupportedTypes.INT, 2);
+//        Variable d = new Variable("d", SupportedTypes.DOUBLE, 5.26);
+//        Variable e = new Variable("e", SupportedTypes.STRING, "string");
+//        Variable f = new Variable("f", SupportedTypes.BOOLEAN, true);
+//        vars.addAll(Arrays.asList(a, b, c, d, e, f));
+//
+//
+//        bottomView = new ExpressionsView(SupportedTypes.DOUBLE, FXCollections.observableArrayList(vars));
         MenuBar menus = buildMenuBar();
         BlockView bv = new FunctionBlockView(null, new DummyBlock());
         BlockChoiceView bcView = new BlockChoiceView(bv);
