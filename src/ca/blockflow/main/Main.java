@@ -1,17 +1,18 @@
 package ca.blockflow.main;
 
+import ca.blockflow.blocks.DummyBlock;
+import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
-import ca.blockflow.views.AboutView;
-import ca.blockflow.views.ColorPrefView;
-import ca.blockflow.views.HelpView;
-import ca.blockflow.views.VariableView;
+import ca.blockflow.views.*;
+import ca.blockflow.views.floweditor.BlockView;
+import ca.blockflow.views.floweditor.FlowView;
+import ca.blockflow.views.floweditor.HelpView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -22,6 +23,8 @@ import javafx.util.Duration;
 
 public class Main extends Application {
     
+    private static ExceptionView bottomView;
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -30,8 +33,8 @@ public class Main extends Application {
         System.out.println("Bye!");
     }
     
-    public void start(Stage primaryStage) {
-        doSplash(primaryStage);
+    public static ExceptionView getConsoleView() {
+        return bottomView;
     }
     
     /**
@@ -75,7 +78,10 @@ public class Main extends Application {
      */
     private void preInit(Stage primaryStage) {
         // Do stuff
-        TestingCode.test();
+    }
+    
+    public void start(Stage primaryStage) throws ExceptionHandler {
+        doSplash(primaryStage);
     }
     
     /**
@@ -85,19 +91,29 @@ public class Main extends Application {
     private void postInit(Stage primaryStage) {
         VBox root = new VBox();
         BorderPane content = new BorderPane();
-        //FlowView flowView = new FlowView();
-        Label nodeView = new Label("nodeView");
-        Label bottomView = new Label("bottomView");
+        bottomView = new ExceptionView();
+        FlowView flowView = new FlowView();
+        BlockMenuView blockMenu = new BlockMenuView();
         VariableView varView = new VariableView(FXCollections.observableArrayList());
         MenuBar menus = buildMenuBar();
+        BlockView bv = new FunctionBlockView(null, new DummyBlock());
+        BlockChoiceView bcView = new BlockChoiceView(bv);
         content.setPadding(new Insets(5));
         content.setRight(varView);
-        content.setLeft(nodeView);
+        content.setLeft(blockMenu);
         content.setBottom(bottomView);
-        //content.setCenter(flowView);
+        content.setCenter(flowView);
         root.getChildren().addAll(menus, content);
-        primaryStage.setScene(new Scene(root, 500, 500));
-        //flowView.setRootView(new BlockView());
+        primaryStage.setScene(new Scene(root, 800, 800));
+        flowView.setRootView(bv);
+    
+        ///////////////////////////////////////////////
+        try {
+            TestingCode.test();
+        } catch (ExceptionHandler exceptionHandler) {
+            exceptionHandler.printStackTrace();
+        }
+        //////////////////////////////////////////////
     }
     
     private MenuBar buildMenuBar() {
@@ -105,8 +121,8 @@ public class Main extends Application {
         Menu mnuHelp = new Menu("Help");
         MenuItem miHelp = new MenuItem("Help");
         MenuItem miAbout = new MenuItem("About");
-        MenuItem miPref = new MenuItem("Color Preferences");
-        mnuHelp.getItems().addAll(miAbout, miHelp, miPref);
+        MenuItem miColor = new MenuItem("Color Preferences");
+        mnuHelp.getItems().addAll(miAbout, miHelp, miColor);
         menu.getMenus().addAll(mnuHelp);
         
         miAbout.setOnAction(e -> {
@@ -118,11 +134,13 @@ public class Main extends Application {
             HelpView help = new HelpView();
             help.show();
         });
-        miPref.setOnAction(e -> {
+    
+        miColor.setOnAction(e -> {
             ColorPrefView colorPref = new ColorPrefView();
             colorPref.show();
         });
-        
+    
+    
         return menu;
     }
 }
