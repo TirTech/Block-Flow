@@ -1,9 +1,8 @@
 package ca.blockflow.views;
 
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class ColorPrefView extends Dialog {
     
@@ -12,10 +11,19 @@ public class ColorPrefView extends Dialog {
         setTitle("Color Picker");
         //create color picker
         DialogPane pane = getDialogPane();
-        pane.setMaxSize(300, 300);
+        GridPane gridPane = new GridPane();
+        pane.setMaxWidth(600);
+        pane.setMaxHeight(600);
         pane.getButtonTypes().add(ButtonType.CLOSE);
-        
-        ColorPicker cPicker = new ColorPicker();
+        Label cPickerLabel = new Label("Pick a block and a Color.");
+        ColorPicker cPicker = new ColorPicker(Color.BLUE);
+    
+        cPicker.getStyleClass().add("button");
+        Button selectColor = new Button("Set");
+    
+    
+        pane.getChildren().addAll(cPickerLabel, cPicker);
+        //help with block dropdown selection
         
     }//end constructor
     
