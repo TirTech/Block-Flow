@@ -33,8 +33,8 @@ public class Main extends Application {
         System.out.println("Bye!");
     }
     
-    public void start(Stage primaryStage) throws ExceptionHandler {
-        doSplash(primaryStage);
+    public static ExceptionView getConsoleView() {
+        return bottomView;
     }
     
     /**
@@ -80,6 +80,10 @@ public class Main extends Application {
         // Do stuff
     }
     
+    public void start(Stage primaryStage) throws ExceptionHandler {
+        doSplash(primaryStage);
+    }
+    
     /**
      * Sets the first stage of the application. Called by {@link #doSplash} after fading out.
      * @param primaryStage the primary stage for this application, onto which the application scene can be set.
@@ -117,7 +121,8 @@ public class Main extends Application {
         Menu mnuHelp = new Menu("Help");
         MenuItem miHelp = new MenuItem("Help");
         MenuItem miAbout = new MenuItem("About");
-        mnuHelp.getItems().addAll(miAbout, miHelp);
+        MenuItem miColor = new MenuItem("Color Preferences");
+        mnuHelp.getItems().addAll(miAbout, miHelp, miColor);
         menu.getMenus().addAll(mnuHelp);
         
         miAbout.setOnAction(e -> {
@@ -129,11 +134,13 @@ public class Main extends Application {
             HelpView help = new HelpView();
             help.show();
         });
-        
-        return menu;
-    }
     
-    public static ExceptionView getConsoleView() {
-        return bottomView;
+        miColor.setOnAction(e -> {
+            ColorPrefView colorPref = new ColorPrefView();
+            colorPref.show();
+        });
+    
+    
+        return menu;
     }
 }
