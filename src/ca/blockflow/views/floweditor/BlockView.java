@@ -67,7 +67,7 @@ public class BlockView extends VBox {
             System.out.println("DRAG ON VIEW STARTED!");
             Dragboard db = this.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
-            content.put(AppUtils.REF_BLOCK_VIEW, this);
+            content.put(AppUtils.REF_BLOCK_VIEW, AppUtils.addToRefBoard(this));
             db.setContent(content);
             e.consume();
         });

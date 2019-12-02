@@ -31,7 +31,7 @@ public class SubblockContainerController {
         });
         view.setOnDragDropped(e -> {
             BlockTypes type = (BlockTypes) e.getDragboard().getContent(AppUtils.REF_BLOCK_TYPE);
-            BlockView movedView = (BlockView) e.getDragboard().getContent(AppUtils.REF_BLOCK_VIEW);
+            String movedViewKey = (String) e.getDragboard().getContent(AppUtils.REF_BLOCK_VIEW);
             if (type != null) {
                 System.out.println("OOO A BLOCK DRAG!");
                 BlockView newBlock = new BlockView(view, type);
@@ -39,25 +39,32 @@ public class SubblockContainerController {
                 view.getChildren().add(newBlock);
                 e.setDropCompleted(true);
                 e.consume(); //Required to prevent duplicates up the event tree
-            } else if (movedView != null) {
+            } else if (movedViewKey != null) {
                 System.out.println("A BlockView was dropped here");
+                BlockView movedView = (BlockView) AppUtils.getFromRefBoard(movedViewKey);
                 movedView.delete();
                 Point2D mousePos = new Point2D(e.getX(), e.getY());
                 int closestPos;
-                int totalDistance = 0;
                 ArrayList<BlockView> blocks = view.getSubblocks();
-                for (closestPos = 0; closestPos < blocks.size() - 1; closestPos++) {
+                double totalDistance = blocks.get(0).getLayoutY();
+                for (closestPos = 0; closestPos < blocks.size(); closestPos++) {
                     if (totalDistance + blocks.get(closestPos).getHeight() > mousePos.getY()) {
                         break;
+                    } else {
+                        totalDistance += blocks.get(closestPos).getHeight();
                     }
                 }
                 view.getSubblocks().add(closestPos, movedView);
-                view.getChildren().add(closestPos, movedView);
+                view.getChildren().add(closestPos + 1, movedView);
                 e.setDropCompleted(true);
                 e.consume(); //Required to prevent duplicates up the event tree
             }
         });
-        view.setOnDragEntered(e -> view.setBorder(StyleUtils.getCurvedBorderBold(5, Color.BLACK)));
+        view.setOnDragEntered(e -> {
+            if (e.getDragboard().hasContent(AppUtils.REF_BLOCK_TYPE)) {
+                view.setBorder(StyleUtils.getCurvedBorderBold(5, Color.BLACK));
+            }
+        });
         view.setOnDragExited(e -> view.setBorder(StyleUtils.getCurvedBorder(5, ((Color) view.getBackground().getFills().get(0).getFill()).darker())));
     }
     
