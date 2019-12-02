@@ -1,34 +1,23 @@
 package ca.blockflow.main;
 
 import ca.blockflow.exceptions.ExceptionHandler;
-import ca.blockflow.expressions.Expression;
-import ca.blockflow.expressions.SupportedTypes;
-import ca.blockflow.logic.Variable;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.*;
 import ca.blockflow.views.floweditor.FlowView;
-import ca.blockflow.views.floweditor.HelpView;
+import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Application {
     
@@ -153,11 +142,14 @@ public class Main extends Application {
     private MenuBar buildMenuBar() {
         MenuBar menu = new MenuBar();
         Menu mnuHelp = new Menu("Help");
+        Menu mnuFile = new Menu("File");
         MenuItem miHelp = new MenuItem("Help");
         MenuItem miAbout = new MenuItem("About");
         MenuItem miColor = new MenuItem("Color Preferences");
-        mnuHelp.getItems().addAll(miAbout, miHelp, miColor);
-        menu.getMenus().addAll(mnuHelp);
+        MenuItem miQuit = new MenuItem("Quit");
+        mnuFile.getItems().addAll(miColor, miQuit);
+        mnuHelp.getItems().addAll(miAbout, miHelp);
+        menu.getMenus().addAll(mnuFile, mnuHelp);
         
         miAbout.setOnAction(e -> {
             AboutView about = new AboutView();
@@ -174,6 +166,7 @@ public class Main extends Application {
             colorPref.show();
         });
     
+        miQuit.setOnAction(e -> Platform.exit());
     
         return menu;
     }

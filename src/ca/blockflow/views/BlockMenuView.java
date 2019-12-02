@@ -76,7 +76,7 @@ public class BlockMenuView extends VBox {
         System.out.println("DRAG STARTED!");
         Dragboard db = this.startDragAndDrop(TransferMode.ANY);
         ClipboardContent content = new ClipboardContent();
-        content.put(AppUtils.REF_BLOCK, blockType);
+        content.put(AppUtils.REF_BLOCK_TYPE, blockType);
         db.setContent(content);
         db.setDragView(blockType.getDragIcon().getImage());
         d.consume();

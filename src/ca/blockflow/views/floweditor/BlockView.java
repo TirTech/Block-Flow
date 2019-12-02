@@ -3,10 +3,14 @@ package ca.blockflow.views.floweditor;
 import ca.blockflow.blocks.Block;
 import ca.blockflow.blocks.BlockTypes;
 import ca.blockflow.main.AppModel;
+import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -59,6 +63,14 @@ public class BlockView extends VBox {
             this.containers.add(container);
             this.getChildren().add(container);
         }
+        this.setOnDragDetected(e -> {
+            System.out.println("DRAG ON VIEW STARTED!");
+            Dragboard db = this.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.put(AppUtils.REF_BLOCK_VIEW, this);
+            db.setContent(content);
+            e.consume();
+        });
     }
     
     public void delete() {

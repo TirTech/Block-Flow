@@ -3,7 +3,7 @@ package ca.blockflow.main;
 import ca.blockflow.flows.FlowEngine;
 import ca.blockflow.logic.Variable;
 import ca.blockflow.views.BlockColorPalette;
-import ca.blockflow.views.FunctionBlockView;
+import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -2,11 +2,10 @@ package ca.blockflow.util;
 
 import javafx.scene.input.DataFormat;
 
-import javafx.scene.text.Text;
-
 public class AppUtils {
     
-    public static DataFormat REF_BLOCK = new DataFormat("ref/block");
+    public static final DataFormat REF_BLOCK_VIEW = new DataFormat("ref/block_view");
+    public static final DataFormat REF_BLOCK_TYPE = new DataFormat("ref/block_type");
     
     public static String getResource(String name) {
         return Thread.currentThread().getContextClassLoader().getResource("help_text.txt").getPath();

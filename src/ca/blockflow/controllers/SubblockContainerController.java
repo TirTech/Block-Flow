@@ -6,6 +6,7 @@ import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.floweditor.BlockView;
 import ca.blockflow.views.floweditor.SubblockContainer;
+import javafx.geometry.Point2D;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 
@@ -23,25 +24,37 @@ public class SubblockContainerController {
      */
     public void setHandlers() {
         view.setOnDragOver(d -> {
-            if (d.getDragboard().hasContent(AppUtils.REF_BLOCK)) {
+            if (d.getDragboard().hasContent(AppUtils.REF_BLOCK_TYPE) || d.getDragboard().hasContent(AppUtils.REF_BLOCK_VIEW)) {
                 d.acceptTransferModes(TransferMode.ANY);
             }
             d.consume();
         });
         view.setOnDragDropped(e -> {
-            try {
-                BlockTypes type = (BlockTypes) e.getDragboard().getContent(AppUtils.REF_BLOCK);
-                if (type != null) {
-                    Block draggedBlock = type.getBlockClass().newInstance();
-                    System.out.println("OOO A BLOCK DRAG!");
-                    BlockView newBlock = new BlockView(view, type);
-                    view.getSubblocks().add(newBlock);
-                    view.getChildren().add(newBlock);
-                    e.setDropCompleted(true);
-                    e.consume(); //Required to prevent duplicates up the event tree
+            BlockTypes type = (BlockTypes) e.getDragboard().getContent(AppUtils.REF_BLOCK_TYPE);
+            BlockView movedView = (BlockView) e.getDragboard().getContent(AppUtils.REF_BLOCK_VIEW);
+            if (type != null) {
+                System.out.println("OOO A BLOCK DRAG!");
+                BlockView newBlock = new BlockView(view, type);
+                view.getSubblocks().add(newBlock);
+                view.getChildren().add(newBlock);
+                e.setDropCompleted(true);
+                e.consume(); //Required to prevent duplicates up the event tree
+            } else if (movedView != null) {
+                System.out.println("A BlockView was dropped here");
+                movedView.delete();
+                Point2D mousePos = new Point2D(e.getX(), e.getY());
+                int closestPos;
+                int totalDistance = 0;
+                ArrayList<BlockView> blocks = view.getSubblocks();
+                for (closestPos = 0; closestPos < blocks.size() - 1; closestPos++) {
+                    if (totalDistance + blocks.get(closestPos).getHeight() > mousePos.getY()) {
+                        break;
+                    }
                 }
-            } catch (IllegalAccessException | InstantiationException e1) {
-                e1.printStackTrace();
+                view.getSubblocks().add(closestPos, movedView);
+                view.getChildren().add(closestPos, movedView);
+                e.setDropCompleted(true);
+                e.consume(); //Required to prevent duplicates up the event tree
             }
         });
         view.setOnDragEntered(e -> view.setBorder(StyleUtils.getCurvedBorderBold(5, Color.BLACK)));

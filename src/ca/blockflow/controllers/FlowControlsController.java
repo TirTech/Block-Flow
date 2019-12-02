@@ -5,7 +5,7 @@ import ca.blockflow.exceptions.MissingFlowStateException;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.main.AppModel;
 import ca.blockflow.views.FlowControls;
-import ca.blockflow.views.FunctionBlockView;
+import ca.blockflow.views.floweditor.FunctionBlockView;
 
 public class FlowControlsController {
     
