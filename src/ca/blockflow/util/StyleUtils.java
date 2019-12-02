@@ -33,10 +33,11 @@ public class StyleUtils {
     }
     
     public static ImageView getLogo(boolean withBackground, double fitHeight) {
-        ImageView view = new ImageView(new Image(withBackground ? "logo_with_bg.png" : "logo_no_bg.png"));
-        view.setPreserveRatio(true);
-        view.setFitHeight(fitHeight);
-        return view;
+        return getImage(withBackground ? "logo_with_bg.png" : "logo_no_bg.png", fitHeight);
+    }
+    
+    public static Image getLogoAsIcon() {
+        return getImage("logo_icon_64x.png", 5).getImage();
     }
     
     public static Text consoleText(String s) {

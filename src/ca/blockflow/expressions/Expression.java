@@ -64,7 +64,7 @@ public class Expression {
                     return value;
                 }
             } else {
-                ExpressionException.unassignedExpression("Tried to evaluate expression: " + operation + "(" + operandA + ", " + operandB + ")");;
+                ExpressionException.unassignedExpression("Tried to evaluate expression: " + operation + "(" + operandA + ", " + operandB + ")");
                 return null;
             }
         }

@@ -1,7 +1,6 @@
 package ca.blockflow.views.floweditor;
 
 import ca.blockflow.util.StyleUtils;
-import ca.blockflow.views.FunctionBlockView;
 import javafx.geometry.Insets;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -41,6 +40,4 @@ public class FlowView extends ScrollPane {
         this.rootView = view;
         this.setContent(rootView);
     }
-    
-    
 }

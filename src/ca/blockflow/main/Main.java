@@ -1,36 +1,23 @@
 package ca.blockflow.main;
 
-import ca.blockflow.blocks.DummyBlock;
 import ca.blockflow.exceptions.ExceptionHandler;
-import ca.blockflow.expressions.Expression;
-import ca.blockflow.expressions.SupportedTypes;
-import ca.blockflow.logic.Variable;
 import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.*;
-import ca.blockflow.views.floweditor.BlockView;
 import ca.blockflow.views.floweditor.FlowView;
-import ca.blockflow.views.floweditor.HelpView;
+import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Application {
     
@@ -91,7 +78,9 @@ public class Main extends Application {
         // Do stuff
     }
     
-    public void start(Stage primaryStage) throws ExceptionHandler {
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("BlockFlow");
+        primaryStage.getIcons().add(StyleUtils.getLogoAsIcon());
         doSplash(primaryStage);
     }
     
@@ -100,13 +89,7 @@ public class Main extends Application {
      * @param primaryStage the primary stage for this application, onto which the application scene can be set.
      */
     private void postInit(Stage primaryStage) {
-        VBox root = new VBox();
-        BorderPane content = new BorderPane();
-        FlowView flowView = new FlowView();
-        BlockMenuView blockMenu = new BlockMenuView();
-        VariableView varView = new VariableView(FXCollections.observableArrayList());
-        bottomView = new ExceptionView();
-        
+
 //        ArrayList<Variable> vars = new ArrayList<>();
 //        Variable a = new Variable("a", SupportedTypes.INT, 5);
 //        Variable b = new Variable("b", SupportedTypes.INT, -5);
@@ -118,16 +101,33 @@ public class Main extends Application {
 //
 //
 //        bottomView = new ExpressionsView(SupportedTypes.DOUBLE, FXCollections.observableArrayList(vars));
+        
+        AppModel model = AppModel.getInstance();
+    
+        //Containers
+        VBox root = new VBox();
+        primaryStage.setScene(new Scene(root, 800, 800));
+        BorderPane content = new BorderPane();
+    
+        //Define the panes
+        bottomView = new ExceptionView();
         MenuBar menus = buildMenuBar();
-        BlockView bv = new FunctionBlockView(null, new DummyBlock());
-        BlockChoiceView bcView = new BlockChoiceView(bv);
+        FlowView flowView = new FlowView();
+        BlockMenuView blockMenu = new BlockMenuView();
+        VariableView varView = new VariableView();
+        FunctionBlockView bv = new FunctionBlockView(null);
+        FlowControls controls = new FlowControls();
+        VBox rightPane = new VBox(controls, varView);
+    
+        //Setup layout
+        model.setRootBlockView(bv);
+        rightPane.setSpacing(5);
         content.setPadding(new Insets(5));
-        content.setRight(varView);
+        content.setRight(rightPane);
         content.setLeft(blockMenu);
         content.setBottom(bottomView);
         content.setCenter(flowView);
         root.getChildren().addAll(menus, content);
-        primaryStage.setScene(new Scene(root, 800, 800));
         flowView.setRootView(bv);
     
         ///////////////////////////////////////////////
@@ -142,11 +142,14 @@ public class Main extends Application {
     private MenuBar buildMenuBar() {
         MenuBar menu = new MenuBar();
         Menu mnuHelp = new Menu("Help");
+        Menu mnuFile = new Menu("File");
         MenuItem miHelp = new MenuItem("Help");
         MenuItem miAbout = new MenuItem("About");
         MenuItem miColor = new MenuItem("Color Preferences");
-        mnuHelp.getItems().addAll(miAbout, miHelp, miColor);
-        menu.getMenus().addAll(mnuHelp);
+        MenuItem miQuit = new MenuItem("Quit");
+        mnuFile.getItems().addAll(miColor, miQuit);
+        mnuHelp.getItems().addAll(miAbout, miHelp);
+        menu.getMenus().addAll(mnuFile, mnuHelp);
         
         miAbout.setOnAction(e -> {
             AboutView about = new AboutView();
@@ -163,6 +166,7 @@ public class Main extends Application {
             colorPref.show();
         });
     
+        miQuit.setOnAction(e -> Platform.exit());
     
         return menu;
     }
