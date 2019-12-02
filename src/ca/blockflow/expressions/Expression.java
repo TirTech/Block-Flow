@@ -82,11 +82,11 @@ public class Expression {
         this.operandB = opB;
     }
     
-    public void setExpAttrs(Expression e, Expression opA, Operation op, Expression opB) {
-        e.operandA = opA;
-        e.operation = op;
-        e.operandB = opB;
-    }
+//    public void setExpAttrs(Expression e, Expression opA, Operation op, Expression opB) {
+//        e.operandA = opA;
+//        e.operation = op;
+//        e.operandB = opB;
+//    }
     
     public void setOperandA(Expression operandA) {
         this.operandA = operandA;
