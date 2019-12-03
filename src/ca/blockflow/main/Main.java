@@ -55,7 +55,7 @@ public class Main extends Application {
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.setCycleCount(1);
-        
+    
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(3.0), splashPane);
         fadeOut.setFromValue(1);
         fadeOut.setToValue(0);
