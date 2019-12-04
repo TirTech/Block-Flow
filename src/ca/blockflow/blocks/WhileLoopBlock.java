@@ -7,7 +7,7 @@ import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
-public class LoopBlock extends Block{
+public class WhileLoopBlock extends Block{
     /** The expression that indicates if the for loop should loop again */
     private Expression expression;
     
