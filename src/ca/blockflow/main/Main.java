@@ -1,9 +1,13 @@
 package ca.blockflow.main;
 
 import ca.blockflow.exceptions.ExceptionHandler;
+import ca.blockflow.models.AppModel;
+import ca.blockflow.serialization.Saveable;
 import ca.blockflow.testing.TestingCode;
+import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.*;
+import ca.blockflow.views.floweditor.BlockView;
 import ca.blockflow.views.floweditor.FlowView;
 import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.animation.FadeTransition;
@@ -16,12 +20,13 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+
 public class Main extends Application {
-    
-    private static ExceptionView bottomView;
     
     public static void main(String[] args) {
         launch(args);
@@ -29,10 +34,6 @@ public class Main extends Application {
     
     public void stop() {
         System.out.println("Bye!");
-    }
-    
-    public static ExceptionView getConsoleView() {
-        return bottomView;
     }
     
     /**
@@ -76,6 +77,12 @@ public class Main extends Application {
      */
     private void preInit(Stage primaryStage) {
         // Do stuff
+        if (AppUtils.fileExists("ColorPallet.flow")) {
+            System.out.println("Loading Colors...");
+            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, "ColorPallet.flow"));
+        } else {
+            System.out.println("No color preferences.");
+        }
     }
     
     public void start(Stage primaryStage) {
@@ -89,29 +96,14 @@ public class Main extends Application {
      * @param primaryStage the primary stage for this application, onto which the application scene can be set.
      */
     private void postInit(Stage primaryStage) {
-
-//        ArrayList<Variable> vars = new ArrayList<>();
-//        Variable a = new Variable("a", SupportedTypes.INT, 5);
-//        Variable b = new Variable("b", SupportedTypes.INT, -5);
-//        Variable c = new Variable("c", SupportedTypes.INT, 2);
-//        Variable d = new Variable("d", SupportedTypes.DOUBLE, 5.26);
-//        Variable e = new Variable("e", SupportedTypes.STRING, "string");
-//        Variable f = new Variable("f", SupportedTypes.BOOLEAN, true);
-//        vars.addAll(Arrays.asList(a, b, c, d, e, f));
-//
-//
-//        bottomView = new ExpressionsView(SupportedTypes.DOUBLE, FXCollections.observableArrayList(vars));
-        
         AppModel model = AppModel.getInstance();
     
         //Containers
-        VBox root = new VBox();
-        primaryStage.setScene(new Scene(root, 800, 800));
         BorderPane content = new BorderPane();
+        primaryStage.setScene(new Scene(content, 800, 800));
     
         //Define the panes
-        bottomView = new ExceptionView();
-        MenuBar menus = buildMenuBar();
+        MenuBar menus = buildMenuBar(primaryStage);
         FlowView flowView = new FlowView();
         BlockMenuView blockMenu = new BlockMenuView();
         VariableView varView = new VariableView();
@@ -125,9 +117,9 @@ public class Main extends Application {
         content.setPadding(new Insets(5));
         content.setRight(rightPane);
         content.setLeft(blockMenu);
-        content.setBottom(bottomView);
+        content.setBottom(AppModel.getInstance().getConsole());
         content.setCenter(flowView);
-        root.getChildren().addAll(menus, content);
+        content.setTop(menus);
         flowView.setRootView(bv);
     
         ///////////////////////////////////////////////
@@ -139,17 +131,48 @@ public class Main extends Application {
         //////////////////////////////////////////////
     }
     
-    private MenuBar buildMenuBar() {
+    private MenuBar buildMenuBar(Stage primaryStage) {
         MenuBar menu = new MenuBar();
         Menu mnuHelp = new Menu("Help");
         Menu mnuFile = new Menu("File");
+        Menu mnuDebug = new Menu("Debug");
+        MenuItem miLoad = new MenuItem("Load Block");
+        MenuItem miSave = new MenuItem("Save Block");
         MenuItem miHelp = new MenuItem("Help");
         MenuItem miAbout = new MenuItem("About");
-        MenuItem miColor = new MenuItem("Color Preferences");
+        MenuItem miColors = new MenuItem("Color Preferences");
         MenuItem miQuit = new MenuItem("Quit");
-        mnuFile.getItems().addAll(miColor, miQuit);
+        MenuItem miTestSerial = new MenuItem("Serialize Test");
+    
+        mnuDebug.getItems().addAll(miTestSerial);
+        mnuFile.getItems().addAll(miColors, miSave, miLoad, miQuit);
         mnuHelp.getItems().addAll(miAbout, miHelp);
-        menu.getMenus().addAll(mnuFile, mnuHelp);
+        menu.getMenus().addAll(mnuFile, mnuHelp, mnuDebug);
+        
+        miSave.setOnAction(e -> {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Save Flow");
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Flow", "*.bflw"));
+            File file = chooser.showSaveDialog(primaryStage.getOwner());
+            AppUtils.saveBlockView(file.getAbsolutePath());
+        });
+        
+        miLoad.setOnAction(e -> {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Load Flow");
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Flow", "*.bflw"));
+            File file = chooser.showOpenDialog(primaryStage.getOwner());
+            FunctionBlockView view = (FunctionBlockView) AppUtils.loadBlockView(file.getAbsolutePath());
+            AppModel.getInstance().setRootBlockView(view);
+        });
+        
+        miTestSerial.setOnAction(e -> {
+            System.out.println("Saving Object...");
+            AppUtils.saveBlockView("TEST_SERIAL.bflw");
+            System.out.println("Reloading Object...");
+            BlockView view = AppUtils.loadBlockView("TEST_SERIAL.bflw");
+            System.out.println("Breakpoint");
+        });
         
         miAbout.setOnAction(e -> {
             AboutView about = new AboutView();
@@ -161,7 +184,7 @@ public class Main extends Application {
             help.show();
         });
     
-        miColor.setOnAction(e -> {
+        miColors.setOnAction(e -> {
             ColorPrefView colorPref = new ColorPrefView();
             colorPref.show();
         });

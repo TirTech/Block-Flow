@@ -1,29 +1,34 @@
 package ca.blockflow.blocks;
 
 import ca.blockflow.util.StyleUtils;
+import ca.blockflow.views.blockeditor.*;
 import javafx.scene.image.ImageView;
 
 
 public enum BlockTypes {
-    FUNCTION("Function", "function_icon.png", FunctionBlock.class),
-    IF("If", "if_icon.png", IfBlock.class),
-    ASSIGNMENT("Assignment", "variable_icon.png", AssignmentBlock.class),
-    WHILELOOP("While Loop", "while_loop_icon.png", WhileLoopBlock.class),
-    FORLOOP("For Loop", "for_loop_icon.png", ForLoopBlock.class);
+    FUNCTION("Function", "function_icon.png", FunctionBlock.class, IfBlockEditor.class),
+    IF("If", "if_icon.png", IfBlock.class, IfBlockEditor.class),
+    ASSIGNMENT("Assignment", "variable_icon.png", AssignmentBlock.class, AssignmentBlockEditor.class),
+    OUTPUTBLOCK("Output Block", "output_icon.png", OutputBlock.class, OutputBlockEditor.class),
+    WHILELOOP("While Loop", "while_loop_icon.png", WhileLoopBlock.class, WhileBlockEditor.class),
+    FORLOOP("For Loop", "for_loop_icon.png", ForLoopBlock.class, IfBlockEditor.class);
     
     private final String blockName;
     private final String iconPath;
     private final Class<? extends Block> blockClass;
+    private final Class<? extends BlockEditor> uiClass;
     
     /**
      * @param blockName The string name of the block type
      * @param iconPath the path of the image icon
      * @param blockClass the block's class
+     * @param uiClass the class for this blocks editor
      * */
-    BlockTypes(String blockName, String iconPath, Class<? extends Block> blockClass) {
+    BlockTypes(String blockName, String iconPath, Class<? extends Block> blockClass, Class<? extends BlockEditor> uiClass) {
         this.blockName = blockName;
         this.iconPath = iconPath;
         this.blockClass = blockClass;
+        this.uiClass = uiClass;
     }
     
     /**
@@ -54,5 +59,13 @@ public enum BlockTypes {
      * @return returns the string path of the icon image
      */
     public String getIconPath() {return "icons/" + iconPath;}
+    
+    /**
+     * Gets the class that is used to edit this block
+     * @return class instantiatable for an editor
+     */
+    public Class<? extends BlockEditor> getUiClass() {
+        return uiClass;
+    }
 }
 

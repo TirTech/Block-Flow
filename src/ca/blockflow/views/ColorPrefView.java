@@ -1,7 +1,7 @@
 package ca.blockflow.views;
 
 import ca.blockflow.blocks.BlockTypes;
-import ca.blockflow.main.AppModel;
+import ca.blockflow.models.AppModel;
 import ca.blockflow.util.StyleUtils;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -43,6 +43,8 @@ public class ColorPrefView extends Dialog {
             cPicker.setValue(colorPalette.getColor(blockOptions.getValue()).get());
             rect.setFill(cPicker.getValue());
         });
+    
+        this.setOnCloseRequest(e -> AppModel.getInstance().getColors().save("ColorPallet.flow"));
         /*
         These panes are a mess.
         You have a root grid pane(1 col, 2 rows)
@@ -89,6 +91,5 @@ public class ColorPrefView extends Dialog {
     
         blockOptions.getSelectionModel().selectFirst();
     }//end constructor
-    
     
 }

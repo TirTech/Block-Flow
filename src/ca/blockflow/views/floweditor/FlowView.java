@@ -1,5 +1,6 @@
 package ca.blockflow.views.floweditor;
 
+import ca.blockflow.models.AppModel;
 import ca.blockflow.util.StyleUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.ContextMenu;
@@ -33,6 +34,11 @@ public class FlowView extends ScrollPane {
                 ((BlockView) targetedNode).delete();
             }
             ctxMenu.hide();
+        });
+        AppModel.getInstance().rootBlockViewProperty().addListener((obs, oldVal, newVal) -> {
+            if (! newVal.equals(this.rootView)) {
+                setRootView(newVal);
+            }
         });
     }
     

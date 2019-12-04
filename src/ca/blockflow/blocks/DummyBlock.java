@@ -4,6 +4,7 @@ import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
 public class DummyBlock extends Block {
+    private static final long serialVersionUID = 1L;
     private static int UUID_GLOBAL = 0;
     private final int UUID = ++ UUID_GLOBAL;
     private Block a;

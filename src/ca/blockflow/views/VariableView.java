@@ -17,6 +17,8 @@ public class VariableView extends VBox {
     private Button printVars = new Button("Print vars");
     private Button addVar = new Button("Add variable");
     private Button removeVar = new Button("Remove Variable");
+    private Button btnLoadVars = new Button("Load Variables");
+    private Button btnSaveVars = new Button("Save Variables");
     private TableColumn<Variable, String> colValue = new TableColumn<>("Value");
     private TableColumn<Variable, String> colType = new TableColumn<>("Type");
     private TableColumn<Variable, String> colName = new TableColumn<>("Name");
@@ -25,7 +27,6 @@ public class VariableView extends VBox {
     private HBox varControls = new HBox(addVar, removeVar);
     
     public VariableView() {
-        
         // Cell Value Factories and formatting
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colValue.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -39,7 +40,9 @@ public class VariableView extends VBox {
     
         removeVar.setDisable(true);
         varControls.setSpacing(5);
-        getChildren().addAll(varControls, table);
+        HBox buttonBox = new HBox(btnLoadVars, btnSaveVars);
+        buttonBox.setSpacing(5);
+        getChildren().addAll(varControls, table, buttonBox);
         
         // Formatting
         setPadding(new Insets(10));
@@ -55,6 +58,22 @@ public class VariableView extends VBox {
      */
     private Object getRowValue(TableColumn.CellEditEvent e) {
         return e.getTableView().getItems().get(e.getTablePosition().getRow());
+    }
+    
+    public Button getBtnLoadVars() {
+        return btnLoadVars;
+    }
+    
+    public void setBtnLoadVars(Button btnLoadVars) {
+        this.btnLoadVars = btnLoadVars;
+    }
+    
+    public Button getBtnSaveVars() {
+        return btnSaveVars;
+    }
+    
+    public void setBtnSaveVars(Button btnSaveVars) {
+        this.btnSaveVars = btnSaveVars;
     }
     
     public TableView<Variable> getTable() {

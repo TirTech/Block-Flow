@@ -2,6 +2,7 @@ package ca.blockflow.views.floweditor;
 
 import ca.blockflow.blocks.Block;
 import ca.blockflow.controllers.SubblockContainerController;
+import ca.blockflow.serialization.SerialBlockTree;
 import ca.blockflow.util.StyleUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
@@ -78,5 +79,13 @@ public class SubblockContainer extends VBox {
     
     public String toString() {
         return this.getClass().getSimpleName() + "@" + UUID;
+    }
+    
+    public void serializeTree(SerialBlockTree tree) {
+        controller.serializeTree(tree);
+    }
+    
+    public void constructTree(SerialBlockTree tree) {
+        controller.constructTree(tree);
     }
 }

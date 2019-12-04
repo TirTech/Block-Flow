@@ -8,7 +8,7 @@ import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
 public class IfBlock extends Block {
-    
+    private static final long serialVersionUID = 1L;
     /**
      * The expression given to assignment block from the BlockView.
      * This expression is evaluated to be either true or false and
@@ -67,4 +67,11 @@ public class IfBlock extends Block {
         }
     }
     
+    public Expression getExpression() {
+        return expression;
+    }
+    
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
 }//end ifblock class

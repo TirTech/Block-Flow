@@ -1,9 +1,13 @@
 package ca.blockflow.controllers;
 
 import ca.blockflow.logic.Variable;
-import ca.blockflow.main.AppModel;
+import ca.blockflow.models.AppModel;
+import ca.blockflow.util.AppUtils;
 import ca.blockflow.views.VariableView;
 import javafx.beans.property.SimpleListProperty;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 
 public class VariableViewController {
     
@@ -42,5 +46,25 @@ public class VariableViewController {
         });
         
         view.getTable().itemsProperty().bind(model);
+    
+        view.getBtnLoadVars().setOnAction(e -> {
+            FileChooser files = new FileChooser();
+            files.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Variables", "*.bflw"));
+            files.setTitle("Choose Variable File");
+            File infile = files.showOpenDialog(view.getScene().getWindow());
+            if (infile != null) {
+                AppUtils.loadAppVariables(infile.getAbsolutePath());
+            }
+        });
+    
+        view.getBtnSaveVars().setOnAction(e -> {
+            FileChooser files = new FileChooser();
+            files.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Variables", "*.bflw"));
+            files.setTitle("Save Variable File");
+            File infile = files.showSaveDialog(view.getScene().getWindow());
+            if (infile != null) {
+                AppUtils.saveAppVariables(infile.getAbsolutePath());
+            }
+        });
     }
 }

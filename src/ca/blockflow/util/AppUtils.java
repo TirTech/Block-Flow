@@ -1,7 +1,15 @@
 package ca.blockflow.util;
 
+import ca.blockflow.models.AppModel;
+import ca.blockflow.serialization.Saveable;
+import ca.blockflow.serialization.SerialBlockTree;
+import ca.blockflow.views.floweditor.BlockView;
+import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.scene.input.DataFormat;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AppUtils {
@@ -25,4 +33,35 @@ public class AppUtils {
         refboard.remove(key);
         return obj;
     }
+    
+    public static boolean fileExists(String name) {
+        return Files.exists(new File(name).toPath());
+    }
+    
+    public static void saveAppVariables(String filename) {
+        Saveable.save(new ArrayList<>(AppModel.getInstance().getVariables()), filename);
+    }
+    
+    public static void loadAppVariables(String filename) {
+        AppModel.getInstance().setVariables(Saveable.load(ArrayList.class, filename));
+    }
+    
+    public static void logMessage(String message) {
+        AppModel.getInstance().getConsole().logMessage(message, false);
+    }
+    
+    public static void logError(String message) {
+        AppModel.getInstance().getConsole().logMessage(message, true);
+    }
+    
+    public static BlockView loadBlockView(String filename) {
+        SerialBlockTree tree = Saveable.load(SerialBlockTree.class, filename);
+        return new FunctionBlockView(tree, null);
+    }
+    
+    public static void saveBlockView(String filename) {
+        SerialBlockTree tree = AppModel.getInstance().getRootBlockView().serializeTree();
+        tree.save(filename);
+    }
+    
 }
