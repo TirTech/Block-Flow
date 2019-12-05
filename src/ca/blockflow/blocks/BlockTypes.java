@@ -8,8 +8,8 @@ public enum BlockTypes {
     FUNCTION("Function", "function_icon.png", FunctionBlock.class),
     IF("If", "if_icon.png", IfBlock.class),
     ASSIGNMENT("Assignment", "variable_icon.png", AssignmentBlock.class),
-    WHILELOOP("While Loop", "loop_icon.png", AssignmentBlock.class),
-    FORLOOP("For Loop", "for_loop_icon.png", AssignmentBlock.class);
+    WHILELOOP("While Loop", "while_loop_icon.png", WhileLoopBlock.class),
+    FORLOOP("For Loop", "for_loop_icon.png", ForLoopBlock.class);
     
     private final String blockName;
     private final String iconPath;

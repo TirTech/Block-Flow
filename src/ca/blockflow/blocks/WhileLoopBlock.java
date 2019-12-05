@@ -30,14 +30,10 @@ public class WhileLoopBlock extends Block{
         if (t != SupportedTypes.BOOLEAN) {
             throw new BlockException("Loop Block: expression evaluated to a type other than boolean");
         } else {
-            //cast to boolean to get var value as bool
-            if (((Variable<Boolean>) boolVar).getValue()) { //  --- Set Loop if condition is true   ---
-                setNextLinkedBlock(this);
-                nextBlock = subBlock;
-            } else {//  --- Continue past loop if condition is false  ---
-                nextBlock = null;
-                setNextLinkedBlock(null);
-            }
+            //  --- Set Loop if condition is true   ---
+            if (((Variable<Boolean>) boolVar).getValue()) nextBlock = subBlock;
+            //  --- Continue past loop if condition is false  ---
+            else setNextLinkedBlock(null);
         }
     
         return nextBlock;
@@ -47,13 +43,22 @@ public class WhileLoopBlock extends Block{
      * Sets the expression for the LoopBlock
      * @param newExpression The new expression to be set
      */
-    public void setExpression(Expression newExpression){this.expression = newExpression;}
+    public void setExpression(Expression newExpression){ this.expression = newExpression; }
+    
+    @Override
+    public String[] getLoopingSubblockNames() { return new String[]{"Body"};}
     
     /**
      * Sets the next block to be run inside the LoopBlock
      * @param block the block to be executed next
      */
     @Override
-    public void setSubblock(String name, Block block) {this.subBlock = block;}
+    public void setSubblock(String name, Block block) {
+        switch (name) {
+            case "Body":
+                this.subBlock = block;
+                break;
+        }
+    }
     
 }

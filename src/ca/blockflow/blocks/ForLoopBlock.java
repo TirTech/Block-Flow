@@ -89,11 +89,21 @@ public class ForLoopBlock extends Block {
      */
     public void setExpression(Expression newExpression){ this.expression = newExpression; }
     
+    @Override
+    public String[] getLoopingSubblockNames() {
+        return new String[]{"Body"};
+    }
     
     /**
      * Sets the next block to be run within the ForLoopBlock
      * @param block the block to be executed next
      */
     @Override
-    public void setSubblock(String name, Block block) {this.subBlock = block;}
+    public void setSubblock(String name, Block block) {
+        switch (name) {
+            case "Body":
+                this.subBlock = block;
+                break;
+        }
+    }
 }
