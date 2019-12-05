@@ -30,7 +30,7 @@ public class BlockMenuView extends VBox {
         basicBlocksTab.getChildren().add(spacer);
         
         //  --- Option List Setup   ---
-        VBox optionList = new VBox(setupBlock(BlockTypes.ASSIGNMENT), setupBlock(BlockTypes.FUNCTION), setupBlock(BlockTypes.IF));
+        VBox optionList = new VBox(setupBlock(BlockTypes.ASSIGNMENT), setupBlock(BlockTypes.FUNCTION), setupBlock(BlockTypes.IF), setupBlock(BlockTypes.WHILELOOP), setupBlock(BlockTypes.FORLOOP));
         optionList.setSpacing(10);
         optionList.setPadding(new Insets(5));
         optionList.setAlignment(Pos.TOP_CENTER);
