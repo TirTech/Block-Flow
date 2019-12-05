@@ -5,7 +5,9 @@ import ca.blockflow.controllers.SubblockContainerController;
 import ca.blockflow.util.StyleUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -38,7 +40,22 @@ public class SubblockContainer extends VBox {
         setBorder(StyleUtils.getCurvedBorder(5, blockColor.get().darker()));
         setBackground(StyleUtils.solidBackground(blockColor.get().brighter(), 5));
         setPadding(new Insets(5));
-        getChildren().addAll(lbl);
+    
+        //  --- Adding true or false icons to if body blocks    ---
+        switch (name) {
+            case "True":
+            case "False":
+                HBox bodyView = new HBox(StyleUtils.getImage("icons/"+name.toLowerCase()+"_icon.png", 10), lbl);
+                bodyView.setSpacing(5);
+                bodyView.setAlignment(Pos.CENTER_LEFT);
+                getChildren().addAll(bodyView);
+                break;
+            default:
+                getChildren().addAll(lbl);
+                break;
+                
+        }
+        
         setSpacing(2);
         controller.setHandlers();
     }

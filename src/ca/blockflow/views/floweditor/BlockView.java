@@ -7,13 +7,16 @@ import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +56,13 @@ public class BlockView extends VBox {
         this.setBackground(StyleUtils.solidBackground(blockColor.get(), 5));
         this.setSpacing(5);
         this.setPadding(new Insets(5));
-        this.getChildren().addAll(nameLabel);
+        
+        HBox labelView = new HBox(type.getIcon(15), nameLabel);
+        labelView.setSpacing(5);
+        labelView.setAlignment(Pos.CENTER_LEFT);
+        
+        this.getChildren().add(labelView);
+        
         String[] subblocks = Stream.concat(
                 Arrays.stream(backingBlock.getLoopingSubblockNames()),
                 Arrays.stream(backingBlock.getSubblockNames()))
