@@ -53,6 +53,7 @@ public class WhileLoopBlock extends Block{
      * Sets the next block to be run inside the LoopBlock
      * @param block the block to be executed next
      */
-    public void setSubBlock(Block block) {this.subBlock = block;}
+    @Override
+    public void setSubblock(String name, Block block) {this.subBlock = block;}
     
 }

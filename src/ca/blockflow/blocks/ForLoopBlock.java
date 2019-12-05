@@ -18,8 +18,6 @@ public class ForLoopBlock extends Block {
     private Variable<Double> increments;
     /** The index of the for loop */
     private Variable<Double> indexVar;
-    /** The condition for which the index can't pass */
-    private Variable<Double> conditionVar;
     
     
     /**
@@ -39,20 +37,15 @@ public class ForLoopBlock extends Block {
         if (t != SupportedTypes.BOOLEAN) {
             throw new BlockException("Loop Block: expression evaluated to a type other than boolean");
         } else {
-            
-            if (state.getVar(hashCode()+"") == null) {//    --- Check if previously executed in order to increment index    ---
-                state.addVars(new Variable(hashCode()+"", SupportedTypes.BOOLEAN, true));
-                indexVar.setValue(indexVar.getValue() + increments.getValue());
-            }
-            
-            if (((Variable<Boolean>) boolVar).getValue()) { //  --- Set Loop if condition is true   ---
-                setNextLinkedBlock(this);
-                nextBlock = subBlock;
-            } else {//  --- Continue past loop if condition is false  ---
-                nextBlock = null;
-                setNextLinkedBlock(null);
-                state.removeVars(hashCode()+"");
-            }
+    
+            //    --- Check if previously executed in order to increment index    ---
+            if (state.getVar(hashCode()+"") == null) state.addVars(new Variable(hashCode()+"", SupportedTypes.BOOLEAN, true));
+            else indexVar.setValue(indexVar.getValue() + increments.getValue());
+    
+            //  --- Set Loop if condition is true   ---
+            if (((Variable<Boolean>) boolVar).getValue()) nextBlock = subBlock;
+            //  --- Continue past loop if condition is false  ---
+            else state.removeVars(hashCode()+"");
         }
         
         return nextBlock;
@@ -65,32 +58,10 @@ public class ForLoopBlock extends Block {
     public Variable<Double> getIndexVar(){ return this.indexVar; }
     
     /**
-     * Sets the index variable of the ForLoopBlock.
-     * Throws BlockException when newIndex is not Double
+     * Sets the index variable of the ForLoopBlock
      * @param newIndex the new double index variable
-     * @throws BlockException Throws exception when the newIndex Variable is not of type double
      */
-    public void setIndexVar(Variable<Double> newIndex) throws BlockException {
-        if(newIndex.getType() == SupportedTypes.DOUBLE) this.indexVar = newIndex;
-        else throw new BlockException("ForLoopBlock: Index Variable not set to a Double");
-    }
-    
-    /**
-     * Gets the condition variable
-     * @return Returns the condition variable of the loop
-     */
-    public Variable<Double> getConditionVar(){ return this.conditionVar; }
-    
-    /**
-     * Sets the condition variable of the ForLoopBlock.
-     * @param newCondition the new condition of the ForLoopBlock
-     * @throws BlockException Throws exception if newCondition is not a Double
-     */
-    public void setConditionVar(Variable<Double> newCondition) throws BlockException {
-        if(newCondition.getType() == SupportedTypes.DOUBLE) this.conditionVar = newCondition;
-        else throw new BlockException("ForLoopBlock: Condition Variable not set to a Double");
-    }
-    
+    public void setIndexVar(Variable<Double> newIndex){ this.indexVar = newIndex; }
     
     /**
      * Gets the increments amount of the For Loop
@@ -101,12 +72,9 @@ public class ForLoopBlock extends Block {
     /**
      * Sets a new increments value for the ForLoopBlock
      * @param newIncrements The new increments for the ForLoopBlock
-     * @throws BlockException Throws exception when the newIncrements is not a Double
      */
-    public void setIncrements(Variable<Double> newIncrements) throws BlockException {
-        if(newIncrements.getType() == SupportedTypes.DOUBLE) this.increments = newIncrements;
-        else throw new BlockException("ForLoopBlock: Increments Variable not set to a Double");
-    }
+    public void setIncrements(Variable<Double> newIncrements){ this.increments = newIncrements; }
+    
     
     
     /**
@@ -126,5 +94,6 @@ public class ForLoopBlock extends Block {
      * Sets the next block to be run within the ForLoopBlock
      * @param block the block to be executed next
      */
-    public void setSubBlock(Block block) {this.subBlock = block;}
+    @Override
+    public void setSubblock(String name, Block block) {this.subBlock = block;}
 }
