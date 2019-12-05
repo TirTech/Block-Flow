@@ -40,21 +40,7 @@ public class SubblockContainer extends VBox {
         setBorder(StyleUtils.getCurvedBorder(5, blockColor.get().darker()));
         setBackground(StyleUtils.solidBackground(blockColor.get().brighter(), 5));
         setPadding(new Insets(5));
-    
-        //  --- Adding true or false icons to if body blocks    ---
-        switch (name) {
-            case "True":
-            case "False":
-                HBox bodyView = new HBox(StyleUtils.getImage("icons/"+name.toLowerCase()+"_icon.png", 10), lbl);
-                bodyView.setSpacing(5);
-                bodyView.setAlignment(Pos.CENTER_LEFT);
-                getChildren().addAll(bodyView);
-                break;
-            default:
-                getChildren().addAll(lbl);
-                break;
-                
-        }
+        getChildren().addAll(lbl);
         
         setSpacing(2);
         controller.setHandlers();
