@@ -15,9 +15,9 @@ public class ForLoopBlock extends Block {
     private Block subBlock;
     
     /** The index increments of the index */
-    private Variable<Double> increments;
+    private Variable increments;
     /** The index of the for loop */
-    private Variable<Double> indexVar;
+    private Variable indexVar;
     
     
     /**
@@ -33,6 +33,7 @@ public class ForLoopBlock extends Block {
         
         Variable boolVar = expression.evaluateExpression();
         SupportedTypes t = boolVar.getType();
+        Variable indexedVar = state.getVar(indexVar.getName());
         
         if (t != SupportedTypes.BOOLEAN) {
             throw new BlockException("Loop Block: expression evaluated to a type other than boolean");
@@ -40,7 +41,11 @@ public class ForLoopBlock extends Block {
     
             //    --- Check if previously executed in order to increment index    ---
             if (state.getVar(hashCode()+"") == null) state.addVars(new Variable(hashCode()+"", SupportedTypes.BOOLEAN, true));
-            else indexVar.setValue(indexVar.getValue() + increments.getValue());
+            else {
+                Number indexVal = (Number) indexedVar.getValue();
+                Number incVal = (Number) increments.getValue();
+                indexedVar.setValue(indexVal.doubleValue() + incVal.doubleValue());
+            }
     
             //  --- Set Loop if condition is true   ---
             if (((Variable<Boolean>) boolVar).getValue()) nextBlock = subBlock;
@@ -61,7 +66,7 @@ public class ForLoopBlock extends Block {
      * Sets the index variable of the ForLoopBlock
      * @param newIndex the new double index variable
      */
-    public void setIndexVar(Variable<Double> newIndex){ this.indexVar = newIndex; }
+    public void setIndexVar(Variable newIndex) { this.indexVar = newIndex; }
     
     /**
      * Gets the increments amount of the For Loop

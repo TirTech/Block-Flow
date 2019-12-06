@@ -49,7 +49,7 @@ public class VariableViewController {
     
         view.getBtnLoadVars().setOnAction(e -> {
             FileChooser files = new FileChooser();
-            files.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Variables", "*.bflw"));
+            files.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Variables", "*.vars.bflw"));
             files.setTitle("Choose Variable File");
             File infile = files.showOpenDialog(view.getScene().getWindow());
             if (infile != null) {
@@ -59,7 +59,7 @@ public class VariableViewController {
     
         view.getBtnSaveVars().setOnAction(e -> {
             FileChooser files = new FileChooser();
-            files.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Variables", "*.bflw"));
+            files.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Variables", "*.vars.bflw"));
             files.setTitle("Save Variable File");
             File infile = files.showSaveDialog(view.getScene().getWindow());
             if (infile != null) {

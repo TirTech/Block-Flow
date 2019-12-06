@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 public class WhileBlockEditor extends BlockEditor<WhileLoopBlock> {
     
     private ExpressionsView expView = new ExpressionsView(SupportedTypes.BOOLEAN, AppModel.getInstance().getVariables());
-    private ExpressionsView expEditor;
     
     public WhileBlockEditor() {
         getChildren().addAll(expView);
