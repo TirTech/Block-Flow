@@ -14,13 +14,6 @@ public class AssignmentBlockEditor extends BlockEditor<AssignmentBlock> {
     private ExpressionsView view;
     
     public AssignmentBlockEditor() {
-        cbVars.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (oldVal == null || (newVal.getType() != oldVal.getType())) {
-                if (view != null) getChildren().remove(view);
-                view = new ExpressionsView(newVal.getType(), AppModel.getInstance().getVariables());
-                getChildren().add(view);
-            }
-        });
         getChildren().addAll(new Label("Set: "), cbVars, new Label("To:"));
     }
     
@@ -34,12 +27,18 @@ public class AssignmentBlockEditor extends BlockEditor<AssignmentBlock> {
     
     @Override
     public void initUI() {
-        if (backingBlock.getInput() == null || AppModel.getInstance().findVar(backingBlock.getInput().getName()) == null) {
-            return;
+        if (backingBlock.getInput() != null && AppModel.getInstance().findVar(backingBlock.getInput().getName()) != null) {
+            cbVars.setValue(AppModel.getInstance().findVar(backingBlock.getInput().getName()));
+            view = new ExpressionsView(backingBlock.getInput().getType(), AppModel.getInstance().getVariables());
+            getChildren().add(view);
+            view.loadExpression(backingBlock.getExpression());
         }
-        cbVars.setValue(AppModel.getInstance().findVar(backingBlock.getInput().getName()));
-        view = new ExpressionsView(backingBlock.getInput().getType(), AppModel.getInstance().getVariables());
-        getChildren().add(view);
-        view.loadExpression(backingBlock.getExpression());
+        cbVars.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (oldVal == null || (newVal.getType() != oldVal.getType())) {
+                if (view != null) getChildren().remove(view);
+                view = new ExpressionsView(newVal.getType(), AppModel.getInstance().getVariables());
+                getChildren().add(view);
+            }
+        });
     }
 }
