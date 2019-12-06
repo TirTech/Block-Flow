@@ -31,7 +31,9 @@ public class AssignmentBlockEditor extends BlockEditor<AssignmentBlock> {
             cbVars.setValue(AppModel.getInstance().findVar(backingBlock.getInput().getName()));
             view = new ExpressionsView(backingBlock.getInput().getType(), AppModel.getInstance().getVariables());
             getChildren().add(view);
-            view.loadExpression(backingBlock.getExpression());
+            if (backingBlock.getExpression() != null) {
+                view.loadExpression(backingBlock.getExpression());
+            }
         }
         cbVars.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (oldVal == null || (newVal.getType() != oldVal.getType())) {

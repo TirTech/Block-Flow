@@ -22,6 +22,8 @@ public class IfBlockEditor extends BlockEditor<IfBlock> {
     
     @Override
     public void initUI() {
-        expView.loadExpression(backingBlock.getExpression());
+        if (backingBlock.getExpression() != null) {
+            expView.loadExpression(backingBlock.getExpression());
+        }
     }
 }
