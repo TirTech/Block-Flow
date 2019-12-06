@@ -5,7 +5,9 @@ import ca.blockflow.controllers.SubblockContainerController;
 import ca.blockflow.util.StyleUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -39,6 +41,7 @@ public class SubblockContainer extends VBox {
         setBackground(StyleUtils.solidBackground(blockColor.get().brighter(), 5));
         setPadding(new Insets(5));
         getChildren().addAll(lbl);
+        
         setSpacing(2);
         controller.setHandlers();
     }

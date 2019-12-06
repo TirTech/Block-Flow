@@ -6,6 +6,7 @@ import ca.blockflow.expressions.Expression;
 import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
+import javafx.scene.layout.HBox;
 
 public class WhileLoopBlock extends Block{
     /** The expression that indicates if the for loop should loop again */
@@ -60,5 +61,4 @@ public class WhileLoopBlock extends Block{
                 break;
         }
     }
-    
 }
