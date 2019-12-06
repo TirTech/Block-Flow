@@ -58,16 +58,11 @@ public class BlockMenuView extends VBox {
         //root.setAlignment(Pos.CENTER);
         root.setBorder(StyleUtils.getCurvedBorder(5, Color.BLACK));
         SimpleObjectProperty<Color> color = AppModel.getInstance().getColors().getColor(type);
-        color.addListener((obs, oldVal, newVal) -> {
-            root.setBackground(StyleUtils.solidBackground(newVal, 5));
-        });
+        color.addListener((obs, oldVal, newVal) -> root.setBackground(StyleUtils.solidBackground(newVal, 5)));
         root.setBackground(StyleUtils.solidBackground(color.get(), 5));
         root.setPrefSize(80, 30);
         root.setPadding(new Insets(10));
-        //root.setOnMousePressed(e -> root.setBorder(StyleUtils.getCurvedBorder(5, Color.BLACK, BorderStroke.THICK)));
         root.setOnDragDetected(d -> createDrag(d, type));
-        //root.setOnMouseReleased(e -> root.setBorder(StyleUtils.getCurvedBorder(5, Color.BLACK)));
-        //root.setOnDragDone(e -> root.setBorder(StyleUtils.getCurvedBorder(5, Color.BLACK)));
         return root;
     }
     
@@ -77,7 +72,6 @@ public class BlockMenuView extends VBox {
      * @param blockType the block type of the block being dragged and added
      */
     private void createDrag(MouseEvent d, BlockTypes blockType) {
-        System.out.println("DRAG STARTED!");
         Dragboard db = this.startDragAndDrop(TransferMode.ANY);
         ClipboardContent content = new ClipboardContent();
         content.put(AppUtils.REF_BLOCK_TYPE, blockType);

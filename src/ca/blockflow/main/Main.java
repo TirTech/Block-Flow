@@ -1,13 +1,10 @@
 package ca.blockflow.main;
 
-import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.models.AppModel;
 import ca.blockflow.serialization.Saveable;
-import ca.blockflow.testing.TestingCode;
 import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import ca.blockflow.views.*;
-import ca.blockflow.views.floweditor.BlockView;
 import ca.blockflow.views.floweditor.FlowView;
 import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.animation.FadeTransition;
@@ -76,12 +73,13 @@ public class Main extends Application {
      * @param primaryStage the primary stage for this application, onto which the application scene can be set.
      */
     private void preInit(Stage primaryStage) {
-        // Do stuff
-        if (AppUtils.fileExists("ColorPallet.flow")) {
+        // Load colors
+        if (AppUtils.fileExists("ColorPallet.colors.bflw")) {
             System.out.println("Loading Colors...");
-            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, "ColorPallet.flow"));
+            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, "ColorPallet.colors.bflw"));
         } else {
-            System.out.println("No color preferences.");
+            System.out.println("No color preferences. Using default");
+            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, AppUtils.getResource("DefaultPallet.colors.bflw")));
         }
     }
     
@@ -121,39 +119,29 @@ public class Main extends Application {
         content.setCenter(flowView);
         content.setTop(menus);
         flowView.setRootView(bv);
-    
-        ///////////////////////////////////////////////
-        try {
-            TestingCode.test();
-        } catch (ExceptionHandler exceptionHandler) {
-            exceptionHandler.printStackTrace();
-        }
-        //////////////////////////////////////////////
     }
     
     private MenuBar buildMenuBar(Stage primaryStage) {
         MenuBar menu = new MenuBar();
         Menu mnuHelp = new Menu("Help");
         Menu mnuFile = new Menu("File");
-        Menu mnuDebug = new Menu("Debug");
         MenuItem miLoad = new MenuItem("Load Block");
         MenuItem miSave = new MenuItem("Save Block");
         MenuItem miHelp = new MenuItem("Help");
         MenuItem miAbout = new MenuItem("About");
         MenuItem miColors = new MenuItem("Color Preferences");
         MenuItem miQuit = new MenuItem("Quit");
-        MenuItem miTestSerial = new MenuItem("Serialize Test");
     
-        mnuDebug.getItems().addAll(miTestSerial);
         mnuFile.getItems().addAll(miColors, miSave, miLoad, miQuit);
         mnuHelp.getItems().addAll(miAbout, miHelp);
-        menu.getMenus().addAll(mnuFile, mnuHelp, mnuDebug);
+        menu.getMenus().addAll(mnuFile, mnuHelp);
         
         miSave.setOnAction(e -> {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Save Flow");
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Flow", "*.bflw"));
             File file = chooser.showSaveDialog(primaryStage.getOwner());
+            if (file == null) return;
             AppUtils.saveBlockView(file.getAbsolutePath());
         });
         
@@ -162,16 +150,9 @@ public class Main extends Application {
             chooser.setTitle("Load Flow");
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BlockFlow Flow", "*.bflw"));
             File file = chooser.showOpenDialog(primaryStage.getOwner());
+            if (file == null) return;
             FunctionBlockView view = (FunctionBlockView) AppUtils.loadBlockView(file.getAbsolutePath());
             AppModel.getInstance().setRootBlockView(view);
-        });
-        
-        miTestSerial.setOnAction(e -> {
-            System.out.println("Saving Object...");
-            AppUtils.saveBlockView("TEST_SERIAL.bflw");
-            System.out.println("Reloading Object...");
-            BlockView view = AppUtils.loadBlockView("TEST_SERIAL.bflw");
-            System.out.println("Breakpoint");
         });
         
         miAbout.setOnAction(e -> {

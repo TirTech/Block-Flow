@@ -18,7 +18,6 @@ public class OutputBlock extends Block {
             Variable var = state.getVar(name);
             output = output.replaceAll("%(" + name + ")%", var.getValue().toString());
         }
-        System.out.println(output);
         AppUtils.logMessage(output);
         return null;
     }

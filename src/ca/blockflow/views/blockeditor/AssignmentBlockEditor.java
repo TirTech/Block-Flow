@@ -34,6 +34,7 @@ public class AssignmentBlockEditor extends BlockEditor<AssignmentBlock> {
     
     @Override
     public void initUI() {
-    
+        view.loadExpression(backingBlock.getExpression());
+        cbVars.setValue(AppModel.getInstance().findVar(backingBlock.getInput().getName()));
     }
 }

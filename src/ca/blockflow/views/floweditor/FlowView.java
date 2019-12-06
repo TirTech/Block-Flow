@@ -13,17 +13,17 @@ public class FlowView extends ScrollPane {
     
     private BlockView rootView;
     private ContextMenu ctxMenu = new ContextMenu();
-    private MenuItem ctxmiDelete = new MenuItem("Delete");
-    private MenuItem ctxmiBreakpoint = new MenuItem("Toggle Breakpoint");
     private Object targetedNode;
     
     public FlowView() {
         this.setBorder(StyleUtils.getCurvedBorderGrey(5));
         this.setPadding(new Insets(5));
         this.setFitToWidth(true);
-        ctxMenu.getItems().addAll(ctxmiBreakpoint, ctxmiDelete);
+        MenuItem ctxmiDelete = new MenuItem("Delete");
+        MenuItem ctxmiEdit = new MenuItem("Edit");
+        MenuItem ctxmiBreakpoint = new MenuItem("Toggle Breakpoint");
+        ctxMenu.getItems().addAll(ctxmiEdit, ctxmiBreakpoint, ctxmiDelete);
         setOnMouseClicked(e -> {
-            System.out.println("TARGET: " + e.getTarget());
             boolean targetIsHbox = e.getTarget() instanceof HBox && ((HBox) e.getTarget()).getParent() instanceof BlockView;
             boolean valid = e.getButton() == MouseButton.SECONDARY
                             && (e.getTarget() instanceof BlockView
@@ -39,6 +39,13 @@ public class FlowView extends ScrollPane {
             }
         });
     
+        ctxmiEdit.setOnAction(e -> {
+            if (targetedNode != null) {
+                ((BlockView) targetedNode).showEditor();
+            }
+            ctxMenu.hide();
+        });
+    
         ctxmiDelete.setOnAction(e -> {
             if (targetedNode != null) {
                 ((BlockView) targetedNode).delete();
@@ -50,6 +57,7 @@ public class FlowView extends ScrollPane {
             if (targetedNode != null) {
                 ((BlockView) targetedNode).toggleBreakpoint();
             }
+            ctxMenu.hide();
         });
         AppModel.getInstance().rootBlockViewProperty().addListener((obs, oldVal, newVal) -> {
             if (! newVal.equals(this.rootView)) {

@@ -7,15 +7,14 @@ import javafx.stage.Stage;
 
 public class AboutView extends Alert {
     
-    private final String ABOUT_CONTENT_TEXT = "BlockFlow was built by:\n" +
-                                              "Avery Briggs\n" +
-                                              "Shawn Norrie\n" +
-                                              "Adam Marciszewski\n" +
-                                              "Brandon Franklin\n";
-    
     public AboutView() {
         super(AlertType.NONE);
         ((Stage) getDialogPane().getScene().getWindow()).getIcons().add(StyleUtils.getLogoAsIcon());
+        String ABOUT_CONTENT_TEXT = "BlockFlow was built by:\n" +
+                                    "Avery Briggs\n" +
+                                    "Shawn Norrie\n" +
+                                    "Adam Marciszewski\n" +
+                                    "Brandon Franklin\n";
         setContentText(ABOUT_CONTENT_TEXT);
         setGraphic(StyleUtils.getLogo(false, 75));
         getButtonTypes().add(ButtonType.CLOSE);

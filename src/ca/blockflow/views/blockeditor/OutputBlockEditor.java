@@ -20,13 +20,11 @@ public class OutputBlockEditor extends BlockEditor<OutputBlock> {
     private Pattern varRegex = Pattern.compile("%(\\w+)%");
     private List<Variable> vars = AppModel.getInstance().getVariables();
     private Label lblError = new Label("The message contains illegal names");
-    private Label howTo = new Label("Enter the text to print, using %var% to reference the value of 'var'");
     
     public OutputBlockEditor() {
-        txtString.textProperty().addListener((obs, oldVal, newVal) -> {
-            lblError.setVisible(false);
-        });
+        txtString.textProperty().addListener((obs, oldVal, newVal) -> lblError.setVisible(false));
         lblError.setVisible(false);
+        Label howTo = new Label("Enter the text to print, using %var% to reference the value of 'var'");
         this.getChildren().addAll(howTo, txtString, lblError);
     }
     

@@ -3,8 +3,10 @@ package ca.blockflow.serialization;
 import ca.blockflow.blocks.Block;
 import ca.blockflow.blocks.BlockTypes;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SerialBlockTree implements Saveable {
     
@@ -15,6 +17,17 @@ public class SerialBlockTree implements Saveable {
     public SerialBlockTree(BlockTypes type, Block backingBlock) {
         this.type = type;
         this.backingBlock = backingBlock;
+        cleanBackingBlock();
+    }
+    
+    private void cleanBackingBlock() {
+        for (String name : Stream.concat(
+                Arrays.stream(backingBlock.getLoopingSubblockNames()),
+                Arrays.stream(backingBlock.getSubblockNames()))
+                                 .toArray(String[]::new)) {
+            backingBlock.setSubblock(name, null);
+            backingBlock.setNextLinkedBlock(null);
+        }
     }
     
     public BlockTypes getType() {

@@ -21,5 +21,7 @@ public class WhileBlockEditor extends BlockEditor<WhileLoopBlock> {
     }
     
     @Override
-    public void initUI() {}
+    public void initUI() {
+        expView.loadExpression(backingBlock.getExpression());
+    }
 }

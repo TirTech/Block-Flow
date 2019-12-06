@@ -2,6 +2,7 @@ package ca.blockflow.flows;
 
 import ca.blockflow.exceptions.InvalidFlowStateException;
 import ca.blockflow.exceptions.MissingFlowStateException;
+import ca.blockflow.util.AppUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -13,7 +14,7 @@ public class FlowEngine extends Service<FlowState> {
     /**
      * The state to start from
      */
-	SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
+    private SimpleObjectProperty<FlowState> flowState = new SimpleObjectProperty<>(null);
     
     @Override
     protected Task<FlowState> createTask() {
@@ -27,6 +28,7 @@ public class FlowEngine extends Service<FlowState> {
                     throw new InvalidFlowStateException();
                 }
     
+                AppUtils.logMessage("Program Start");
                 // Keep running till state changes
                 while (workingState.getStatus().canExecuteFrom()) {
                     // If we haven't hit a breakpoint prior and this block has one, breakpoint and pause
@@ -47,7 +49,7 @@ public class FlowEngine extends Service<FlowState> {
                     }
     
                     if (workingState.getCurrentBlock() == null) {
-                        System.out.println("Program Done");
+                        AppUtils.logMessage("Program Done");
                         workingState.setStatus(FlowStatus.STOPPED);
                     }
                 }
