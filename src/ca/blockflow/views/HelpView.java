@@ -1,6 +1,7 @@
-package ca.blockflow.views.floweditor;
+package ca.blockflow.views;
 
 import ca.blockflow.util.AppUtils;
+import ca.blockflow.util.StyleUtils;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
@@ -9,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +27,7 @@ public class HelpView extends Dialog {
         super();
         setTitle("Help");
         DialogPane pane = getDialogPane();
+        ((Stage) pane.getScene().getWindow()).getIcons().add(StyleUtils.getLogoAsIcon());
         pane.setMaxWidth(600);
         pane.setMaxHeight(600);
         pane.getButtonTypes().add(ButtonType.CLOSE);
@@ -38,7 +41,7 @@ public class HelpView extends Dialog {
         try {
             texts.getChildren().addAll(loadHelpText());
         } catch (IOException e) {
-            e.printStackTrace();
+            AppUtils.logError(e.getMessage());
         }
         
         //Finalize

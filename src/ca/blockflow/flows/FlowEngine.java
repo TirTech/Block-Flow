@@ -45,6 +45,11 @@ public class FlowEngine extends Service<FlowState> {
                     if (workingState.getStatus() == FlowStatus.STEPPING) {
                         workingState.setStatus(FlowStatus.PAUSED);
                     }
+    
+                    if (workingState.getCurrentBlock() == null) {
+                        System.out.println("Program Done");
+                        workingState.setStatus(FlowStatus.STOPPED);
+                    }
                 }
                 return workingState;
             }
@@ -119,5 +124,12 @@ public class FlowEngine extends Service<FlowState> {
             getFlowState().setStatus(FlowStatus.STEPPING);
             restart();
         }
+    }
+    
+    public void stop() throws MissingFlowStateException {
+        if (getFlowState() == null) {
+            throw new MissingFlowStateException();
+        }
+        getFlowState().setStatus(FlowStatus.STOPPED);
     }
 }

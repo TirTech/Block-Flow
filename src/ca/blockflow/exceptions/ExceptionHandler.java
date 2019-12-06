@@ -1,6 +1,6 @@
 package ca.blockflow.exceptions;
 
-import ca.blockflow.main.Main;
+import ca.blockflow.models.AppModel;
 import ca.blockflow.views.ExceptionView;
 
 import java.util.Arrays;
@@ -14,12 +14,12 @@ public class ExceptionHandler extends Exception {
     public ExceptionHandler(String message) {
         super(message);
         if (view == null) {
-            view = Main.getConsoleView();
+            view = AppModel.getInstance().getConsole();
         }
         if (PRINT_STACK_TRACES) {
             message += "\n" + BORDER + Arrays.toString(this.getStackTrace()) + BORDER + "\n";
         }
-        view.setConsole(message);
+        view.logMessage(message, true);
     }
     
     public ExceptionHandler(Throwable throwable) {
@@ -28,7 +28,7 @@ public class ExceptionHandler extends Exception {
     
     public ExceptionHandler(String message, Throwable throwable) {
         super(message, throwable);
-        view.setConsole(message);
+        view.logMessage(message, true);
     }
     
     public ExceptionView getView() {
@@ -36,6 +36,6 @@ public class ExceptionHandler extends Exception {
     }
     
     public void updateConsole(String message) throws ExceptionHandler {
-        view.setConsole(message);
+        view.logMessage(message, true);
     }
 }

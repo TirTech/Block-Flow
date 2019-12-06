@@ -13,8 +13,6 @@ import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Operation;
 import ca.blockflow.logic.Variable;
 
-import java.util.HashMap;
-
 import static ca.blockflow.logic.Operation.*;
 
 class ExpressionTesting {
@@ -52,7 +50,6 @@ class ExpressionTesting {
         workingExp = new Expression();
         FlowState flowState = new FlowState();
         
-        workingExp.setFlowState(flowState);
         testNumber = 0;
         
         xExp = workingExp.simpleAssignExpression(x);
@@ -110,11 +107,11 @@ class ExpressionTesting {
     
             //// Boolean Testing ////
     
-            System.out.println(testHeader(tExp, NOT, tExp, "!t"));
-            System.out.println(testHeader(tExp, AND, tExp, "t && t"));
-            System.out.println(testHeader(tExp, OR, fExp, "t || f"));
-            System.out.println(testHeader(tExp, XOR, tExp, "t xor t"));
-            System.out.println(testHeader(tExp, NOR, tExp, "t nor t"));
+            System.out.println(testHeader(tExp, LOGICAL_NOT, tExp, "!t"));
+            System.out.println(testHeader(tExp, LOGICAL_AND, tExp, "t && t"));
+            System.out.println(testHeader(tExp, LOGICAL_OR, fExp, "t || f"));
+            System.out.println(testHeader(tExp, LOGICAL_XOR, tExp, "t xor t"));
+            System.out.println(testHeader(tExp, LOGICAL_NOR, tExp, "t nor t"));
     
     
             //// String Testing ////

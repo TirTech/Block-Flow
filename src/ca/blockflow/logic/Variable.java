@@ -1,9 +1,13 @@
 package ca.blockflow.logic;
 
 import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.serialization.Saveable;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -12,7 +16,8 @@ import java.util.stream.Collectors;
  * Stored information about a variable and its type
  * @param <T> the type of the variable's value
  */
-public class Variable<T> {
+public class Variable<T> implements Saveable {
+    private static final long serialVersionUID = 1L;
  
 	/**
 	 * The type defined by the application's supported types
@@ -96,6 +101,22 @@ public class Variable<T> {
     }
     
     public String toString() {
+        return name.get();
+    }
+    
+    public String toDetailedString() {
         return "\"" + name + "\", of type: " + type + ".\tvalue:\t{" + value.get() + "}";
+    }
+    
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(name.get());
+        out.writeObject(type);
+        out.writeObject(value.get());
+    }
+    
+    private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+        this.name = new SimpleStringProperty((String) in.readObject());
+        this.type = (SupportedTypes) in.readObject();
+        this.value = new SimpleObjectProperty(in.readObject());
     }
 }

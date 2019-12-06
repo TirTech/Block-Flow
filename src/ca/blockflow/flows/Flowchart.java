@@ -1,7 +1,7 @@
 package ca.blockflow.flows;
 
 import ca.blockflow.blocks.Block;
-import ca.blockflow.main.Saveable;
+import ca.blockflow.serialization.Saveable;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package ca.blockflow.logic;
 
-import ca.blockflow.exceptions.ExpressionException;
 import ca.blockflow.exceptions.ExceptionHandler;
+import ca.blockflow.exceptions.ExpressionException;
 import ca.blockflow.expressions.Expression;
 
 import java.math.BigDecimal;
@@ -211,17 +211,11 @@ public class OperationUtils {
     }
     
     public static boolean intToBoolean(int val) {
-        if (val > 0) {
-            return true;
-        }
-        return false;
+        return val > 0;
     }
     
     public static boolean doubleToBoolean(double val) {
-        if (val > 0) {
-            return true;
-        }
-        return false;
+        return val > 0;
     }
     
     public static int booleanToInt(boolean val) {

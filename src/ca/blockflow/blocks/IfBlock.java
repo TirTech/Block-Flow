@@ -7,8 +7,8 @@ import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
-public class IfBlock {
-    
+public class IfBlock extends Block {
+    private static final long serialVersionUID = 1L;
     /**
      * The expression given to assignment block from the BlockView.
      * This expression is evaluated to be either true or false and
@@ -50,12 +50,12 @@ public class IfBlock {
         return subBlock;
     }//end call
     
-    //@Override
+    @Override
     public String[] getSubblockNames() {
         return new String[]{"True", "False"};
     }
     
-    //@Override
+    @Override
     public void setSubblock(String name, Block block) {
         switch (name) {
             case "True":
@@ -67,4 +67,11 @@ public class IfBlock {
         }
     }
     
+    public Expression getExpression() {
+        return expression;
+    }
+    
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
 }//end ifblock class

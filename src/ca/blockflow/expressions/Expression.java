@@ -5,15 +5,16 @@ import ca.blockflow.exceptions.ExpressionException;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Operation;
 import ca.blockflow.logic.Variable;
+import ca.blockflow.models.AppModel;
+import ca.blockflow.serialization.Saveable;
 
-public class Expression {
-
+public class Expression implements Saveable {
+    
+    private static final long serialVersionUID = 1L;
     private Expression operandA;
     private Operation operation;
     private Expression operandB;
     private Variable value;
-    
-    private FlowState flowState;
 
     public Expression() {
 //        flowState.getCurrentBlock();
@@ -21,8 +22,15 @@ public class Expression {
 //        this.operation = (a, b) -> {return operation(a, b)};
     }
     
-    public void setFlowState(FlowState flowState) {
-        this.flowState = flowState;
+    public Expression(Expression opA, Operation op, Expression opB) {
+        setAttrs(opA, op, opB);
+    }
+    
+    public Expression(Variable v) {
+        this.setValue(v);
+        this.setOperation(Operation.NO_OP);
+        this.setOperandA(null);
+        this.setOperandB(null);
     }
     
     public Expression simpleAssignExpression(Variable v) throws ExceptionHandler {
@@ -51,29 +59,9 @@ public class Expression {
         this.operandB = b;
         return true;
     }
-
-    public Variable evaluateExpression() throws ExceptionHandler {
-        if (operation == Operation.NO_OP) {
-            if (value != null) {
-                String name  = value.getName();
-                Variable v = this.flowState.getVar(name);
-                if (v != null) {
-                    return v != null ? v : value;
-                }
-                else {
-                    return value;
-                }
-            } else {
-                ExpressionException.unassignedExpression("Tried to evaluate expression: " + operation + "(" + operandA + ", " + operandB + ")");;
-                return null;
-            }
-        }
-        else if (value != null && operandB == null) {
-            return value;
-        }
-        else {
-            return operation.perform(operandA, operandB);
-        }
+    
+    public void setValue(Variable v) {
+        value = v;
     }
     
     public void setAttrs(Expression opA, Operation op, Expression opB) {
@@ -82,11 +70,11 @@ public class Expression {
         this.operandB = opB;
     }
     
-    public void setExpAttrs(Expression e, Expression opA, Operation op, Expression opB) {
-        e.operandA = opA;
-        e.operation = op;
-        e.operandB = opB;
-    }
+//    public void setExpAttrs(Expression e, Expression opA, Operation op, Expression opB) {
+//        e.operandA = opA;
+//        e.operation = op;
+//        e.operandB = opB;
+//    }
     
     public void setOperandA(Expression operandA) {
         this.operandA = operandA;
@@ -104,12 +92,33 @@ public class Expression {
         return value;
     }
     
-    public Variable setValue(Variable v) {
-        return value = v;
+    public Variable evaluateExpression() throws ExceptionHandler {
+        if (operation == Operation.NO_OP) {
+            if (value != null) {
+                String name = value.getName();
+                FlowState flowState = AppModel.getInstance().getEngine().getFlowState();
+                Variable v = flowState != null ? flowState.getVar(name) : null;
+                if (v != null) {
+                    return v != null ? v : value;
+                } else {
+                    return value;
+                }
+            } else {
+                ExpressionException.unassignedExpression("Tried to evaluate expression: " + operation + "(" + operandA + ", " + operandB + ")");
+                return null;
+            }
+        } else if (value != null && operandB == null) {
+            return value;
+        } else {
+            return operation.perform(operandA, operandB);
+        }
     }
     
     public String toString() {
-        Object o = ((value == null)? null : value.getValue());
+        Object o = null;
+        if (value != null) {
+            o = value.getName() == "" ? value.getValue() : AppModel.getInstance().getEngine().getFlowState().getVar(value.getName()).getValue();
+        }
         return "< " + operation + "(" + operandA + ", " + operandB + ") => " + o + " />";
     }
 }
