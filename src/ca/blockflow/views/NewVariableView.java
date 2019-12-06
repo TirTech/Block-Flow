@@ -2,6 +2,7 @@ package ca.blockflow.views;
 
 import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.logic.Variable;
+import ca.blockflow.models.AppModel;
 import ca.blockflow.util.VoidFunction;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,7 +42,7 @@ public class NewVariableView extends VBox {
                 txtName.setText(oldVal);
                 newVal = oldVal;
             }
-            btnSubmit.setDisable(newVal == null || newVal.trim().isEmpty());
+            btnSubmit.setDisable(newVal == null || newVal.trim().isEmpty() || varExists(newVal));
         });
         
         btnCancel.setOnAction(e -> {
@@ -52,10 +53,18 @@ public class NewVariableView extends VBox {
         
         btnSubmit.setOnAction(e -> {
             Variable newVar = new Variable<>(txtName.getText(), form.getSelectedType(), form.getValue());
+            txtName.clear();
             if (onSubmit != null) {
                 onSubmit.accept(newVar);
             }
         });
+    }
+    
+    private boolean varExists(String newVal) {
+        for (Variable var : AppModel.getInstance().getVariables()) {
+            if (var.getName().equals(newVal)) return true;
+        }
+        return false;
     }
     
     
