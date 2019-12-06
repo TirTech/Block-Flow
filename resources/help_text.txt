@@ -12,14 +12,17 @@ Creating a new Block - Drag a selected block from the menu on the left-hand side
 
 Deleting a block - Right-click on the desired block and select delete to remove a block.
 
-Control Bar - The buttons used to control the program consists of Play, Pause, Stepping, and Stopped. The control bar is located right above the
+Control Bar - The buttons used to control the program consists of Play, Pause, Stepping, and Stopped. The control bar is located above the variable editing pane.
 
 The 'Play' button runs the flow. it executes all blocks and edits the variables' values in the variable window to their final state.
-The 'Pause' button is used to stop the flow after its currently executing block and waits until another another control button is pressed.
+
+The 'Pause' button is used to stop the flow after its currently executing block and waits until another control button is pressed.
+
 The 'Stop' button stops the flow after its currently executing block, and returns to the starting state of the flow.
+
 The 'Stepping' button is used to execute the current block and pause on the next block, allowing you to go through your flow step-by-step if something is not working as intended.
 
-Variable Creation - Using the panel on the right hand side of the screen you an define your own variables! After clicking 'Add Variable' you are given the option between four types; Strings (words), Integers (whole numbers), Doubles (decimal numbers) or Booleans (true/false). Selecting one of these gives you a space to input a variables value. These variables can be used by all blocks, and can be used in more than one block per flow. They can also be saved/loaded, using the 'Save Variables' and 'Load Variables' at the bottom of the pane.
+Variable Creation - Using the panel on the right hand side of the screen you can define your own variables! After clicking 'Add Variable' you are given the option between four types; Strings (words), Integers (whole numbers), Doubles (decimal numbers) or Booleans (true/false). Selecting one of these gives you a space to input a variable value. These variables can be used by all blocks, and can be used in more than one block per flow. They can also be saved/loaded, using the 'Save Variables' and 'Load Variables' at the bottom of the pane.
 
 
 #Blocks
@@ -27,17 +30,18 @@ This section is dedicated to the explanation of each individual block type. Bloc
 
 Assignment Block - This block is responsible for assigning variables that have been created in the variable creation window with a value. Assignment blocks can also hold a disposable value not stored in a variable.
 
-If Block - This block is responsible for decision making. It is made up of two parts, If and Else. If the comparison is true, the 'If' section will be run and the 'Else' section will be skipped. If the comparison is false, the 'Else' section will be run and the 'If' section will be skipped.
+If Block - This block is responsible for decision making. It is made up of two parts, If and Else. If the comparison is true, the True section will be run and the False section will be skipped. If the comparison is false, the False section will be run and the True section will be skipped.
 
 For-Loop Block - This block is responsible for doing an action multiple times. It has a condition like an If Block and will run itself repeatedly until that condition is false. For-Loop blocks are typically used when you know how many times you need to loop.
 
 While-Loop block - This block is also responsible for doing an action multiple times. It has a condition like an If-Block and will run itself repeatedly until that condition is false. While-Loop blocks are typically used when you don't know how many times you need to loop.
 
-Function Block - The Function block allows for a flow to be stored and executed within another flow.
+Function Block - This is the base block for the flow and is not deletable or editable
 
 #Error Handling
-Any errors the program has will be presented to the user in the exception window at the bottom of the application window. These errors hold two pieces of information, the error being thrown and the cause of that error:
+Any program errors  will be presented to the user in the exception window at the bottom of the application window. These errors hold two pieces of information, the error being thrown and the cause of that error:
 
 'TheErrorBeingThrown: Why the error is being thrown.'
 
 Errors are typically thrown by blocks due to type mismatching, although they can be thrown by other sections of the program.
+
