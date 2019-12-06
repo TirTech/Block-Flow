@@ -32,6 +32,7 @@ public class BlockMenuView extends VBox {
         //  --- Option List Setup   ---
         VBox optionList = new VBox();
         for (BlockTypes type : BlockTypes.values()) {
+            if (type == BlockTypes.FUNCTION) continue;
             optionList.getChildren().add(setupBlock(type));
         }
         optionList.setSpacing(10);
