@@ -19,7 +19,6 @@ public class NewVariableView extends VBox {
     
     private TextField txtName = new TextField();
     private Button btnSubmit = new Button("Create");
-    private Button btnCancel = new Button("Cancel");
     private ValueForm form = new ValueForm(SupportedTypes.valuesAsList());
     private Consumer<Variable> onSubmit;
     private VoidFunction onCancel;
@@ -28,6 +27,7 @@ public class NewVariableView extends VBox {
         
         // View init
         HBox rowName = new HBox(new Label("Name: "), txtName);
+        Button btnCancel = new Button("Cancel");
         HBox rowButtons = new HBox(btnSubmit, btnCancel);
         rowName.setSpacing(5);
         rowButtons.setSpacing(5);

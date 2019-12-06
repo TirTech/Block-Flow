@@ -35,14 +35,12 @@ public class SubblockContainerController {
             BlockTypes type = (BlockTypes) e.getDragboard().getContent(AppUtils.REF_BLOCK_TYPE);
             String movedViewKey = (String) e.getDragboard().getContent(AppUtils.REF_BLOCK_VIEW);
             if (type != null) {
-                System.out.println("OOO A BLOCK DRAG!");
                 BlockView newBlock = new BlockView(view, type);
                 view.getSubblocks().add(newBlock);
                 view.getChildren().add(newBlock);
                 e.setDropCompleted(true);
                 e.consume(); //Required to prevent duplicates up the event tree
             } else if (movedViewKey != null) {
-                System.out.println("A BlockView was dropped here");
                 BlockView movedView = (BlockView) AppUtils.getFromRefBoard(movedViewKey);
                 movedView.delete();
                 Point2D mousePos = new Point2D(e.getX(), e.getY());
@@ -85,10 +83,8 @@ public class SubblockContainerController {
         if (subblocks.size() > 0) {
             parentBlock.getBackingBlock().setSubblock(view.getName(), subblocks.get(0).getBackingBlock());
             for (int index = 0; index < subblocks.size() - 1; index++) {
-                System.out.println("Linking Subblock Container " + view + " => " + index);
                 subblocks.get(index).link(subblocks.get(index + 1).getBackingBlock());
             }
-            System.out.println("Linking Subblock Container " + view + " => " + (subblocks.size() - 1));
             subblocks.get(subblocks.size() - 1).link(finalBlock);
         }
     }

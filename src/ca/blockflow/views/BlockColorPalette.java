@@ -40,9 +40,7 @@ public class BlockColorPalette implements Saveable {
     
     private void writeObject(ObjectOutputStream outStream) throws IOException {
         HashMap<BlockTypes, ColorContainer> hm = new HashMap<>();
-        colors.forEach((k, v) -> {
-            hm.put(k, new ColorContainer(v.getValue()));
-        });
+        colors.forEach((k, v) -> hm.put(k, new ColorContainer(v.getValue())));
         outStream.writeObject(hm);
     }
 }

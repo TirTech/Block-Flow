@@ -27,7 +27,7 @@ public interface Saveable extends Serializable {
             objOut.close();
             return obj;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            AppUtils.logError(e.getMessage());
             return null;
         } finally {
             try {

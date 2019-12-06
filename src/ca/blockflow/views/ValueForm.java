@@ -1,6 +1,7 @@
 package ca.blockflow.views;
 
 import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.Variable;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -119,6 +120,26 @@ public class ValueForm extends GridPane {
             toggleNode(this, true);
         } else {
             toggleNode(this, false);
+        }
+    }
+    
+    public void setup(Variable value) {
+        this.cbTypes.setValue(value.getType());
+        switch (value.getType()) {
+            case STRING:
+                txtValue.setText((String) value.getValue());
+                break;
+            case INT:
+                Integer valInt = (Integer) value.getValue();
+                spinInt.getValueFactory().setValue(valInt);
+                break;
+            case DOUBLE:
+                Double valDbl = (Double) value.getValue();
+                spinDouble.getValueFactory().setValue(valDbl);
+                break;
+            case BOOLEAN:
+                boolVal.setSelected((Boolean) value.getValue());
+                break;
         }
     }
 }

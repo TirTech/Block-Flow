@@ -4,6 +4,7 @@ import ca.blockflow.expressions.Expression;
 import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.logic.Operation;
 import ca.blockflow.logic.Variable;
+import ca.blockflow.models.AppModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -90,12 +91,12 @@ public class ExpressionsView extends GridPane {
     }
     
     public Expression createExpression() {
-        SupportedTypes selection;
+        /*SupportedTypes selection;
         if (opBOptionsView.getValue() == Operation.NO_OP) {
             selection = formA.getSelectedType();
         } else {
             selection = SupportedTypes.highestPromotion(Operation.getSupportedTypes(opBOptionsView.getValue()));
-        }
+        }*/
         Object valueA = formA.getValue();
         Object valueB = formB.getValue();
     
@@ -103,14 +104,14 @@ public class ExpressionsView extends GridPane {
         if (aUsingVars.isSelected()) {
             newVarA = aVariableChoiceBox.getValue();
         } else {
-            newVarA = new Variable<>("", selection, valueA);
+            newVarA = new Variable<>("", formA.getSelectedType(), valueA);
         }
     
         Variable newVarB;
         if (bUsingVars.isSelected()) {
             newVarB = bVariableChoiceBox.getValue();
         } else {
-            newVarB = new Variable<>("", selection, valueB);
+            newVarB = new Variable<>("", formB.getSelectedType(), valueB);
         }
         
         Operation op = opBOptionsView.getValue();
@@ -150,5 +151,44 @@ public class ExpressionsView extends GridPane {
     private void toggleNode(Node node, boolean state) {
         node.setVisible(state);
         node.setManaged(state);
+    }
+    
+    public void loadExpression(Expression expression) {
+        if (expression == null) return;
+        opBOptionsView.setValue(expression.getOperation());
+    
+        Expression aexp = expression.getOperandA();
+        Expression bexp = expression.getOperandB();
+        if (expression.getOperation() == Operation.NO_OP) {
+            aexp = expression;
+        }
+        
+        if (aexp != null) {
+            Variable avar = aexp.getValue();
+        
+            if (avar != null) {
+                if (avar.getName().trim().isEmpty()) {
+                    formA.setup(avar);
+                } else {
+                    aUsingVars.setSelected(true);
+                    aVariableChoiceBox.setValue(AppModel.getInstance().findVar(avar.getName()));
+                }
+            }
+        }
+    
+        if (bexp != null) {
+            Variable bvar = bexp.getValue();
+        
+            if (bvar != null) {
+                if (bvar.getName().trim().isEmpty()) {
+                    formB.setup(bvar);
+                } else {
+                    bUsingVars.setSelected(true);
+                    bVariableChoiceBox.setValue(AppModel.getInstance().findVar(bvar.getName()));
+                }
+            }
+        }
+        getAppropriateFieldA();
+        getAppropriateFieldB();
     }
 }

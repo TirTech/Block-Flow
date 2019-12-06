@@ -20,7 +20,7 @@ public class StyleUtils {
         return getCurvedBorder(radius, color, BorderStroke.THICK);
     }
     
-    public static Border getCurvedBorder(int radius, Paint color, BorderWidths stroke) {
+    private static Border getCurvedBorder(int radius, Paint color, BorderWidths stroke) {
         return new Border(new BorderStroke(color, BorderStrokeStyle.SOLID, new CornerRadii(radius), stroke));
     }
     

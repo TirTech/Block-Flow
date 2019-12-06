@@ -34,28 +34,28 @@ public class FlowControlsController {
             try {
                 model.getEngine().pause();
             } catch (MissingFlowStateException e1) {
-                AppUtils.logError(e1.getMessage());
+                AppUtils.logError(e1);
             }
         });
         view.getBtnStop().setOnAction(e -> {
             try {
                 model.getEngine().stop();
             } catch (MissingFlowStateException e1) {
-                AppUtils.logError(e1.getMessage());
+                AppUtils.logError(e1);
             }
         });
         view.getBtnStep().setOnAction(e -> {
             try {
                 model.getEngine().step();
             } catch (MissingFlowStateException e1) {
-                AppUtils.logError(e1.getMessage());
+                AppUtils.logError(e1);
             }
         });
         view.getBtnPlay().setOnAction(e -> {
             try {
                 doPlay();
             } catch (InvalidFlowStateException | MissingFlowStateException e1) {
-                AppUtils.logError(e1.getMessage());
+                AppUtils.logError(e1);
             }
         });
     }
@@ -82,9 +82,7 @@ public class FlowControlsController {
         state.addVars(model.getVariables());
         state.setCurrentBlock(bvRoot.getBackingBlock());
         model.getEngine().setFlowState(state);
-        model.getEngine().setOnFailed(e -> {
-            AppUtils.logError(e.getSource().getException().getMessage());
-        });
+        model.getEngine().setOnFailed(e -> AppUtils.logError(e.getSource().getException()));
         model.getEngine().play();
     }
     

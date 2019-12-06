@@ -160,7 +160,7 @@ public class OperationUtils {
             }
     }
     
-    private static boolean[] boolValues(Object lVal, Object rVal) throws ExceptionHandler{
+    private static boolean[] boolValues(Object lVal, Object rVal) {
         boolean lIsInt = validInt(lVal);
         boolean rIsInt = validInt(rVal);
         boolean lIsDouble = validDouble(lVal);
@@ -210,22 +210,53 @@ public class OperationUtils {
         }
     }
     
-    public static boolean intToBoolean(int val) {
+    private static boolean validInt(Object o) {
+        try {
+            int i = (Integer) o;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    private static boolean validDouble(Object o) {
+        try {
+            double i = (Double) o;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    private static boolean validBoolean(Object o) {
+        try {
+            boolean b = (boolean) o;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    private static boolean intToBoolean(int val) {
         return val > 0;
     }
+
+//    static Object genericVal(Object o) {
+//        return o;
+//    }
     
     public static boolean doubleToBoolean(double val) {
         return val > 0;
     }
     
-    public static int booleanToInt(boolean val) {
+    private static int booleanToInt(boolean val) {
         if (val) {
             return 1;
         }
         return 0;
     }
     
-    public static String convertToString(Object o) {
+    private static String convertToString(Object o) {
         if (validInt(o)) {
             return Integer.toString((Integer) o);
         }
@@ -237,26 +268,19 @@ public class OperationUtils {
         }
     }
     
-//    static Object genericVal(Object o) {
-//        return o;
-//    }
-    
-    static boolean booleanVal(Object o) {
-        if (o != null) {
-            if (validBoolean(o)) {
-                return (boolean) o;
-            }
-            else {
-                if (validInt(o) || validDouble(o)) {
-                    return new BigDecimal(o.toString()).doubleValue() > 0;
-                }
-                else return o.toString().length() > 0;
-            }
-        }
-        return false;
+    static Object genericVal(Expression e) throws ExceptionHandler {
+        return Operation.getExpValue(e).getValue();
     }
     
-    static int intValue(Object o) {
+    static boolean booleanVal(Expression e) throws ExceptionHandler {
+        return (boolean) Operation.getExpValue(e).getValue();
+    }
+    
+    static int intValue(Expression e) throws ExceptionHandler {
+        return (int) Operation.getExpValue(e).getValue();
+    }
+    
+    private static int intValue(Object o) {
         if (o != null) {
             String n = o.toString();
             if (validInt(o) || validDouble(o)) {
@@ -274,49 +298,9 @@ public class OperationUtils {
         return 0;
     }
     
-    static double doubleValue(Object o) {
-        if (o != null) {
-            String n = o.toString();
-            if (validInt(o) || validDouble(o)) {
-                return new BigDecimal(n).doubleValue();
-            }
-            else if (n.length() > 0) {
-                if (checkDouble(n)) {
-                    return new BigDecimal(n).doubleValue();
-                }
-            }
-            else if (validBoolean(o)) {
-                return ((booleanVal(o))? 1 : 0);
-            }
-        }
-        return 0;
-    }
-    
-    static Object genericVal(Expression e) throws ExceptionHandler {
-        return Operation.getExpValue(e).getValue();
-    }
-    
-    static boolean booleanVal(Expression e) throws ExceptionHandler {
-        return (boolean) Operation.getExpValue(e).getValue();
-    }
-    
-    static int intValue(Expression e) throws ExceptionHandler {
-        return (int) Operation.getExpValue(e).getValue();
-    }
-    
-    static boolean checkInt(String text) {
+    private static boolean checkInt(String text) {
         try {
-            BigInteger i = new BigInteger(text);
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-    
-    static boolean checkDouble(String text) {
-        try {
-            BigDecimal i = new BigDecimal(text);
+            new BigInteger(text);
             return true;
         }
         catch (Exception e) {
@@ -334,9 +318,40 @@ public class OperationUtils {
         }
     }
     
-    public static boolean validInt(Object o) {
+    private static boolean booleanVal(Object o) {
+        if (o != null) {
+            if (validBoolean(o)) {
+                return (boolean) o;
+            } else {
+                if (validInt(o) || validDouble(o)) {
+                    return new BigDecimal(o.toString()).doubleValue() > 0;
+                } else {
+                    return o.toString().length() > 0;
+                }
+            }
+        }
+        return false;
+    }
+    
+    private static double doubleValue(Object o) {
+        if (o != null) {
+            String n = o.toString();
+            if (validInt(o) || validDouble(o)) {
+                return new BigDecimal(n).doubleValue();
+            } else if (n.length() > 0) {
+                if (checkDouble(n)) {
+                    return new BigDecimal(n).doubleValue();
+                }
+            } else if (validBoolean(o)) {
+                return ((booleanVal(o)) ? 1 : 0);
+            }
+        }
+        return 0;
+    }
+    
+    private static boolean checkDouble(String text) {
         try {
-            int i = (Integer) o;
+            new BigDecimal(text);
             return true;
         }
         catch (Exception e) {
@@ -344,27 +359,7 @@ public class OperationUtils {
         }
     }
     
-    public static boolean validDouble(Object o) {
-        try {
-            double i = (Double) o;
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-    
-    public static boolean validBoolean(Object o) {
-        try {
-            boolean b = (boolean)o;
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-    
-    public static boolean validString(Object o) {
+    private static boolean validString(Object o) {
         return o != null;
     }
 }

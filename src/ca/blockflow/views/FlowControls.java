@@ -8,15 +8,14 @@ import javafx.scene.layout.HBox;
 
 public class FlowControls extends HBox {
     
-    private static double BUTTON_SIZE = 25;
     private Button btnPlay = new Button();
     private Button btnPause = new Button();
     private Button btnStep = new Button();
     private Button btnStop = new Button();
-    private FlowControlsController controller = new FlowControlsController(this);
     
     public FlowControls() {
         super(5);
+        double BUTTON_SIZE = 25;
         btnPlay.setGraphic(StyleUtils.getImage("controls/play.png", BUTTON_SIZE));
         btnPause.setGraphic(StyleUtils.getImage("controls/pause.png", BUTTON_SIZE));
         btnStep.setGraphic(StyleUtils.getImage("controls/step-forward.png", BUTTON_SIZE));
@@ -24,6 +23,7 @@ public class FlowControls extends HBox {
         getChildren().addAll(btnPlay, btnPause, btnStep, btnStop);
         setBorder(StyleUtils.getCurvedBorderGrey(5));
         setPadding(new Insets(5));
+        FlowControlsController controller = new FlowControlsController(this);
         controller.setHandlers();
     }
     

@@ -50,7 +50,7 @@ public class HelpView extends Dialog {
     
     private ArrayList<Text> loadHelpText() throws IOException {
         List<String> lines = Files.readAllLines(new File(AppUtils.getResource("help_text.txt")).toPath());
-        ArrayList<Text> texts = lines.stream().map(l -> {
+        return lines.stream().map(l -> {
             Text txt = new Text();
             String text = l;
             if (l.startsWith("#")) {
@@ -60,6 +60,5 @@ public class HelpView extends Dialog {
             txt.setText(text + "\n");
             return txt;
         }).collect(Collectors.toCollection(ArrayList::new));
-        return texts;
     }
 }

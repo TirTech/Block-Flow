@@ -17,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +56,8 @@ public class BlockView extends VBox {
     
     private void initView() {
         this.nameLabel.setText(model.getType().getBlockName());
+        nameLabel.setTextFill(Color.BLACK);
+        nameLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, 14));
         SimpleObjectProperty<Color> color = AppModel.getInstance().getColors().getColor(model.getType());
         this.setEffect(new DropShadow(5, 2.5, 2.5, color.get().darker().darker()));
         model.blockColorProperty().bind(color);
@@ -90,7 +94,6 @@ public class BlockView extends VBox {
      */
     public void link(Block finalBlock) {
         //Link each container to finalBlock
-        System.out.println("Linking " + this);
         List<String> loopingBlocks = Arrays.asList(model.getBackingBlock().getLoopingSubblockNames());
         model.getBackingBlock().setNextLinkedBlock(finalBlock);
         model.getContainers().forEach(c -> {
@@ -124,5 +127,9 @@ public class BlockView extends VBox {
     
     public void toggleBreakpoint() {
         controller.toggleBreakpoint();
+    }
+    
+    public void showEditor() {
+        controller.showEditor();
     }
 }
