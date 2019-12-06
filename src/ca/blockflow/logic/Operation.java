@@ -159,7 +159,7 @@ public enum Operation {
     public static Variable getExpValue(Expression exp) throws ExceptionHandler { return exp.evaluateExpression(); }
     
     public static ArrayList<Operation> getIntOps() {
-        ArrayList<Operation> ops = new ArrayList<>(
+        return new ArrayList<>(
                 Arrays.asList(NO_OP,
                               INT_PLUS,
                               INT_SUB,
@@ -168,11 +168,10 @@ public enum Operation {
                               INT_MOD,
                               INT_FACT,
                               INT_POW));
-        return ops;
     }
     
     public static ArrayList<Operation> getDoubleOps() {
-        ArrayList<Operation> ops = new ArrayList<>(
+        return new ArrayList<>(
                 Arrays.asList(NO_OP,
                               DOUBLE_POW,
                               DOUBLE_PLUS,
@@ -180,11 +179,10 @@ public enum Operation {
                               DOUBLE_MULT,
                               DOUBLE_DIV,
                               DOUBLE_FACT));
-        return ops;
     }
     
     public static ArrayList<Operation> getBooleanOps() {
-        ArrayList<Operation> ops = new ArrayList<>(
+        return new ArrayList<>(
                 Arrays.asList(NO_OP,
                               EQUALS,
                               LOGICAL_NOT,
@@ -196,15 +194,13 @@ public enum Operation {
                               LESS_THAN,
                               GREATER_THAN_OR_EQUAL,
                               LESS_THAN_OR_EQUAL));
-        return ops;
     }
     
     public static ArrayList<Operation> getStringOps() {
-        ArrayList<Operation> ops = new ArrayList<>(
+        return new ArrayList<>(
                 Arrays.asList(NO_OP,
                               CONCAT,
                               INDEX_SEARCH));
-        return ops;
     }
     
     public static ArrayList<SupportedTypes> getSupportedTypes(Operation op) {
@@ -229,8 +225,6 @@ public enum Operation {
         else if (opName.contains("THAN") || opName.contains("EQUALS")) {
             types.addAll(Arrays.asList(INT, DOUBLE, BOOLEAN, STRING));
         }
-        System.out.println("op:\t" + op + "\ttypes:\t" + types);
-//        }
         return types;
     }
 }

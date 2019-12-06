@@ -29,7 +29,7 @@ public class IfBlock extends Block {
     
     public Block call(FlowState state) throws BlockException, ExceptionHandler {
         //needs to get expression from view to evaluate
-        Block subBlock = null;
+        Block subBlock;
         Variable boolVar = expression.evaluateExpression();
         SupportedTypes t = boolVar.getType();
         

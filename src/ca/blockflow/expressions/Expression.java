@@ -15,12 +15,8 @@ public class Expression implements Saveable {
     private Operation operation;
     private Expression operandB;
     private Variable value;
-
-    public Expression() {
-//        flowState.getCurrentBlock();
-//        System.out.println(operation.toString());
-//        this.operation = (a, b) -> {return operation(a, b)};
-    }
+    
+    private Expression() {}
     
     public Expression(Expression opA, Operation op, Expression opB) {
         setAttrs(opA, op, opB);
@@ -36,56 +32,56 @@ public class Expression implements Saveable {
     public Expression simpleAssignExpression(Variable v) throws ExceptionHandler {
         Expression e = new Expression();
         e.setValue(v);
-//        e.setOperation(Operation.NO_OP);
         initExpression(e, Operation.NO_OP, null);
         return e;
     }
     
-    public boolean initExpression(Expression a, Operation o, Expression b) throws ExceptionHandler {
+    public Operation getOperation() {
+        return operation;
+    }
+    
+    private void setOperation(Operation operation) {
+        this.operation = operation;
+    }
+    
+    public Expression getOperandA() {
+        return operandA;
+    }
+    
+    private void setOperandA(Expression operandA) {
+        this.operandA = operandA;
+    }
+    
+    public Expression getOperandB() {
+        return operandB;
+    }
+    
+    private void setOperandB(Expression operandB) {
+        this.operandB = operandB;
+    }
+    
+    private void initExpression(Expression a, Operation o, Expression b) throws ExceptionHandler {
         if (a == null && value == null) {
             ExpressionException.creationException("Unable to create an expression for:\n\tA\t-\t<" +
-                                                  a + ">\n\tOP\t-\t<" +
+                                                  null + ">\n\tOP\t-\t<" +
                                                   o + ">\n\tB\t-\t<" +
                                                   b + ">");
-        }
-        else if (value != null){
-            ///////////////////////////////////
-        }
-        else if (o == null) {
+        } else if (value == null && o == null) {
             o = Operation.NO_OP;
         }
         this.operandA = a;
         this.operation = o;
         this.operandB = b;
-        return true;
     }
     
-    public void setValue(Variable v) {
+    private void setValue(Variable v) {
         value = v;
     }
     
-    public void setAttrs(Expression opA, Operation op, Expression opB) {
+    private void setAttrs(Expression opA, Operation op, Expression opB) {
         this.operandA = opA;
         this.operation = op;
         this.operandB = opB;
-    }
-    
-//    public void setExpAttrs(Expression e, Expression opA, Operation op, Expression opB) {
-//        e.operandA = opA;
-//        e.operation = op;
-//        e.operandB = opB;
-//    }
-    
-    public void setOperandA(Expression operandA) {
-        this.operandA = operandA;
-    }
-    
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-    }
-    
-    public void setOperandB(Expression operandB) {
-        this.operandB = operandB;
     }
     
     public Variable getValue() {
@@ -99,7 +95,7 @@ public class Expression implements Saveable {
                 FlowState flowState = AppModel.getInstance().getEngine().getFlowState();
                 Variable v = flowState != null ? flowState.getVar(name) : null;
                 if (v != null) {
-                    return v != null ? v : value;
+                    return v;
                 } else {
                     return value;
                 }
@@ -117,7 +113,7 @@ public class Expression implements Saveable {
     public String toString() {
         Object o = null;
         if (value != null) {
-            o = value.getName() == "" ? value.getValue() : AppModel.getInstance().getEngine().getFlowState().getVar(value.getName()).getValue();
+            o = value.getName().equals("") ? value.getValue() : AppModel.getInstance().getEngine().getFlowState().getVar(value.getName()).getValue();
         }
         return "< " + operation + "(" + operandA + ", " + operandB + ") => " + o + " />";
     }

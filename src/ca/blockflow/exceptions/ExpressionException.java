@@ -1,7 +1,5 @@
 package ca.blockflow.exceptions;
 
-import java.util.Arrays;
-
 public class ExpressionException extends Exception{
     
     private static final String NEW_LINE_SPACE = "\n\t\t\t\t\t";

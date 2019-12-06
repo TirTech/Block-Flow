@@ -39,5 +39,9 @@ public class ForLoopBlockEditor extends BlockEditor<ForLoopBlock> {
     }
     
     @Override
-    public void initUI() {}
+    public void initUI() {
+        expView.loadExpression(backingBlock.getExpression());
+        indexVars.setValue(AppModel.getInstance().findVar(backingBlock.getIndexVar().getName()));
+        formIncrement.setup(backingBlock.getIncrements());
+    }
 }

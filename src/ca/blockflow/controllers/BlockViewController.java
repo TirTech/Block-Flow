@@ -37,7 +37,6 @@ public class BlockViewController {
             view.getChildren().add(container);
         }
         view.setOnDragDetected(e -> {
-            System.out.println("DRAG ON VIEW STARTED!");
             Dragboard db = view.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.put(AppUtils.REF_BLOCK_VIEW, AppUtils.addToRefBoard(view));
@@ -46,13 +45,7 @@ public class BlockViewController {
         });
         view.setOnMouseClicked(e -> {
             if (e.getClickCount() >= 2 && e.getButton() != MouseButton.SECONDARY) {
-                EditorDialog dialog = null;
-                try {
-                    dialog = new EditorDialog(model.getType(), model.getBackingBlock());
-                    dialog.show();
-                } catch (IllegalAccessException | InstantiationException e1) {
-                    AppUtils.logError(e1.getMessage());
-                }
+                showEditor();
                 e.consume();
             }
         });
@@ -86,5 +79,14 @@ public class BlockViewController {
     public void toggleBreakpoint() {
         model.setBreakpoint(! model.isBreakpoint());
         model.getBackingBlock().setBreakpoint(model.isBreakpoint());
+    }
+    
+    public void showEditor() {
+        try {
+            EditorDialog dialog = new EditorDialog(model.getType(), model.getBackingBlock());
+            dialog.show();
+        } catch (IllegalAccessException | InstantiationException e1) {
+            AppUtils.logError(e1);
+        }
     }
 }

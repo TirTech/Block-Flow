@@ -98,4 +98,8 @@ public class AssignmentBlock extends Block {
     public void setNextBlock(Block b) {
         this.nextBlock = b;
     }
+    
+    public Expression getExpression() {
+        return expression;
+    }
 }

@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 public class IfBlockEditor extends BlockEditor<IfBlock> {
     
     private ExpressionsView expView = new ExpressionsView(SupportedTypes.BOOLEAN, AppModel.getInstance().getVariables());
-    private ExpressionsView expEditor;
     
     public IfBlockEditor() {
         getChildren().addAll(expView);
@@ -22,5 +21,7 @@ public class IfBlockEditor extends BlockEditor<IfBlock> {
     }
     
     @Override
-    public void initUI() {}
+    public void initUI() {
+        expView.loadExpression(backingBlock.getExpression());
+    }
 }

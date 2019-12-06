@@ -105,10 +105,8 @@ public class ForLoopBlock extends Block {
      */
     @Override
     public void setSubblock(String name, Block block) {
-        switch (name) {
-            case "Body":
-                this.subBlock = block;
-                break;
+        if ("Body".equals(name)) {
+            this.subBlock = block;
         }
     }
 }

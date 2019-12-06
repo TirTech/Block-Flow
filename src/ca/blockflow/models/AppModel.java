@@ -72,4 +72,13 @@ public class AppModel {
     public SimpleObjectProperty<FunctionBlockView> rootBlockViewProperty() {
         return rootBlockView;
     }
+    
+    public Variable findVar(String name) {
+        for (Variable var : getVariables()) {
+            if (var.getName().equals(name)) {
+                return var;
+            }
+        }
+        return null;
+    }
 }

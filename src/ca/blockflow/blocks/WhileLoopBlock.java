@@ -6,9 +6,10 @@ import ca.blockflow.expressions.Expression;
 import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
-import javafx.scene.layout.HBox;
 
 public class WhileLoopBlock extends Block{
+    
+    private static final long serialVersionUID = 1L;
     /** The expression that indicates if the for loop should loop again */
     private Expression expression;
     
@@ -33,8 +34,6 @@ public class WhileLoopBlock extends Block{
         } else {
             //  --- Set Loop if condition is true   ---
             if (((Variable<Boolean>) boolVar).getValue()) nextBlock = subBlock;
-            //  --- Continue past loop if condition is false  ---
-            else setNextLinkedBlock(null);
         }
     
         return nextBlock;
@@ -55,10 +54,12 @@ public class WhileLoopBlock extends Block{
      */
     @Override
     public void setSubblock(String name, Block block) {
-        switch (name) {
-            case "Body":
-                this.subBlock = block;
-                break;
+        if ("Body".equals(name)) {
+            this.subBlock = block;
         }
+    }
+    
+    public Expression getExpression() {
+        return expression;
     }
 }

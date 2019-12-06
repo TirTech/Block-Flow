@@ -140,7 +140,7 @@ public class FlowState {
      * Gets the current Scope
      * @return the current scope
      */
-    public Scope getCurrentScope() {
+    private Scope getCurrentScope() {
         return scopes.get(scopes.size() - 1);
     }
     
