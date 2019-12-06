@@ -159,7 +159,10 @@ public class ExpressionsView extends GridPane {
     
         Expression aexp = expression.getOperandA();
         Expression bexp = expression.getOperandB();
-    
+        if (expression.getOperation() == Operation.NO_OP) {
+            aexp = expression;
+        }
+        
         if (aexp != null) {
             Variable avar = aexp.getValue();
         
