@@ -6,8 +6,10 @@ import ca.blockflow.util.AppUtils;
 import ca.blockflow.views.floweditor.BlockView;
 import ca.blockflow.views.floweditor.EditorDialog;
 import ca.blockflow.views.floweditor.SubblockContainer;
+import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 
 import java.util.Arrays;
@@ -24,6 +26,7 @@ public class BlockViewController {
     }
     
     public void setHandlers() {
+        toggleNode(view.getBreakpointIcon(), model.isBreakpoint());
         String[] subblocks = Stream.concat(
                 Arrays.stream(model.getBackingBlock().getLoopingSubblockNames()),
                 Arrays.stream(model.getBackingBlock().getSubblockNames()))
@@ -42,7 +45,7 @@ public class BlockViewController {
             e.consume();
         });
         view.setOnMouseClicked(e -> {
-            if (e.getClickCount() >= 2) {
+            if (e.getClickCount() >= 2 && e.getButton() != MouseButton.SECONDARY) {
                 EditorDialog dialog = null;
                 try {
                     dialog = new EditorDialog(model.getType(), model.getBackingBlock());
@@ -53,6 +56,17 @@ public class BlockViewController {
                 e.consume();
             }
         });
+        model.breakpointProperty().addListener((obs, oldVal, newVal) -> toggleNode(view.getBreakpointIcon(), newVal));
+    }
+    
+    /**
+     * Enables or disables the visibility and drawing of a node
+     * @param node  the node to toggle
+     * @param state whether to show the node
+     */
+    private void toggleNode(Node node, boolean state) {
+        node.setVisible(state);
+        node.setManaged(state);
     }
     
     public SerialBlockTree serializeTree() {
@@ -67,5 +81,10 @@ public class BlockViewController {
         for (SubblockContainer container : model.getContainers()) {
             container.constructTree(tree);
         }
+    }
+    
+    public void toggleBreakpoint() {
+        model.setBreakpoint(! model.isBreakpoint());
+        model.getBackingBlock().setBreakpoint(model.isBreakpoint());
     }
 }

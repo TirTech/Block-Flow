@@ -13,12 +13,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class BlockView extends VBox {
     private static int UUID_GLOBAL = 0;
     private final int UUID = ++ UUID_GLOBAL;
     private Label nameLabel = new Label("New Block" + ">" + UUID);
-    
+    private ImageView breakpoint = StyleUtils.getImage("icons/breakpoint.png", 15);
     private SubblockContainer parent;
     private BlockViewModel model = new BlockViewModel();
     private BlockViewController controller = new BlockViewController(this, model);
@@ -48,6 +47,7 @@ public class BlockView extends VBox {
         this.parent = parent;
         model.setBackingBlock(tree.getBackingBlock());
         model.setType(tree.getType());
+        model.setBreakpoint(model.getBackingBlock().getBreakpoint());
         initView();
         controller.constructTree(tree);
     }
@@ -65,7 +65,7 @@ public class BlockView extends VBox {
         this.setBackground(StyleUtils.solidBackground(model.getBlockColor(), 5));
         this.setSpacing(5);
         this.setPadding(new Insets(5));
-        HBox labelView = new HBox(model.getType().getIcon(15), nameLabel);
+        HBox labelView = new HBox(model.getType().getIcon(15), nameLabel, breakpoint);
         labelView.setSpacing(5);
         labelView.setAlignment(Pos.CENTER_LEFT);
         this.getChildren().addAll(labelView);
@@ -118,4 +118,11 @@ public class BlockView extends VBox {
         return controller.serializeTree();
     }
     
+    public ImageView getBreakpointIcon() {
+        return breakpoint;
+    }
+    
+    public void toggleBreakpoint() {
+        controller.toggleBreakpoint();
+    }
 }
