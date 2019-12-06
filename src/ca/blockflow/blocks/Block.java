@@ -3,7 +3,7 @@ package ca.blockflow.blocks;
 import ca.blockflow.exceptions.BlockException;
 import ca.blockflow.exceptions.ExceptionHandler;
 import ca.blockflow.flows.FlowState;
-import ca.blockflow.main.Saveable;
+import ca.blockflow.serialization.Saveable;
 
 /**
  * Base class for all blocks. Subclasses must implement the <code>call({@link FlowState} state)</code> method.

@@ -41,7 +41,7 @@ public class HelpView extends Dialog {
         try {
             texts.getChildren().addAll(loadHelpText());
         } catch (IOException e) {
-            e.printStackTrace();
+            AppUtils.logError(e.getMessage());
         }
         
         //Finalize

@@ -6,6 +6,7 @@ import ca.blockflow.logic.Variable;
 
 public class FunctionBlock extends Block {
     
+    private static final long serialVersionUID = 1L;
     private static String EXECUTED_VAR_NAME = "FUNCTION_ENTERED";
     private Block bodyBlock;
     

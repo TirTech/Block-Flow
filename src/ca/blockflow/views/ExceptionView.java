@@ -1,31 +1,28 @@
 package ca.blockflow.views;
 
-import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
-
+import javafx.application.Platform;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class ExceptionView extends VBox {
     
-    private TextFlow console;
+    private TextFlow console = new TextFlow();
     private Text pathText;
-    
-    private Color ERROR_COLOR;
-    private String PATH;
+    private ScrollPane scroll = new ScrollPane();
+    private Color ERROR_COLOR = Color.RED;
+    private String PATH = "C:\\blockflow\\main$";
     
     public ExceptionView() {
         initConsole();
-        this.getChildren().add(console);
+        scroll.setContent(console);
+        this.getChildren().add(scroll);
     }
     
     private void initConsole() {
-        this.ERROR_COLOR = Color.RED;
-        this.PATH = "C:\\blockflow\\main$";
-        this.console = new TextFlow();
         this.pathText = new Text(PATH);
     
         pathText.setFont(StyleUtils.consoleFont);
@@ -36,12 +33,18 @@ public class ExceptionView extends VBox {
         this.setBorder(StyleUtils.getCurvedBorderGrey(5));
     }
     
-    public void setConsole(String text) {
-        Text newText = StyleUtils.consoleText("\n" + PATH + "\t" + text + "\n");
-        newText.setFont(StyleUtils.consoleFont);
-        if (!text.equals("")) {
-            newText.setFill(ERROR_COLOR);
+    public void logMessage(String text, boolean error) {
+        setConsole(text, error ? ERROR_COLOR : Color.BLACK);
+    }
+    
+    public void setConsole(String text, Color color) {
+        if (! Platform.isFxApplicationThread()) {
+            Platform.runLater(() -> setConsole(text, color));
+            return;
         }
+        Text newText = StyleUtils.consoleText(text + "\n" + PATH + "\t");
+        newText.setFont(StyleUtils.consoleFont);
+        newText.setFill(color);
         System.out.println("setting console to: " + newText);
         this.console.getChildren().add(newText);
     }

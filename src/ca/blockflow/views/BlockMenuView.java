@@ -1,7 +1,7 @@
 package ca.blockflow.views;
 
 import ca.blockflow.blocks.BlockTypes;
-import ca.blockflow.main.AppModel;
+import ca.blockflow.models.AppModel;
 import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import javafx.beans.property.SimpleObjectProperty;
@@ -30,7 +30,11 @@ public class BlockMenuView extends VBox {
         basicBlocksTab.getChildren().add(spacer);
         
         //  --- Option List Setup   ---
-        VBox optionList = new VBox(setupBlock(BlockTypes.ASSIGNMENT), setupBlock(BlockTypes.FUNCTION), setupBlock(BlockTypes.IF), setupBlock(BlockTypes.WHILELOOP), setupBlock(BlockTypes.FORLOOP));
+        VBox optionList = new VBox();
+        for (BlockTypes type : BlockTypes.values()) {
+            if (type == BlockTypes.FUNCTION) continue;
+            optionList.getChildren().add(setupBlock(type));
+        }
         optionList.setSpacing(10);
         optionList.setPadding(new Insets(5));
         optionList.setAlignment(Pos.TOP_CENTER);

@@ -13,7 +13,7 @@ public class ClassStringConverter extends StringConverter<Class> {
         try {
             return Class.forName(string);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            AppUtils.logError(e.getMessage());
             return Object.class;
         }
     }

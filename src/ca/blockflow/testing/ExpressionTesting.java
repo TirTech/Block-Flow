@@ -50,7 +50,6 @@ class ExpressionTesting {
         workingExp = new Expression();
         FlowState flowState = new FlowState();
         
-        workingExp.setFlowState(flowState);
         testNumber = 0;
         
         xExp = workingExp.simpleAssignExpression(x);

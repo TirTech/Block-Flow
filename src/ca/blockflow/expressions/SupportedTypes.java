@@ -1,6 +1,8 @@
 package ca.blockflow.expressions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public enum SupportedTypes {
     STRING(String.class),
@@ -12,6 +14,10 @@ public enum SupportedTypes {
 
     SupportedTypes(Class clazz) {
         this.clazz = clazz;
+    }
+    
+    public static List<SupportedTypes> valuesAsList() {
+        return Arrays.asList(values());
     }
     
     public Class getTypeClass() {
