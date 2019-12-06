@@ -156,22 +156,34 @@ public class ExpressionsView extends GridPane {
     public void loadExpression(Expression expression) {
         if (expression == null) return;
         opBOptionsView.setValue(expression.getOperation());
+    
+        Expression aexp = expression.getOperandA();
+        Expression bexp = expression.getOperandB();
+    
+        if (aexp != null) {
+            Variable avar = aexp.getValue();
         
-        Variable avar = expression.getOperandA().getValue();
-        Variable bvar = expression.getOperandB().getValue();
-        
-        if (avar.getName().trim().isEmpty()) {
-            formA.setup(avar);
-        } else {
-            aUsingVars.setSelected(true);
-            aVariableChoiceBox.setValue(AppModel.getInstance().findVar(avar.getName()));
+            if (avar != null) {
+                if (avar.getName().trim().isEmpty()) {
+                    formA.setup(avar);
+                } else {
+                    aUsingVars.setSelected(true);
+                    aVariableChoiceBox.setValue(AppModel.getInstance().findVar(avar.getName()));
+                }
+            }
         }
+    
+        if (bexp != null) {
+            Variable bvar = bexp.getValue();
         
-        if (bvar.getName().trim().isEmpty()) {
-            formB.setup(bvar);
-        } else {
-            bUsingVars.setSelected(true);
-            bVariableChoiceBox.setValue(AppModel.getInstance().findVar(bvar.getName()));
+            if (bvar != null) {
+                if (bvar.getName().trim().isEmpty()) {
+                    formB.setup(bvar);
+                } else {
+                    bUsingVars.setSelected(true);
+                    bVariableChoiceBox.setValue(AppModel.getInstance().findVar(bvar.getName()));
+                }
+            }
         }
         getAppropriateFieldA();
         getAppropriateFieldB();
