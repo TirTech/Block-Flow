@@ -44,7 +44,7 @@ public class ColorPrefView extends Dialog {
             rect.setFill(cPicker.getValue());
         });
     
-        this.setOnCloseRequest(e -> AppModel.getInstance().getColors().save("ColorPallet.flow"));
+        this.setOnCloseRequest(e -> AppModel.getInstance().getColors().save("ColorPallet.colors.bflw"));
         /*
         These panes are a mess.
         You have a root grid pane(1 col, 2 rows)

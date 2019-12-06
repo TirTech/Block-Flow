@@ -16,11 +16,11 @@ public interface Saveable extends Serializable {
      * @param <T>      the type of the loaded Object
      * @return the loaded object as type <code>T extends Saveable</code>
      */
-    static <T extends Serializable> T load(Class<T> clazz, String fileName) {
-        FileInputStream fileIn = null;
+    static <T extends Serializable> T load(Class<T> clazz, String fileName, boolean local) {
+        InputStream fileIn = null;
         ObjectInputStream objOut = null;
         try {
-            fileIn = new FileInputStream(fileName);
+            fileIn = local ? Saveable.class.getResourceAsStream(fileName) : new FileInputStream(fileName);
             objOut = new ObjectInputStream(fileIn);
             T obj = clazz.cast(objOut.readObject());
             fileIn.close();

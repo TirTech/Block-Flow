@@ -1,5 +1,6 @@
 package ca.blockflow.views;
 
+import ca.blockflow.serialization.HelpText;
 import ca.blockflow.util.AppUtils;
 import ca.blockflow.util.StyleUtils;
 import javafx.scene.control.ButtonType;
@@ -12,10 +13,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +49,7 @@ public class HelpView extends Dialog {
     }
     
     private ArrayList<Text> loadHelpText() throws IOException {
-        List<String> lines = Files.readAllLines(new File(AppUtils.getResource("help_text.txt")).toPath());
+        List<String> lines = Arrays.asList(HelpText.getHelpText().split("\n"));
         return lines.stream().map(l -> {
             Text txt = new Text();
             String text = l;

@@ -8,7 +8,6 @@ import ca.blockflow.views.floweditor.FunctionBlockView;
 import javafx.scene.input.DataFormat;
 
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +21,7 @@ public class AppUtils {
     private static HashMap<String, Object> refboard = new HashMap<>();
     
     public static String getResource(String filename) {
-        URL res = Thread.currentThread().getContextClassLoader().getResource(filename);
-        return res != null ? res.getPath() : null;
+        return "/" + filename;
     }
     
     public static String addToRefBoard(Object obj) {
@@ -47,7 +45,7 @@ public class AppUtils {
     }
     
     public static void loadAppVariables(String filename) {
-        AppModel.getInstance().setVariables(Saveable.load(ArrayList.class, filename));
+        AppModel.getInstance().setVariables(Saveable.load(ArrayList.class, filename, false));
     }
     
     public static void logMessage(Throwable ex) {
@@ -81,7 +79,7 @@ public class AppUtils {
     }
     
     public static BlockView loadBlockView(String filename) {
-        SerialBlockTree tree = Saveable.load(SerialBlockTree.class, filename);
+        SerialBlockTree tree = Saveable.load(SerialBlockTree.class, filename, false);
         return new FunctionBlockView(tree, null);
     }
     

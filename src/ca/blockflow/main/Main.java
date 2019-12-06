@@ -76,10 +76,10 @@ public class Main extends Application {
         // Load colors
         if (AppUtils.fileExists("ColorPallet.colors.bflw")) {
             System.out.println("Loading Colors...");
-            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, "ColorPallet.colors.bflw"));
+            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, "ColorPallet.colors.bflw", false));
         } else {
             System.out.println("No color preferences. Using default");
-            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, AppUtils.getResource("DefaultPallet.colors.bflw")));
+            AppModel.getInstance().setColors(Saveable.load(BlockColorPalette.class, AppUtils.getResource("DefaultPallet.colors.bflw"), true));
         }
     }
     

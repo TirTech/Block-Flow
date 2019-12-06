@@ -1,0 +1,55 @@
+package ca.blockflow.serialization;
+
+public class HelpText {
+    
+    //This is only needed because we could not get the file working from the resource folder :(
+    public static String getHelpText() {
+        return "#Help\n" +
+               "This is an in-depth explanation of how to use BlockFlow!\n" +
+               "\n" +
+               "BlockFlow is a flowchart design that works by nesting multiple 'Blocks' within each other. Each Block is represented with a unique color and functionality. The start block is created for you and is the first block that will be run. Blocks run themselves and then depending on the Block-type, will run one or more sub-blocks contained within them.\n" +
+               "\n" +
+               "#General\n" +
+               "Flow - A 'flow' refers to a series of nested blocks, and the variables assigned to those blocks. The starting flow is always the same, a single function block. When dragging blocks into the block view, the current flow is being edited.\n" +
+               "\n" +
+               "Basic Blocks - This window holds draggable copies of each Block-type. Drag the desired block type into the target block to add a new Block. Each blocks functionality is explained based on type in the 'Blocks' section.\n" +
+               "\n" +
+               "Creating a new Block - Drag a selected block from the menu on the left-hand side into desired target Block. If the target block has multiple blocks contained in it, continue dragging the selected block above or below the nested blocks to specify the order of execution.\n" +
+               "\n" +
+               "Deleting a block - Right-click on the desired block and select delete to remove a block.\n" +
+               "\n" +
+               "Control Bar - The buttons used to control the program consists of Play, Pause, Stepping, and Stopped. The control bar is located above the variable editing pane.\n" +
+               "\n" +
+               "The 'Play' button runs the flow. it executes all blocks and edits the variables' values in the variable window to their final state.\n" +
+               "\n" +
+               "The 'Pause' button is used to stop the flow after its currently executing block and waits until another control button is pressed.\n" +
+               "\n" +
+               "The 'Stop' button stops the flow after its currently executing block, and returns to the starting state of the flow.\n" +
+               "\n" +
+               "The 'Stepping' button is used to execute the current block and pause on the next block, allowing you to go through your flow step-by-step if something is not working as intended.\n" +
+               "\n" +
+               "Variable Creation - Using the panel on the right hand side of the screen you can define your own variables! After clicking 'Add Variable' you are given the option between four types; Strings (words), Integers (whole numbers), Doubles (decimal numbers) or Booleans (true/false). Selecting one of these gives you a space to input a variable value. These variables can be used by all blocks, and can be used in more than one block per flow. They can also be saved/loaded, using the 'Save Variables' and 'Load Variables' at the bottom of the pane.\n" +
+               "\n" +
+               "\n" +
+               "#Blocks\n" +
+               "This section is dedicated to the explanation of each individual block type. Blocks can be added by dragging them off of the 'Block' menu presented on the left hand side of the window.\n" +
+               "\n" +
+               "Assignment Block - This block is responsible for assigning variables that have been created in the variable creation window with a value. Assignment blocks can also hold a disposable value not stored in a variable.\n" +
+               "\n" +
+               "If Block - This block is responsible for decision making. It is made up of two parts, If and Else. If the comparison is true, the True section will be run and the False section will be skipped. If the comparison is false, the False section will be run and the True section will be skipped.\n" +
+               "\n" +
+               "For-Loop Block - This block is responsible for doing an action multiple times. It has a condition like an If Block and will run itself repeatedly until that condition is false. For-Loop blocks are typically used when you know how many times you need to loop.\n" +
+               "\n" +
+               "While-Loop block - This block is also responsible for doing an action multiple times. It has a condition like an If-Block and will run itself repeatedly until that condition is false. While-Loop blocks are typically used when you don't know how many times you need to loop.\n" +
+               "\n" +
+               "Function Block - This is the base block for the flow and is not deletable or editable\n" +
+               "\n" +
+               "#Error Handling\n" +
+               "Any program errors  will be presented to the user in the exception window at the bottom of the application window. These errors hold two pieces of information, the error being thrown and the cause of that error:\n" +
+               "\n" +
+               "'TheErrorBeingThrown: Why the error is being thrown.'\n" +
+               "\n" +
+               "Errors are typically thrown by blocks due to type mismatching, although they can be thrown by other sections of the program.\n" +
+               "\n";
+    }
+}

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BlockFlow">
+    <output-path>$PROJECT_DIR$/out/artifacts/BlockFlow</output-path>
+    <root id="archive" name="BlockFlow.jar">
+      <element id="module-source" name="CS3035GroupProject" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="CS3035GroupProject" />
+    </root>
+  </artifact>
+</component>
