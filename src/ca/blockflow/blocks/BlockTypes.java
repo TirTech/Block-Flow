@@ -6,12 +6,12 @@ import javafx.scene.image.ImageView;
 
 
 public enum BlockTypes {
-    FUNCTION("Function", "function_icon.png", FunctionBlock.class, IfBlockEditor.class),
+    FUNCTION("Function", "function_icon.png", FunctionBlock.class, BlankEditor.class),
     IF("If", "if_icon.png", IfBlock.class, IfBlockEditor.class),
     ASSIGNMENT("Assignment", "variable_icon.png", AssignmentBlock.class, AssignmentBlockEditor.class),
     OUTPUTBLOCK("Output Block", "output_icon.png", OutputBlock.class, OutputBlockEditor.class),
     WHILELOOP("While Loop", "while_loop_icon.png", WhileLoopBlock.class, WhileBlockEditor.class),
-    FORLOOP("For Loop", "for_loop_icon.png", ForLoopBlock.class, IfBlockEditor.class);
+    FORLOOP("For Loop", "for_loop_icon.png", ForLoopBlock.class, ForLoopBlockEditor.class);
     
     private final String blockName;
     private final String iconPath;

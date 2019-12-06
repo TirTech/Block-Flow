@@ -3,6 +3,7 @@ package ca.blockflow.models;
 import ca.blockflow.blocks.Block;
 import ca.blockflow.blocks.BlockTypes;
 import ca.blockflow.views.floweditor.SubblockContainer;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 
@@ -14,9 +15,22 @@ public class BlockViewModel {
     private BlockTypes type;
     private ArrayList<SubblockContainer> containers = new ArrayList<>();
     private SimpleObjectProperty<Color> blockColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
+    private SimpleBooleanProperty breakpoint = new SimpleBooleanProperty(false);
     
     public BlockViewModel() {
     
+    }
+    
+    public boolean isBreakpoint() {
+        return breakpoint.get();
+    }
+    
+    public void setBreakpoint(boolean breakpoint) {
+        this.breakpoint.set(breakpoint);
+    }
+    
+    public SimpleBooleanProperty breakpointProperty() {
+        return breakpoint;
     }
     
     public Block getBackingBlock() {

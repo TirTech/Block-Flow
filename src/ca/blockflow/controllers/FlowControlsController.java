@@ -8,6 +8,8 @@ import ca.blockflow.models.AppModel;
 import ca.blockflow.util.AppUtils;
 import ca.blockflow.views.FlowControls;
 import ca.blockflow.views.floweditor.FunctionBlockView;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 
 public class FlowControlsController {
     
@@ -20,6 +22,14 @@ public class FlowControlsController {
     
     public void setHandlers() {
     
+        AppModel.getInstance().getEngine().flowStateProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                if (oldVal != null) oldVal.statusProperty().removeListener(this::statusChange);
+                newVal.statusProperty().addListener(this::statusChange);
+            }
+        
+        });
+        
         view.getBtnPause().setOnAction(e -> {
             try {
                 model.getEngine().pause();
@@ -76,5 +86,43 @@ public class FlowControlsController {
             AppUtils.logError(e.getSource().getException().getMessage());
         });
         model.getEngine().play();
+    }
+    
+    private void statusChange(ObservableValue<? extends FlowStatus> obs, FlowStatus oldVal, FlowStatus newVal) {
+        disableAll();
+        switch (newVal) {
+            case STOPPED:
+            case READY:
+                toggleNode(view.getBtnPlay(), true);
+                break;
+            case RUNNING:
+                toggleNode(view.getBtnPause(), true);
+                toggleNode(view.getBtnStop(), true);
+                break;
+            case PAUSED:
+                toggleNode(view.getBtnStep(), true);
+                toggleNode(view.getBtnStop(), true);
+                toggleNode(view.getBtnPlay(), true);
+                break;
+            case STEPPING:
+                toggleNode(view.getBtnStop(), true);
+                break;
+        }
+    }
+    
+    private void disableAll() {
+        toggleNode(view.getBtnPause(), false);
+        toggleNode(view.getBtnStep(), false);
+        toggleNode(view.getBtnStop(), false);
+        toggleNode(view.getBtnPlay(), false);
+    }
+    
+    /**
+     * Enables or disables the visibility and drawing of a node
+     * @param node  the node to toggle
+     * @param state whether to show the node
+     */
+    private void toggleNode(Node node, boolean state) {
+        node.setDisable(! state);
     }
 }

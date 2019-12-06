@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 
 public class OutputBlockEditor extends BlockEditor<OutputBlock> {
     
+    private static final String ERROR_BLANK = "Text cannot be blank";
+    private static final String ERROR_VAR_NAMES = "The message contains illegal names";
     private TextField txtString = new TextField();
     private Pattern varRegex = Pattern.compile("%(\\w+)%");
     private List<Variable> vars = AppModel.getInstance().getVariables();
@@ -21,7 +23,9 @@ public class OutputBlockEditor extends BlockEditor<OutputBlock> {
     private Label howTo = new Label("Enter the text to print, using %var% to reference the value of 'var'");
     
     public OutputBlockEditor() {
-        txtString.textProperty().addListener((obs, oldVal, newVal) -> lblError.setVisible(false));
+        txtString.textProperty().addListener((obs, oldVal, newVal) -> {
+            lblError.setVisible(false);
+        });
         lblError.setVisible(false);
         this.getChildren().addAll(howTo, txtString, lblError);
     }
@@ -33,8 +37,14 @@ public class OutputBlockEditor extends BlockEditor<OutputBlock> {
     
     @Override
     public boolean onApply(ActionEvent event) {
+        if (txtString.getText() == null || txtString.getText().trim().isEmpty()) {
+            lblError.setText(ERROR_BLANK);
+            lblError.setVisible(true);
+            return false;
+        }
         ArrayList<String> names = getVarNames(txtString.getText());
         if (! checkVarNames(names)) {
+            lblError.setText(ERROR_VAR_NAMES);
             lblError.setVisible(true);
             return false;
         } else {

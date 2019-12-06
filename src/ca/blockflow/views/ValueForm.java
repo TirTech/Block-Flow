@@ -17,10 +17,10 @@ public class ValueForm extends GridPane {
     private Spinner spinInt = new Spinner<Integer>(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
     private Spinner spinDouble = new Spinner<Double>(Double.MIN_VALUE, Double.MAX_VALUE, 0.0);
     private CheckBox boolVal = new CheckBox();
+    private Label cbTypesLabel = new Label("Type: ");
     
     public ValueForm(List<SupportedTypes> types) {
-        cbTypes.setItems(FXCollections.observableArrayList(types));
-        this.addRow(0, new Label("Type: "), cbTypes);
+        this.addRow(0, cbTypesLabel, cbTypes);
         this.addRow(1, new Label("Value: "), new HBox(txtValue, spinInt, spinDouble, boolVal));
         this.setVgap(5);
         this.setHgap(5);
@@ -58,7 +58,8 @@ public class ValueForm extends GridPane {
                     break;
             }
         });
-        
+    
+        setTypes(types);
         cbTypes.setValue(cbTypes.getItems().get(0));
     }
     
@@ -108,6 +109,13 @@ public class ValueForm extends GridPane {
         cbTypes.setItems(FXCollections.observableArrayList(types));
         if (types.size() != 0) {
             cbTypes.setValue(cbTypes.getItems().get(0));
+            if (types.size() == 1) {
+                toggleNode(cbTypes, false);
+                toggleNode(cbTypesLabel, false);
+            } else {
+                toggleNode(cbTypes, true);
+                toggleNode(cbTypesLabel, true);
+            }
             toggleNode(this, true);
         } else {
             toggleNode(this, false);
