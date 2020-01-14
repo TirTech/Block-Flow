@@ -18,6 +18,7 @@ public abstract class BlockEditor<T extends Block> extends VBox {
     public void setBackingBlock(T block) {
         backingBlock = block;
         initUI();
+        requestLayout();
     }
     
     /**

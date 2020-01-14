@@ -1,14 +1,14 @@
 package ca.blockflow.views.blockeditor;
 
 import ca.blockflow.blocks.WhileLoopBlock;
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.models.AppModel;
-import ca.blockflow.views.ExpressionsView;
+import ca.blockflow.views.blockeditor.expression.ExpressionOperandPane;
 import javafx.event.ActionEvent;
 
 public class WhileBlockEditor extends BlockEditor<WhileLoopBlock> {
     
-    private ExpressionsView expView = new ExpressionsView(SupportedTypes.BOOLEAN, AppModel.getInstance().getVariables());
+    private ExpressionOperandPane expView = new ExpressionOperandPane(SupportedTypes.BOOLEAN, AppModel.getInstance().getVariables());
     
     public WhileBlockEditor() {
         getChildren().addAll(expView);
@@ -16,7 +16,7 @@ public class WhileBlockEditor extends BlockEditor<WhileLoopBlock> {
     
     @Override
     public boolean onApply(ActionEvent event) {
-        backingBlock.setExpression(expView.createExpression());
+        backingBlock.setExpression(expView.getExpression());
         return true;
     }
     

@@ -1,10 +1,10 @@
 package ca.blockflow.views.blockeditor;
 
 import ca.blockflow.blocks.ForLoopBlock;
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.logic.Variable;
 import ca.blockflow.models.AppModel;
-import ca.blockflow.views.ExpressionsView;
+import ca.blockflow.views.blockeditor.expression.ExpressionOperandPane;
 import ca.blockflow.views.ValueForm;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -16,7 +16,7 @@ import java.util.Collections;
 
 public class ForLoopBlockEditor extends BlockEditor<ForLoopBlock> {
     
-    private ExpressionsView expView = new ExpressionsView(SupportedTypes.BOOLEAN, AppModel.getInstance().getVariables());
+    private ExpressionOperandPane expView = new ExpressionOperandPane(SupportedTypes.BOOLEAN, AppModel.getInstance().getVariables());
     private ValueForm formIncrement = new ValueForm(Collections.singletonList(SupportedTypes.DOUBLE));
     private ChoiceBox<Variable> indexVars = new ChoiceBox<>();
     
@@ -32,7 +32,7 @@ public class ForLoopBlockEditor extends BlockEditor<ForLoopBlock> {
     
     @Override
     public boolean onApply(ActionEvent event) {
-        backingBlock.setExpression(expView.createExpression());
+        backingBlock.setExpression(expView.getExpression());
         backingBlock.setIncrements(new Variable<>("", SupportedTypes.DOUBLE, (Double) formIncrement.getValue()));
         backingBlock.setIndexVar(indexVars.getValue());
         return true;

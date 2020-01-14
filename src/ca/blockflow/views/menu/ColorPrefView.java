@@ -1,8 +1,9 @@
-package ca.blockflow.views;
+package ca.blockflow.views.menu;
 
 import ca.blockflow.blocks.BlockTypes;
 import ca.blockflow.models.AppModel;
 import ca.blockflow.util.StyleUtils;
+import ca.blockflow.views.BlockColorPalette;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

@@ -1,6 +1,6 @@
 package ca.blockflow.exceptions;
 
-public class InvalidFlowStateException extends ExceptionHandler {
+public class InvalidFlowStateException extends Exception {
     public InvalidFlowStateException() {
         super("Flow state was STOPPED. Flows cannot be executed in the stop state.");
     }

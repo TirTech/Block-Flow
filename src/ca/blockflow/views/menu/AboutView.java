@@ -1,4 +1,4 @@
-package ca.blockflow.views;
+package ca.blockflow.views.menu;
 
 import ca.blockflow.util.StyleUtils;
 import javafx.scene.control.Alert;

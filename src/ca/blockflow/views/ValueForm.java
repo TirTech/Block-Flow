@@ -1,6 +1,6 @@
 package ca.blockflow.views;
 
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.logic.Variable;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -20,7 +20,7 @@ public class ValueForm extends GridPane {
     private CheckBox boolVal = new CheckBox();
     private Label cbTypesLabel = new Label("Type: ");
     
-    public ValueForm(List<SupportedTypes> types) {
+    public ValueForm(Collection<SupportedTypes> types) {
         this.addRow(0, cbTypesLabel, cbTypes);
         this.addRow(1, new Label("Value: "), new HBox(txtValue, spinInt, spinDouble, boolVal));
         this.setVgap(5);

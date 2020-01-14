@@ -1,6 +1,6 @@
 package ca.blockflow.blocks;
 
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 

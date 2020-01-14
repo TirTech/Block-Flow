@@ -30,5 +30,6 @@ public class EditorDialog extends Alert {
         pane.heightProperty().addListener(sizeListener);
         pane.widthProperty().addListener(sizeListener);
         setTitle("Edit " + type.getBlockName() + " Block");
+        pane.requestLayout();
     }
 }

@@ -1,9 +1,9 @@
 package ca.blockflow.blocks;
 
 import ca.blockflow.exceptions.BlockException;
-import ca.blockflow.exceptions.ExceptionHandler;
-import ca.blockflow.expressions.Expression;
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.exceptions.ExpressionException;
+import ca.blockflow.logic.Expression;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
@@ -27,10 +27,10 @@ public class IfBlock extends Block {
         //empty constructor
     }
     
-    public Block call(FlowState state) throws BlockException, ExceptionHandler {
+    public Block call(FlowState state) throws BlockException, ExpressionException {
         //needs to get expression from view to evaluate
         Block subBlock;
-        Variable boolVar = expression.evaluateExpression();
+        Variable boolVar = expression.evaluate(state);
         SupportedTypes t = boolVar.getType();
         
         if (t != SupportedTypes.BOOLEAN) {

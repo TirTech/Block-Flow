@@ -1,6 +1,5 @@
-package ca.blockflow.expressions;
+package ca.blockflow.logic;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,27 +25,10 @@ public enum SupportedTypes {
 
     public static SupportedTypes determineType(Class clazz) {
         for (SupportedTypes t : SupportedTypes.values()) {
-            if (clazz == t.clazz) {
+            if (clazz.equals(t.clazz)) {
                 return t;
             }
         }
         return null;
-    }
-    
-    public static SupportedTypes highestPromotion(ArrayList<SupportedTypes> types) {
-        SupportedTypes highestType = null;
-        if (types.contains(STRING)) {
-            highestType = STRING;
-        }
-        else if (types.contains(DOUBLE)) {
-            highestType = DOUBLE;
-        }
-        else if (types.contains(INT)) {
-            highestType = INT;
-        }
-        else if (types.contains(BOOLEAN)) {
-            highestType = BOOLEAN;
-        }
-        return highestType;
     }
 }

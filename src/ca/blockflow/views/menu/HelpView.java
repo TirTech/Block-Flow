@@ -1,4 +1,4 @@
-package ca.blockflow.views;
+package ca.blockflow.views.menu;
 
 import ca.blockflow.serialization.HelpText;
 import ca.blockflow.util.AppUtils;

@@ -1,6 +1,5 @@
 package ca.blockflow.logic;
 
-import ca.blockflow.expressions.SupportedTypes;
 import ca.blockflow.serialization.Saveable;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

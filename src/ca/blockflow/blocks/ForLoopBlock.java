@@ -1,9 +1,9 @@
 package ca.blockflow.blocks;
 
 import ca.blockflow.exceptions.BlockException;
-import ca.blockflow.exceptions.ExceptionHandler;
-import ca.blockflow.expressions.Expression;
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.exceptions.ExpressionException;
+import ca.blockflow.logic.Expression;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.flows.FlowState;
 import ca.blockflow.logic.Variable;
 
@@ -28,10 +28,10 @@ public class ForLoopBlock extends Block {
      * @throws ExceptionHandler the exception handler for evaluating expressions
      */
     @Override
-    public Block call(FlowState state) throws BlockException, ExceptionHandler {
+    public Block call(FlowState state) throws BlockException, ExpressionException {
         Block nextBlock = null;
         
-        Variable boolVar = expression.evaluateExpression();
+        Variable boolVar = expression.evaluate(state);
         SupportedTypes t = boolVar.getType();
         Variable indexedVar = state.getVar(indexVar.getName());
         

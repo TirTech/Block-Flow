@@ -1,6 +1,6 @@
 package ca.blockflow.views;
 
-import ca.blockflow.expressions.SupportedTypes;
+import ca.blockflow.logic.SupportedTypes;
 import ca.blockflow.logic.Variable;
 import ca.blockflow.models.AppModel;
 import ca.blockflow.util.VoidFunction;
